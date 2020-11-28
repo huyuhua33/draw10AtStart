@@ -1,0 +1,47 @@
+Object
+
+Pet
+  Name
+  Hp
+  shield
+  skill
+  atk
+  speed
+  miss(option)
+
+Player
+  Name
+  pets[10]
+ 
+skill
+  Name 
+  pp
+  type
+  Pow
+
+ 
+  
+Draw Cards
+ 
+ drawPets(Player)//十連抽
+  {
+    pets = pets;
+  } 
+
+Toob
+  Pets
+
+BattleGround
+  Player
+  Player
+  getNewPets(Toob)//戰鬥勝利獲取新腳色
+  battle(player1.pet[n],player2.pet[n])//戰鬥介面
+ 
+  
+DataBase
+  Name(type)
+  hpRange
+  shildRange
+  skillRange
+  
+
