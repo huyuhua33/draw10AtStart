@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.List;
 
 import javax.swing.event.*;
-
 import java.awt.event.*;
 import java.sql.Connection;
 
@@ -45,7 +44,7 @@ public class PlayGround {
     public void run() {
         initFrame(playFrame);
         // loginFramGenarate(playFrame);
-        waitingFramGenerate(playFrame);
+        // waitingFramGenerate(playFrame);
 
     }
 
@@ -154,6 +153,13 @@ public class PlayGround {
             JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
             nLabel.setText("Connected");
         }
+
+    }
+
+    public void battleFild(JFrame f) {
+        JPanel pann = new JPanel();
+
+        f.getContentPane().add(pann);
 
     }
 
