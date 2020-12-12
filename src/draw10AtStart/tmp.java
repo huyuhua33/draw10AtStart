@@ -1,22 +1,26 @@
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class tmp extends Canvas {
     public tmp() {
 
-        setSize(1
-        00, 100);
+        setSize(600, 480);
     }
 
     public void paint(Graphics g) {
-
-        g.drawLine(-1, 0, 640, 480);
+        g.setColor(Color.BLUE);
+        g.fillRect(50, 50, 100, 50);
+       
     }
 
     public static void main(String[] args) {
-        Frame frame = new Frame("MyCanvasDemo_1");
+        JFrame frame = new JFrame("MyCanvasDemo_1");
         frame.setResizable(true);
-
+        JPanel jp = new JPanel();
+        frame.getComponent().add()
         frame.add(new tmp());
         frame.setSize(500, 500);
         frame.setLocation(100, 100);
