@@ -7,7 +7,11 @@ import javax.swing.JPanel;
 public class tmp extends Canvas {
     public tmp() {
 
+<<<<<<< HEAD
         setSize(600, 480);
+=======
+        setSize(100, 100);
+>>>>>>> ea4a0c8b1a1cd82f1df3f5d8b2f4840c7a447fdc
     }
 
     public void paint(Graphics g) {
