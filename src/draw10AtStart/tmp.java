@@ -4,8 +4,7 @@ import java.awt.event.*;
 public class tmp extends Canvas {
     public tmp() {
 
-        setSize(1
-        00, 100);
+        setSize(100, 100);
     }
 
     public void paint(Graphics g) {
