@@ -43,15 +43,15 @@ public class PlayGround {
 
     public void run() {
         initFrame(playFrame);
-        // loginFramGenarate(playFrame);
-        waitingFramGenerate(playFrame);
-        // battleFild(playFrame);
+        //loginFramGenarate(playFrame);
+        //waitingFramGenerate(playFrame);
+        battleFild(playFrame);
 
     }
 
     private void initFrame(JFrame f) {
         f.setSize(600, 600);
-        f.setResizable(false);
+        f.setResizable(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -158,53 +158,55 @@ public class PlayGround {
     }
 
     public void battleFild(JFrame f) {
-        f.setLayout(new GridLayout(1, 2, 0, 0));
-        String[] n = { "ATk", "BAG", "PETS", "RUN" };
+        f.setLayout(new GridLayout(2, 2, 0, 0));
+        String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
         battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
+        pann.setLayout(null);
+        ImageIcon im = new ImageIcon("./dialog.bmp");
+        
+        JLabel jb = new JLabel();
+        jb.setIcon(im);
+        jb.setBounds(100, 100, 100, 100);
+        pann.add(jb);
 
-        /* setting btn */
-        GridLayout ly = new GridLayout(2, 2, 0, 0);
+        /* setting dialog */
+        /* GridLayout ly = new GridLayout(2, 2, 1, 1);
         pann.setLayout(ly);
         for (int i = 0; i < 4; i++) {
-            JButton nButton = new JButton(n[i]);
-            battleFildGUIComponent.add(nButton);
-            pann.add(nButton);
-        }
+            JLabel nLabel = new JLabel(n[i]);
+            battleFildGUIComponent.add(nLabel);
+            pann.add(nLabel,i,i%2);
+        }*/
         /* setting btn */
 
         /* setting canves */
 
         /* setting canves */
-
-        f.setLayout(null);
-        f.getContentPane().add(btf);
-        f.getContentPane().add(pann);
+        f.add(btf);
+        f.add(pann);
         f.setVisible(true);
 
     }
 
     class battleFildCanves extends JPanel {
-        Canvas can;
-
+        Image  img;
         battleFildCanves() {
-            can = new Canvas();
-            can.setBounds(0, 0, 600, 400);
-            add(can);
-            setBackground(Color.CYAN);
         }
 
         public void drawBattleFild() {
-
+            
         }
 
         public void battleFildUpdate() {
 
         }
 
-        public void paint(Graphics g) {
-            g.drawRect(0, 0, 600, 400);
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            ImageIcon img = new ImageIcon("dialog.bmp");
+            g.drawImage(img.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
         }
 
     }

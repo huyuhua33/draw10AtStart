@@ -7,11 +7,7 @@ import javax.swing.JPanel;
 public class tmp extends Canvas {
     public tmp() {
 
-<<<<<<< HEAD
         setSize(600, 480);
-=======
-        setSize(100, 100);
->>>>>>> ea4a0c8b1a1cd82f1df3f5d8b2f4840c7a447fdc
     }
 
     public void paint(Graphics g) {
@@ -24,7 +20,7 @@ public class tmp extends Canvas {
         JFrame frame = new JFrame("MyCanvasDemo_1");
         frame.setResizable(true);
         JPanel jp = new JPanel();
-        frame.getComponent().add()
+        //frame.getComponent().add()
         frame.add(new tmp());
         frame.setSize(500, 500);
         frame.setLocation(100, 100);
