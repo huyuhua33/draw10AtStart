@@ -44,7 +44,8 @@ public class PlayGround {
     public void run() {
         initFrame(playFrame);
         // loginFramGenarate(playFrame);
-        // waitingFramGenerate(playFrame);
+        waitingFramGenerate(playFrame);
+        // battleFild(playFrame);
 
     }
 
@@ -157,9 +158,54 @@ public class PlayGround {
     }
 
     public void battleFild(JFrame f) {
+        f.setLayout(new GridLayout(1, 2, 0, 0));
+        String[] n = { "ATk", "BAG", "PETS", "RUN" };
+        ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
+        battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
 
+        /* setting btn */
+        GridLayout ly = new GridLayout(2, 2, 0, 0);
+        pann.setLayout(ly);
+        for (int i = 0; i < 4; i++) {
+            JButton nButton = new JButton(n[i]);
+            battleFildGUIComponent.add(nButton);
+            pann.add(nButton);
+        }
+        /* setting btn */
+
+        /* setting canves */
+
+        /* setting canves */
+
+        f.setLayout(null);
+        f.getContentPane().add(btf);
         f.getContentPane().add(pann);
+        f.setVisible(true);
+
+    }
+
+    class battleFildCanves extends JPanel {
+        Canvas can;
+
+        battleFildCanves() {
+            can = new Canvas();
+            can.setBounds(0, 0, 600, 400);
+            add(can);
+            setBackground(Color.CYAN);
+        }
+
+        public void drawBattleFild() {
+
+        }
+
+        public void battleFildUpdate() {
+
+        }
+
+        public void paint(Graphics g) {
+            g.drawRect(0, 0, 600, 400);
+        }
 
     }
 
