@@ -55,7 +55,7 @@ public class PlayGround {
     }
 
     private void initFrame(JFrame f) {
-        f.setSize(600, 570);
+        f.setSize(580, 570);
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -164,20 +164,26 @@ public class PlayGround {
 
     class Dialog extends JPanel {
         private ImageIcon dialogBack;
+        private JPanel selectionPanel;
 
         Dialog(String fileLocate) {
+            setLayout(null);
             dialogBack = new ImageIcon(fileLocate);
             JLabel bG = new JLabel();
             bG.setOpaque(false);
             bG.setIcon(dialogBack);
+            bG.setBounds(0, 0, 570, 120);
             this.add(bG);
         }
 
         public void dialogUpdating(String words) {
+            removeAll();
             JLabel bG = new JLabel();
             bG.setOpaque(false);
             bG.setIcon(dialogBack);
+            bG.setBounds(0, 0, 570, 120);
             JLabel wD = new JLabel(words);
+            wD.setBounds(50, 25, 570, 50);
             this.add(wD);
             this.add(bG);
 
@@ -190,21 +196,34 @@ public class PlayGround {
         String sourceWay = new String("..\\..\\sprit\\");
         String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
                 "dialog.jpg" };
-
         int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
                 { 50, 30, 230, 100 } };
-        ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
+        String[] hpBar = { "full-hp.jpg", "half-hp.jpg", "non-hp.jpg" };
+        int[][] hpBarDirction = { { dirction[2][0] + 65, dirction[2][1] + 47, 99, 4 },
+                { dirction[3][1] + 65, dirction[3][1] + 47, 99, 4 } };
+        // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
         // battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
         pann.setLayout(null);
         pann.setBounds(0, 0, f.getWidth(), f.getHeight() - 200);
+
+        for (int i = 0; i < 2; i++) {
+            ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
+            JLabel jb = new JLabel();
+            jb.setIcon(im);
+            jb.setBounds(hpBarDirction[i][0], hpBarDirction[i][1], hpBarDirction[i][2], hpBarDirction[i][3]);
+            pann.add(jb);
+        }
         for (int i = 0; i < 4; i++) {
             ImageIcon im = new ImageIcon(sourceWay + filesPath[i]);
             JLabel jb = new JLabel();
             jb.setIcon(im);
+            if (i > 1)
+                jb.setOpaque(false);
             jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
             pann.add(jb);
         }
+
         Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
         dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), 120);
         String testWords = new String("this is test words");
