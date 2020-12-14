@@ -1,12 +1,16 @@
 //package draw10AtStart;
 
 import java.awt.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
 
 import javax.swing.event.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.Connection;
 
 public class PlayGround {
@@ -19,6 +23,7 @@ public class PlayGround {
 
     private JFrame waitingFrame;
     private Boolean debug = true;
+    private int selection = 0;
 
     public PlayGround() {
         if (debug)
@@ -50,8 +55,8 @@ public class PlayGround {
     }
 
     private void initFrame(JFrame f) {
-        f.setSize(600, 600);
-        f.setResizable(true);
+        f.setSize(570, 450);
+        f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -156,20 +161,51 @@ public class PlayGround {
         }
 
     }
+    class Dialog extends JPanel 
+    {
+        ImageIcon dialogBack;
+        Dialog(String fileLocate)
+        {
+            dialogBack = new ImageIcon(fileLocate);
+            JLabel bG = new JLabel();
+            bG.setOpaque(false);
+            bG.setIcon(dialogBack);
+            this.add(bG);
+        }
+        public void dialogUpdating(String words)
+        {
+            JLabel bG = new JLabel();
+            bG.setOpaque(false);
+            bG.setIcon(dialogBack);
+            JLabel wD = new JLabel(words);
+            this.add(wD);
+            this.add(bG);
 
+        }
+    }
     public void battleFild(JFrame f) {
-        f.setLayout(new GridLayout(2, 2, 0, 0));
+        f.setLayout(null);  
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
+        String sourceWay = new String("..\\..\\sprit\\");
+        String[] filesPath = {"battle_background.jpg","battle_background.jpg","hp0_right.jpg","hp0_left.jpg","dialog.jpg"};
+        
+        int[][] dirction = {{400,50,100,100},{50,200,100,100},{300,210,230,100},{50,30,230,100}};
         ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
-        battleFildCanves btf = new battleFildCanves();
+        //battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
         pann.setLayout(null);
-        ImageIcon im = new ImageIcon("./dialog.bmp");
+        pann.setBounds(0, 0, f.getWidth(), f.getHeight() - 200);
+        for(int i = 0 ; i < 4 ; i++)
+        {
+            ImageIcon im = new ImageIcon(sourceWay + filesPath[i]);
+            JLabel jb = new JLabel();
+            jb.setIcon(im);
+            jb.setBounds(dirction[i][0],dirction[i][1],dirction[i][2],dirction[i][3]);
+            pann.add(jb);
+        }
+        Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
+        dialogPanel.setBounds(0,f.getHeight()-200,f.getWidth(),f.getHeight());
         
-        JLabel jb = new JLabel();
-        jb.setIcon(im);
-        jb.setBounds(100, 100, 100, 100);
-        pann.add(jb);
 
         /* setting dialog */
         /* GridLayout ly = new GridLayout(2, 2, 1, 1);
@@ -184,8 +220,9 @@ public class PlayGround {
         /* setting canves */
 
         /* setting canves */
-        f.add(btf);
+        //f.add(btf);
         f.add(pann);
+        f.add(dialogPanel);
         f.setVisible(true);
 
     }
@@ -244,5 +281,50 @@ public class PlayGround {
         }
 
     }
+    class SelectionListener implements KeyListener
+    {
+        int get_Key;
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            
+            get_Key = e.getKeyCode();
+            if(get_Key == KeyEvent.VK_UP)
+            {
+                selection += 2 ;
+            }
+            if(get_Key == KeyEvent.VK_DOWN)
+            {
+                selection -= 2;
+            }
+            if(get_Key == KeyEvent.VK_LEFT)
+            {
+                selection++;
+            }
+            if(get_Key == KeyEvent.VK_RIGHT)
+            {
+                selection--;
+            }
+            if(get_Key == KeyEvent.VK_ENTER);
+            {
+                //select the function
+            }
+        
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+        
+    }
+    
 
 }
