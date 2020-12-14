@@ -48,8 +48,8 @@ public class PlayGround {
 
     public void run() {
         initFrame(playFrame);
-        //loginFramGenarate(playFrame);
-        //waitingFramGenerate(playFrame);
+        // loginFramGenarate(playFrame);
+        // waitingFramGenerate(playFrame);
         battleFild(playFrame);
 
     }
@@ -161,19 +161,19 @@ public class PlayGround {
         }
 
     }
-    class Dialog extends JPanel 
-    {
+
+    class Dialog extends JPanel {
         ImageIcon dialogBack;
-        Dialog(String fileLocate)
-        {
+
+        Dialog(String fileLocate) {
             dialogBack = new ImageIcon(fileLocate);
             JLabel bG = new JLabel();
             bG.setOpaque(false);
             bG.setIcon(dialogBack);
             this.add(bG);
         }
-        public void dialogUpdating(String words)
-        {
+
+        public void dialogUpdating(String words) {
             JLabel bG = new JLabel();
             bG.setOpaque(false);
             bG.setIcon(dialogBack);
@@ -183,44 +183,43 @@ public class PlayGround {
 
         }
     }
+
     public void battleFild(JFrame f) {
-        f.setLayout(null);  
+        f.setLayout(null);
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         String sourceWay = new String("..\\..\\sprit\\");
-        String[] filesPath = {"battle_background.jpg","battle_background.jpg","hp0_right.jpg","hp0_left.jpg","dialog.jpg"};
-        
-        int[][] dirction = {{400,50,100,100},{50,200,100,100},{300,210,230,100},{50,30,230,100}};
+        String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
+                "dialog.jpg" };
+
+        int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
+                { 50, 30, 230, 100 } };
         ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
-        //battleFildCanves btf = new battleFildCanves();
+        // battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
         pann.setLayout(null);
         pann.setBounds(0, 0, f.getWidth(), f.getHeight() - 200);
-        for(int i = 0 ; i < 4 ; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             ImageIcon im = new ImageIcon(sourceWay + filesPath[i]);
             JLabel jb = new JLabel();
             jb.setIcon(im);
-            jb.setBounds(dirction[i][0],dirction[i][1],dirction[i][2],dirction[i][3]);
+            jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
             pann.add(jb);
         }
         Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
-        dialogPanel.setBounds(0,f.getHeight()-200,f.getWidth(),f.getHeight());
-        
+        dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), f.getHeight());
 
         /* setting dialog */
-        /* GridLayout ly = new GridLayout(2, 2, 1, 1);
-        pann.setLayout(ly);
-        for (int i = 0; i < 4; i++) {
-            JLabel nLabel = new JLabel(n[i]);
-            battleFildGUIComponent.add(nLabel);
-            pann.add(nLabel,i,i%2);
-        }*/
+        /*
+         * GridLayout ly = new GridLayout(2, 2, 1, 1); pann.setLayout(ly); for (int i =
+         * 0; i < 4; i++) { JLabel nLabel = new JLabel(n[i]);
+         * battleFildGUIComponent.add(nLabel); pann.add(nLabel,i,i%2); }
+         */
         /* setting btn */
 
         /* setting canves */
 
         /* setting canves */
-        //f.add(btf);
+        // f.add(btf);
         f.add(pann);
         f.add(dialogPanel);
         f.setVisible(true);
@@ -228,12 +227,13 @@ public class PlayGround {
     }
 
     class battleFildCanves extends JPanel {
-        Image  img;
+        Image img;
+
         battleFildCanves() {
         }
 
         public void drawBattleFild() {
-            
+
         }
 
         public void battleFildUpdate() {
@@ -281,35 +281,32 @@ public class PlayGround {
         }
 
     }
-    class SelectionListener implements KeyListener
-    {
+
+    class SelectionListener implements KeyListener {
         int get_Key;
 
         @Override
         public void keyPressed(KeyEvent e) {
-            
+
             get_Key = e.getKeyCode();
-            if(get_Key == KeyEvent.VK_UP)
-            {
-                selection += 2 ;
+            if (get_Key == KeyEvent.VK_UP) {
+                selection += 2;
             }
-            if(get_Key == KeyEvent.VK_DOWN)
-            {
+            if (get_Key == KeyEvent.VK_DOWN) {
                 selection -= 2;
             }
-            if(get_Key == KeyEvent.VK_LEFT)
-            {
+            if (get_Key == KeyEvent.VK_LEFT) {
                 selection++;
             }
-            if(get_Key == KeyEvent.VK_RIGHT)
-            {
+            if (get_Key == KeyEvent.VK_RIGHT) {
                 selection--;
             }
-            if(get_Key == KeyEvent.VK_ENTER);
+            if (get_Key == KeyEvent.VK_ENTER)
+                ;
             {
-                //select the function
+                // select the function
             }
-        
+
         }
 
         @Override
@@ -323,8 +320,7 @@ public class PlayGround {
             // TODO Auto-generated method stub
 
         }
-        
+
     }
-    
 
 }
