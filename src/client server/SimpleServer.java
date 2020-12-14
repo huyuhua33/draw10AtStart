@@ -12,8 +12,8 @@ class ThreadBySubclass extends Thread
 {
 	String	ThreadName;
 	Socket			sc = null;
-	InputStream		in = null;
-	OutputStream	out = null;
+	ObjectInputStream		in = null;
+	ObjectOutputStream	out = null;
 	byte []			buf = new byte[100];
 	int count = 0;
 	
@@ -54,11 +54,11 @@ class ThreadBySubclass extends Thread
 				// Read message from client
 				// Returns an input stream for socket sc.
 		
-			in = sc.getInputStream();
-			in.read(buf);  
+			in = new ObjectOutputStream(sc.getInputStream());
+			Player obj  = (Player)in.readObject();  
 				// Send reply message to client
 				// Returns an output stream for socket sc.
-			out = sc.getOutputStream();
+			out = new ObjectOutputStream(sc.getOutputStream());
 			String data = "Server reply!!";
 			out.write(data.getBytes());
 			while(true)

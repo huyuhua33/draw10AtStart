@@ -37,14 +37,13 @@ class SimpleClient
 	public static void main(String args[])
 	{
 		Socket			client = null;
-		InputStream 	in = null;
-		OutputStream 	out = null;
+		ObjectInputStream 	in = null;
+		ObjectOutputStream 	out = null;
 		int				port = 6666;
 		byte []			buf = new byte[100];
 		int count = 0;
 		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("input a number:");
 		count = scanner.nextInt();
 
 			try
@@ -54,14 +53,13 @@ class SimpleClient
 				client = new Socket("127.0.0.1", port);
 
 					// Send message to server
-					out = client.getOutputStream();
-					String data = "Client hello!!";
-					out.write(data.getBytes());
+					out = new ObjectOutputStream(client.getOutputStream());
+					out.writeObject(new Player());
 
 					// Read message from server
-					in = client.getInputStream();
-					in.read(buf);
-					System.out.println("Receive message: " + new String(buf));
+					in = new ObjectOutputStream(client.getInputStream());
+					//in.read(buf);
+					//System.out.println("Receive message: " + new String(buf));
 				
 				while(true)
 				{	
