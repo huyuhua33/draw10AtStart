@@ -48,9 +48,9 @@ public class PlayGround {
 
     public void run() {
         initFrame(playFrame);
-        // loginFramGenarate(playFrame);
+        loginFramGenarate(playFrame);
         // waitingFramGenerate(playFrame);
-        battleFild(playFrame);
+        //battleFild(playFrame);
 
     }
 
