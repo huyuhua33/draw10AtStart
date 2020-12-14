@@ -1,6 +1,8 @@
 //package draw10AtStart;
 
 import java.awt.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
 import javax.swing.event.*;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.awt.image.BufferedImage;
 
 public class PlayGround {
     private JFrame playFrame;
@@ -23,7 +26,7 @@ public class PlayGround {
     public PlayGround() {
         if (debug)
             player = new Player("Name", "123");
-        playFrame = new JFrame();
+        playFrame = new JFrame("PlayFrame");
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
         int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
@@ -161,14 +164,20 @@ public class PlayGround {
         f.setLayout(new GridLayout(2, 2, 0, 0));
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
-        battleFildCanves btf = new battleFildCanves();
+        // battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
         pann.setLayout(null);
-        ImageIcon im = new ImageIcon("./dialog.bmp");
-
+        // ImageIcon im = new ImageIcon("..\\..\\sprit\\dialog.bmp");
+        BufferedImage image = null;
+        try {
+            Strin image = ImageIO.read(file);
+        } catch (IOException e) {
+            System.out.println("read error: " + e.getMessage());
+        }
+        BufferedImage im = new BufferedImage("..\\..\\sprit\\dialog.bmp");
         JLabel jb = new JLabel();
         jb.setIcon(im);
-        jb.setBounds(100, 100, 100, 100);
+        jb.setBounds(300, 180, 50, 20);
         pann.add(jb);
 
         /* setting dialog */
@@ -182,7 +191,7 @@ public class PlayGround {
         /* setting canves */
 
         /* setting canves */
-        f.add(btf);
+        // f.add(btf);
         f.add(pann);
         f.setVisible(true);
 
