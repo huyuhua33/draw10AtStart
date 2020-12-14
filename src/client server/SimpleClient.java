@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 
 
-class SimpleClient2
+class SimpleClient
 {
 		public static byte[] intToByteArray(int value)
 	{

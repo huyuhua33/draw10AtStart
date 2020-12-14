@@ -89,7 +89,7 @@ class ThreadBySubclass extends Thread
 	}
 }
 
-public class SimpleServer2
+public class SimpleServer
 {
 	public static void main(String args[])
 	{
