@@ -55,7 +55,7 @@ public class PlayGround {
     }
 
     private void initFrame(JFrame f) {
-        f.setSize(570, 450);
+        f.setSize(600, 570);
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -163,7 +163,7 @@ public class PlayGround {
     }
 
     class Dialog extends JPanel {
-        ImageIcon dialogBack;
+        private ImageIcon dialogBack;
 
         Dialog(String fileLocate) {
             dialogBack = new ImageIcon(fileLocate);
@@ -206,7 +206,9 @@ public class PlayGround {
             pann.add(jb);
         }
         Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
-        dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), f.getHeight());
+        dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), 120);
+        String testWords = new String("this is test words");
+        dialogPanel.dialogUpdating(testWords);
 
         /* setting dialog */
         /*
