@@ -25,6 +25,9 @@ public class PlayGround {
     private Boolean debug = true;
     private int selection = 0;
 
+    private Dialog ddialog;
+    private JPanel panJpanel;
+
     public PlayGround() {
         if (debug)
             player = new Player("Name", "123");
@@ -48,9 +51,9 @@ public class PlayGround {
 
     public void run() {
         initFrame(playFrame);
-        loginFramGenarate(playFrame);
+        // loginFramGenarate(playFrame);
         // waitingFramGenerate(playFrame);
-        //battleFild(playFrame);
+        battleFild(playFrame);
 
     }
 
@@ -168,6 +171,7 @@ public class PlayGround {
 
         Dialog(String fileLocate) {
             setLayout(null);
+            setName("name");
             dialogBack = new ImageIcon(fileLocate);
             JLabel bG = new JLabel();
             bG.setOpaque(false);
@@ -184,6 +188,7 @@ public class PlayGround {
             bG.setBounds(0, 0, 570, 120);
             JLabel wD = new JLabel(words);
             wD.setBounds(50, 25, 570, 50);
+            System.out.println(this.getName() + wD.getText());
             this.add(wD);
             this.add(bG);
 
@@ -201,12 +206,19 @@ public class PlayGround {
         String[] hpBar = { "full-hp.jpg", "half-hp.jpg", "non-hp.jpg" };
         int[][] hpBarDirction = { { dirction[2][0] + 65, dirction[2][1] + 47, 99, 4 },
                 { dirction[3][1] + 65, dirction[3][1] + 47, 99, 4 } };
+        String[] petsName = { "Pet1", "Pet2" };
+        int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
+                { dirction[3][1] + 55, dirction[3][1] + 27 } };
         // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
-        // battleFildCanves btf = new battleFildCanves();
         JPanel pann = new JPanel();
         pann.setLayout(null);
         pann.setBounds(0, 0, f.getWidth(), f.getHeight() - 200);
 
+        for (int i = 0; i < 2; i++) {
+            JLabel nJLabel = new JLabel(petsName[i]);
+            nJLabel.setBounds(petsDirction[i][0], petsDirction[i][1], 100, 20);
+            pann.add(nJLabel);
+        }
         for (int i = 0; i < 2; i++) {
             ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
             JLabel jb = new JLabel();
@@ -224,49 +236,27 @@ public class PlayGround {
             pann.add(jb);
         }
 
+        /* setting dialog words */
         Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
         dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), 120);
         String testWords = new String("this is test words");
         dialogPanel.dialogUpdating(testWords);
-
-        /* setting dialog */
-        /*
-         * GridLayout ly = new GridLayout(2, 2, 1, 1); pann.setLayout(ly); for (int i =
-         * 0; i < 4; i++) { JLabel nLabel = new JLabel(n[i]);
-         * battleFildGUIComponent.add(nLabel); pann.add(nLabel,i,i%2); }
-         */
-        /* setting btn */
-
-        /* setting canves */
-
-        /* setting canves */
+        f.addKeyListener(new SelectionListener(dialogPanel));
         // f.add(btf);
-        f.add(pann);
-        f.add(dialogPanel);
+        ddialog = dialogPanel;
+        panJpanel = pann;
+        frameUpdating(f, panJpanel, ddialog);
         f.setVisible(true);
 
     }
 
-    class battleFildCanves extends JPanel {
-        Image img;
-
-        battleFildCanves() {
-        }
-
-        public void drawBattleFild() {
-
-        }
-
-        public void battleFildUpdate() {
-
-        }
-
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            ImageIcon img = new ImageIcon("dialog.bmp");
-            g.drawImage(img.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
-        }
-
+    public void frameUpdating(Frame f, JPanel pann, JPanel dialogPanel) {
+        f.remove(pann);
+        f.remove(dialogPanel);
+        f.add(pann);
+        f.add(dialogPanel);
+        f.revalidate();
+        f.setVisible(true);
     }
 
     /* connection listener */
@@ -305,29 +295,43 @@ public class PlayGround {
 
     class SelectionListener implements KeyListener {
         int get_Key;
+        Dialog dialog;
+
+        SelectionListener(Dialog d) {
+            dialog = d;
+        }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
             get_Key = e.getKeyCode();
             if (get_Key == KeyEvent.VK_UP) {
                 selection += 2;
+                dialog.dialogUpdating("up");
+                System.out.println("up");
             }
             if (get_Key == KeyEvent.VK_DOWN) {
                 selection -= 2;
+                dialog.dialogUpdating("Down");
+                System.out.println("Down");
             }
             if (get_Key == KeyEvent.VK_LEFT) {
                 selection++;
+                dialog.dialogUpdating("Left");
+                System.out.println("Left");
             }
             if (get_Key == KeyEvent.VK_RIGHT) {
                 selection--;
+                dialog.dialogUpdating("Right");
+                System.out.println("Right");
             }
-            if (get_Key == KeyEvent.VK_ENTER)
-                ;
-            {
-                // select the function
+            if (get_Key == KeyEvent.VK_ENTER) {
+                dialog.dialogUpdating("Enter");// select the function
+                System.out.println("Enter");
             }
+            if (selection < 0)
+                selection = 0;
 
+            frameUpdating(playFrame, panJpanel, dialog);
         }
 
         @Override
