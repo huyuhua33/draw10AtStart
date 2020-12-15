@@ -1,4 +1,4 @@
-package draw10AtStart;
+//package draw10AtStart;
 
 public class skill {
     private String skillName;
