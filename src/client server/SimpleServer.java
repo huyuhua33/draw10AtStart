@@ -20,7 +20,18 @@ public class SimpleServer {
 			value = value * 256 + (buf[i] & 0x7F + ((buf[i] & 0x80) >> 7) * 128);
 		}
 		return value;
-	}
+	}<<<<<<<HEAD=======
+
+	public static void main(String args[])
+	{
+		ServerSocket			srverSocket = null;
+		ObjectInputStream		in = null;
+		ObjectOutputStream		out = null;
+		byte []					buf = new byte[100];
+		Socket					sc1 = null;
+		Socket         			 sc2 = null;
+ 		int						port = 6666;
+>>>>>>> 2e884bfff2addc9be9e49a28f8554739ead931b5
 
 	public static void main(String args[]) {
 		ServerSocket srverSocket = null;
@@ -46,29 +57,28 @@ public class SimpleServer {
 						in = new ObjectInputStream(new BufferedInputStream(sc1.getInputStream()));
 						Object obj = in.readObject();
 						Player player1 = (Player) obj;
-						outmsg = sc1.getOutputStream();
-						String data = "Connect success\n waiting for Player2.............";
-						outmsg.write(data.getBytes());
+						out = new ObjectOutputStream(sc1.getOutputStream());
+						String data = "Connect success\n waiting for Player2";
+						out.writeBytes(data);
 
 						sc2 = srverSocket.accept();
 						System.out.println("Player2 come in server!!");
 						in = new ObjectInputStream(new BufferedInputStream(sc2.getInputStream()));
 						obj = in.readObject();
 						Player player2 = (Player) obj;
-						outmsg = sc2.getOutputStream();
-						data = "Connect success";
-						outmsg.write(data.getBytes());
+						out = new ObjectOutputStream(sc2.getOutputStream());
+						data = "Connect success\n player1 is in the game";
+						out.writeBytes(data);
 
-						outmsg = sc1.getOutputStream();
-						data = "Play2 is ready ";
-						outmsg.write(data.getBytes());
-					} catch (Exception e) {
+						out = new ObjectOutputStream(sc1.getOutputStream());
+						data = "Play2 is in the game ";
+						out.writeBytes(data);
+					} catch (IOException e) {
+						System.err.println(e);
+					} catch (ClassNotFoundException e) {
 						System.err.println(e);
 					}
-
 				}
-			} catch (Exception e) {
-				System.err.println(e);
 			} finally {
 				srverSocket.close();
 			}

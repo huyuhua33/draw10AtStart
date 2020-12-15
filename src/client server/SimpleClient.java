@@ -29,13 +29,8 @@ public class SimpleClient {
 		Socket client = null;
 		ObjectInputStream in = null;
 		ObjectOutputStream out = null;
-		InputStream inmsg = null;
-		OutputStream outmsg = null;
 		int port = 6666;
 		byte[] buf = new byte[100];
-		int count = 0;
-
-		Scanner scanner = new Scanner(System.in);
 
 		try {
 			// Creates a stream socket and connects it to the specified port number
@@ -46,15 +41,20 @@ public class SimpleClient {
 			out = new ObjectOutputStream(client.getOutputStream());
 			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
 
+			// Send message to server
+			out = new ObjectOutputStream(client.getOutputStream());
+			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+
 			Player player = new Player(null, null);
 			out.writeObject(player);
 			out.flush();
-			outmsg = client.getOutputStream();
 
 			// Read message from server
-			inmsg = client.getInputStream();
-			inmsg.read(buf);
+			in.read(buf);
 			System.out.println("Receive message: " + new String(buf));
+
+			out.close();
+			in.close();
 
 			out.close();
 			in.close();
