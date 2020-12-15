@@ -32,7 +32,7 @@ public class PlayGround {
     private JLabel[] hpBars = { null, null };
 
     public PlayGround() {
-        
+
         if (debug)
             player = new Player("Name", "123");
         playFrame = new JFrame();
@@ -228,7 +228,6 @@ public class PlayGround {
         int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
                 { dirction[3][1] + 55, dirction[3][1] + 27 } };
 
-        
         ArrayList<JLabel> lArrayList;
 
         public battleFild(JFrame f) {
@@ -312,6 +311,7 @@ public class PlayGround {
                 lArrayList.get(0).setText("btn1 clicked");
             }
         }
+
         class bListener2 implements ActionListener {
             JPanel pann;
 
@@ -324,29 +324,30 @@ public class PlayGround {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                    int w = hpBars[1].getWidth() - 10;
-                    if (w < 50) {
-                        ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                        hpBars[1].remove(hpBars[1]);
-                        hpBars[1].setIcon(n);
-                    }
-                    if (w > 50) {
-                        ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                        hpBars[1].remove(hpBars[0]);
-                        hpBars[1].setIcon(n);
-                    }
-                    if (w < 20) {
-                        ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
-                        hpBars[1].remove(hpBars[1]);
-                        hpBars[1].setIcon(n);
-                    }
-                    if (w <= 0)
-                        w = 0;
-                    hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
-       
+                int w = hpBars[1].getWidth() - 10;
+                if (w < 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                    hpBars[1].remove(hpBars[1]);
+                    hpBars[1].setIcon(n);
+                }
+                if (w > 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                    hpBars[1].remove(hpBars[0]);
+                    hpBars[1].setIcon(n);
+                }
+                if (w < 20) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                    hpBars[1].remove(hpBars[1]);
+                    hpBars[1].setIcon(n);
+                }
+                if (w <= 0)
+                    w = 0;
+                hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
+
                 lArrayList.get(1).setText("btn2 clicked");
             }
         }
+
         class bListener3 implements ActionListener {
             JPanel pann;
 
@@ -360,28 +361,29 @@ public class PlayGround {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int w = hpBars[1].getWidth() + 10;
-                    if (w < 50) {
-                        ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                        hpBars[1].remove(hpBars[1]);
-                        hpBars[1].setIcon(n);
-                    }
-                    if (w > 50) {
-                        ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
-                        hpBars[1].remove(hpBars[1]);
-                        hpBars[1].setIcon(n);
-                    }
-                    if (w < 20) {
-                        ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
-                        hpBars[1].remove(hpBars[1]);
-                        hpBars[1].setIcon(n);
-                    }
-                    if (w <= 0)
-                        w = 0;
-                    hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
-       
+                if (w < 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                    hpBars[1].remove(hpBars[1]);
+                    hpBars[1].setIcon(n);
+                }
+                if (w > 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
+                    hpBars[1].remove(hpBars[1]);
+                    hpBars[1].setIcon(n);
+                }
+                if (w < 20) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                    hpBars[1].remove(hpBars[1]);
+                    hpBars[1].setIcon(n);
+                }
+                if (w <= 0)
+                    w = 0;
+                hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
+
                 lArrayList.get(2).setText("btn3 clicked");
             }
         }
+
         class bListener4 implements ActionListener {
             JPanel pann;
 
@@ -415,7 +417,7 @@ public class PlayGround {
                 hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO Auto-generate
                 // /
                 lArrayList.get(3).setText("btn4 clicked");
-                }
+            }
         }
 
         class Dialog extends JPanel {
@@ -430,10 +432,10 @@ public class PlayGround {
                 setLayout(null);
                 setName("name");
                 dialogBack = new ImageIcon(fileLocate);
-            //   JLabel bG = new JLabel();
-            //    bG.setOpaque(false);
-            //    bG.setIcon(dialogBack);
-            //    bG.setBounds(0, 0, 570, 120);
+                // JLabel bG = new JLabel();
+                // bG.setOpaque(false);
+                // bG.setIcon(dialogBack);
+                // bG.setBounds(0, 0, 570, 120);
 
                 int i = 0;
                 JButton nButton = new JButton(n[i]);
@@ -446,28 +448,27 @@ public class PlayGround {
                 nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
                 nButton.addActionListener(new bListener2());
                 add(nButton);
-                
+
                 i = 2;
                 nButton = new JButton(n[i]);
                 nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
                 nButton.addActionListener(new bListener3());
                 add(nButton);
 
-                i =3;
+                i = 3;
                 nButton = new JButton(n[i]);
                 nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
                 nButton.addActionListener(new bListener4());
                 add(nButton);
-                
-                for(i = 0 ; i < 4 ; i++)
-                {
+
+                for (i = 0; i < 4; i++) {
                     JLabel wordDialog = new JLabel("Test words");
-                    wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280),dic[i][1],100,20);
+                    wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
                     add(wordDialog);
                     lArrayList.add(wordDialog);
                 }
-                
-                //this.add(bG);
+
+                // this.add(bG);
 
             }
 
