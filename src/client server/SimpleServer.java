@@ -20,18 +20,7 @@ public class SimpleServer {
 			value = value * 256 + (buf[i] & 0x7F + ((buf[i] & 0x80) >> 7) * 128);
 		}
 		return value;
-	}<<<<<<<HEAD=======
-
-	public static void main(String args[])
-	{
-		ServerSocket			srverSocket = null;
-		ObjectInputStream		in = null;
-		ObjectOutputStream		out = null;
-		byte []					buf = new byte[100];
-		Socket					sc1 = null;
-		Socket         			 sc2 = null;
- 		int						port = 6666;
->>>>>>> 2e884bfff2addc9be9e49a28f8554739ead931b5
+	}
 
 	public static void main(String args[]) {
 		ServerSocket srverSocket = null;
@@ -53,13 +42,20 @@ public class SimpleServer {
 				while (sc2 == null) {
 					try {
 						sc1 = srverSocket.accept();
-						System.out.println("Player1 come in server!!");
+						System.out.println("!");
 						in = new ObjectInputStream(new BufferedInputStream(sc1.getInputStream()));
+						System.out.println("!");
 						Object obj = in.readObject();
+						System.out.println("!");
 						Player player1 = (Player) obj;
+						System.out.println("!");
 						out = new ObjectOutputStream(sc1.getOutputStream());
+						System.out.println("!");
 						String data = "Connect success\n waiting for Player2";
+						System.out.println("!");
 						out.writeBytes(data);
+						System.out.println("!");
+						System.out.println("Player1 come in server!!");
 
 						sc2 = srverSocket.accept();
 						System.out.println("Player2 come in server!!");

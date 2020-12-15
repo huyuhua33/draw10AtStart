@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Player implements Serializable {
     private String name;
     private String password;
+    private ArrayList<pet> pets;
 
     // private ArrayList<Pet> pets;
     public Player(String name, String passwd) {

@@ -10,7 +10,7 @@ import java.net.*;
 import java.io.*;
 import java.nio.*;
 import java.util.Scanner;
-import draw10AtStart.*;
+//import draw10AtStart.*;
 
 public class SimpleClient {
 	public static byte[] intToByteArray(int value) {
@@ -41,10 +41,6 @@ public class SimpleClient {
 			out = new ObjectOutputStream(client.getOutputStream());
 			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
 
-			// Send message to server
-			out = new ObjectOutputStream(client.getOutputStream());
-			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
-
 			Player player = new Player(null, null);
 			out.writeObject(player);
 			out.flush();
@@ -52,9 +48,6 @@ public class SimpleClient {
 			// Read message from server
 			in.read(buf);
 			System.out.println("Receive message: " + new String(buf));
-
-			out.close();
-			in.close();
 
 			out.close();
 			in.close();
