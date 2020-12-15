@@ -1,3 +1,6 @@
+//packge
+import java.util.ArrayList;
+
 public class pet
 {
 	String name = "pet";            //名稱
@@ -6,6 +9,7 @@ public class pet
 	int    defend = 0;             	//護盾
 	int    speed = 0;				//速度
 	double miss = 0 ;               //命中率
+	ArrayList<skill> skillList;
 	 	
 	public pet(String name,int life,int attack,int defend,int speed,double miss)
 	{
