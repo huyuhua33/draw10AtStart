@@ -38,7 +38,7 @@ public class PlayGround {
         /*
          * if (debug) players[0] = new Player("Name", "123");
          */
-        initFrame(playFrame);
+        playFrame = initFrame(playFrame, "login");
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
         int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
@@ -62,16 +62,21 @@ public class PlayGround {
 
     }
 
-    private void initFrame(JFrame f) {
-        if (f != null)
-            f.dispose();
-        f = new JFrame();
+    private JFrame initFrame(JFrame f, String n) {
+        tmpFrame = f;
+
+        f = new JFrame(n);
+        if (tmpFrame != null) {
+            tmpFrame.dispose();
+        }
         f.setSize(580, 570);
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        return f;
     }
 
     private void loginFramGenarate(JFrame f) {
+        // f = initFrame(f, "login");
         /* setting Connection fram */
         f.setLayout(new GridBagLayout());
         /* setting Connection fram */
@@ -134,7 +139,7 @@ public class PlayGround {
             pass.setText("");
             // System.out.println("Log Ac: " + players[0]);
             // System.out.println("equ " + player == new Player());
-            playFrame.removeAll();
+            // playFrame.removeAll();
             playFrame.dispose();
             waitingFrame a = new waitingFrame(playFrame);
         }
@@ -151,21 +156,22 @@ public class PlayGround {
 
     class waitingFrame {
         private waitingFrame(JFrame f) {
-            initFrame(f);
-            // GridBagLayout ly = new GridBagLayout();
+            f = initFrame(f, "waiting");
+            GridBagLayout ly = new GridBagLayout();
             f.setBackground(Color.RED);
             f.setLayout(null);
-            // String n[] = { /* players[0].getName() */"123", "NowWaiting..." };
-            // int a[][] = { { 0, 0, 1, 1, 0, 0, GridBagConstraints.NONE,
-            // GridBagConstraints.WEST },
-            /*
-             * { 0, 1, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST } }; for
-             * (int i = 0; i < 2; i++) { JLabel nLabel = new JLabel(n[i]);
-             * WaitingGUIComponent.add(nLabel); } for (int i = 0; i <
-             * WaitingGUIComponent.size(); i++) { addComponent(i, WaitingGUIComponent, f); }
-             */
+            String n[] = { /* players[0].getName() */"123", "NowWaiting..." };
+            int a[][] = { { 0, 0, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST },
 
-            f.setVisible(true);
+                    { 0, 1, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST } };
+            for (int i = 0; i < 2; i++) {
+                JLabel nLabel = new JLabel(n[i]);
+                WaitingGUIComponent.add(nLabel);
+            }
+            for (int i = 0; i < WaitingGUIComponent.size(); i++) {
+                addComponent(i, WaitingGUIComponent, f);
+            }
+
             ConnectionListener CL = new ConnectionListener("connect");
             while (!CL.isConnected()) {
                 try {
@@ -179,16 +185,14 @@ public class PlayGround {
 
             }
             if (CL.isConnected()) {
-                // JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
-                f.setBackground(Color.RED);
-                // nLabel.setText("Connected");
+                JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
+                // f.setBackground(Color.RED);
+                nLabel.setText("Connected");
                 try {
                     Thread.sleep(2000);
                 } catch (Exception e) {
                     System.err.println(e);
                 }
-                playFrame.removeAll();
-                playFrame.dispose();
                 battleFild nfFild = new battleFild(playFrame);
             }
 
@@ -249,8 +253,7 @@ public class PlayGround {
         ArrayList<JLabel> lArrayList;
 
         public battleFild(JFrame f) {
-            f = new JFrame();
-            initFrame(f);
+            f = initFrame(f, "Battlefild");
             lArrayList = new ArrayList<JLabel>();
             f.setLayout(null);
             // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
