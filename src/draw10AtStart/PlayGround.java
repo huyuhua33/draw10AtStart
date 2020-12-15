@@ -21,7 +21,7 @@ public class PlayGround {
     private int att[][];
     private ArrayList<JComponent> MainGUIComponent;
     private ArrayList<JComponent> WaitingGUIComponent;
-    private Player player;
+    
 
     private JFrame waitingFrame;
     private Boolean debug = true;
@@ -31,10 +31,12 @@ public class PlayGround {
     private JPanel panJpanel;
     private JLabel[] hpBars = { null, null };
 
+    private Player[] players;
+
     public PlayGround() {
 
         if (debug)
-            player = new Player("Name", "123");
+            players[0] = new Player("Name", "123");
         playFrame = new JFrame();
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
@@ -126,10 +128,10 @@ public class PlayGround {
             JTextField user = (JTextField) MainGUIComponent.get(3);
             JTextField pass = (JTextField) MainGUIComponent.get(4);
 
-            player = new Player(user.getText(), pass.getText());
+            players[0] = new Player(user.getText(), pass.getText());
             user.setText("");
             pass.setText("");
-            System.out.println("Log Ac: " + player);
+            System.out.println("Log Ac: " + players[0]);
             // System.out.println("equ " + player == new Player());
         }
     }
