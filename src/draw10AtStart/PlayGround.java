@@ -1,17 +1,19 @@
 //package draw10AtStart;
 
-import java.awt.*;
+import java.awt.Dialog;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.util.*;
-import java.util.List;
-
-import javax.swing.event.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.sql.Connection;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class PlayGround {
     private JFrame playFrame;
@@ -25,8 +27,9 @@ public class PlayGround {
     private Boolean debug = true;
     private int selection = 0;
 
-    private Dialog ddialog;
+    private battleFild.Dialog ddialog;
     private JPanel panJpanel;
+    private JLabel[] hpBars = { null, null };
 
     public PlayGround() {
         if (debug)
@@ -53,8 +56,7 @@ public class PlayGround {
         initFrame(playFrame);
         // loginFramGenarate(playFrame);
         // waitingFramGenerate(playFrame);
-        battleFild(playFrame);
-
+        battleFild n = new battleFild(playFrame);
 
     }
 
@@ -98,7 +100,6 @@ public class PlayGround {
         b.addActionListener(new LoginListenner());
 
         /* Add Listener */
-
         /* show Jfram */
         f.setVisible(true);
         /* show Jfram */
@@ -166,99 +167,6 @@ public class PlayGround {
 
     }
 
-    class Dialog extends JPanel {
-        private ImageIcon dialogBack;
-        private JPanel selectionPanel;
-
-        Dialog(String fileLocate) {
-            setLayout(null);
-            setName("name");
-            dialogBack = new ImageIcon(fileLocate);
-            JLabel bG = new JLabel();
-            bG.setOpaque(false);
-            bG.setIcon(dialogBack);
-            bG.setBounds(0, 0, 570, 120);
-            this.add(bG);
-        }
-
-        public void dialogUpdating(String words) {
-            removeAll();
-            JLabel bG = new JLabel();
-            bG.setOpaque(false);
-            bG.setIcon(dialogBack);
-            bG.setBounds(0, 0, 570, 120);
-            JLabel wD = new JLabel(words);
-            wD.setBounds(50, 25, 570, 50);
-            System.out.println(this.getName() + wD.getText());
-            this.add(wD);
-            this.add(bG);
-
-        }
-    }
-
-    public void battleFild(JFrame f) {
-        f.setLayout(null);
-        String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
-        String sourceWay = new String("..\\..\\sprit\\");
-        String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
-                "dialog.jpg" };
-        int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
-                { 50, 30, 230, 100 } };
-        String[] hpBar = { "full-hp.jpg", "half-hp.jpg", "non-hp.jpg" };
-        int[][] hpBarDirction = { { dirction[2][0] + 65, dirction[2][1] + 47, 99, 4 },
-                { dirction[3][1] + 65, dirction[3][1] + 47, 99, 4 } };
-        String[] petsName = { "Pet1", "Pet2" };
-        int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
-                { dirction[3][1] + 55, dirction[3][1] + 27 } };
-        // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
-        JPanel pann = new JPanel();
-        pann.setLayout(null);
-        pann.setBounds(0, 0, f.getWidth(), f.getHeight() - 200);
-
-        for (int i = 0; i < 2; i++) {
-            JLabel nJLabel = new JLabel(petsName[i]);
-            nJLabel.setBounds(petsDirction[i][0], petsDirction[i][1], 100, 20);
-            pann.add(nJLabel);
-        }
-        for (int i = 0; i < 2; i++) {
-            ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
-            JLabel jb = new JLabel();
-            jb.setIcon(im);
-            jb.setBounds(hpBarDirction[i][0], hpBarDirction[i][1], hpBarDirction[i][2], hpBarDirction[i][3]);
-            pann.add(jb);
-        }
-        for (int i = 0; i < 4; i++) {
-            ImageIcon im = new ImageIcon(sourceWay + filesPath[i]);
-            JLabel jb = new JLabel();
-            jb.setIcon(im);
-            if (i > 1)
-                jb.setOpaque(false);
-            jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
-            pann.add(jb);
-        }
-
-        /* setting dialog words */
-        Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
-        dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), 120);
-        String testWords = new String("this is test words");
-        dialogPanel.dialogUpdating(testWords);
-        f.addKeyListener(new SelectionListener(dialogPanel));
-        // f.add(btf);
-        ddialog = dialogPanel;
-        panJpanel = pann;
-        frameUpdating(f, panJpanel, ddialog);
-        f.setVisible(true);
-
-    }
-
-    public void frameUpdating(Frame f, JPanel pann, JPanel dialogPanel) {
-        f.remove(pann);
-        f.remove(dialogPanel);
-        f.add(pann);
-        f.add(dialogPanel);
-       
-    }
-
     /* connection listener */
     class ConnectionListener implements Runnable {
         boolean connected = false;
@@ -293,71 +201,183 @@ public class PlayGround {
 
     }
 
-    class SelectionListener implements KeyListener {
-        int get_Key;
-        Dialog dialog;
+    public void updateFrame(JFrame f, JPanel p, battleFild.Dialog d) {
+        if (f.getComponentCount() > 1) {
+            f.remove(f.getComponent(0));
+            f.remove(f.getComponent(1));
+        }
+        f.add(p);
+        f.add(d);
+    }
 
-        SelectionListener(Dialog d) {
-            dialog = d;
+    class battleFild {
+        String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
+        String sourceWay = new String("..\\..\\sprit\\");
+        String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
+                "dialog.jpg" };
+        int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
+                { 50, 30, 230, 100 } };
+
+        String[] hpBar = { "full-hp.jpg", "half-hp.jpg", "non-hp.jpg" };
+        int[][] hpBarDirction = { { dirction[2][0] + 65, dirction[2][1] + 47, 99, 4 },
+                { dirction[3][1] + 65, dirction[3][1] + 47, 99, 4 } };
+
+        String[] petsName = { "Pet1", "Pet2" };
+        int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
+                { dirction[3][1] + 55, dirction[3][1] + 27 } };
+
+        public battleFild(JFrame f) {
+            f.setLayout(null);
+            // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
+            JPanel pann = new JPanel();
+            pann.setLayout(null);
+            pann.setBounds(0, 0, f.getWidth(), f.getHeight() - 200);
+            att = hpBarDirction;
+            for (int i = 0; i < 2; i++) {
+                JLabel nJLabel = new JLabel(petsName[i]);
+                nJLabel.setBounds(petsDirction[i][0], petsDirction[i][1], 100, 20);
+                pann.add(nJLabel);
+            }
+            for (int i = 0; i < 2; i++) {
+                ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
+                JLabel jb = new JLabel();
+                jb.setIcon(im);
+                jb.setBounds(hpBarDirction[i][0], hpBarDirction[i][1], hpBarDirction[i][2], hpBarDirction[i][3]);
+                hpBars[i] = jb;
+                pann.add(jb);
+            }
+            for (int i = 0; i < 4; i++) {
+                ImageIcon im = new ImageIcon(sourceWay + filesPath[i]);
+                JLabel jb = new JLabel();
+                jb.setIcon(im);
+                if (i > 1)
+                    jb.setOpaque(false);
+                jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
+                pann.add(jb);
+            }
+
+            /* setting dialog words */
+            Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
+            dialogPanel.setBounds(0, f.getHeight() - 200, f.getWidth(), 120);
+            String testWords = new String("this is test words");
+            dialogPanel.dialogUpdating(testWords);
+            dialogPanel.dialogUpdating("dddd");
+            // f.add(btf);
+            ddialog = dialogPanel;
+            panJpanel = pann;
+            PlayGround.this.updateFrame(f, panJpanel, ddialog);
+            f.setVisible(true);
+
         }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            get_Key = e.getKeyCode();
-            if (get_Key == KeyEvent.VK_UP) {
-                selection += 2;
-                dialog.dialogUpdating("up");
-                System.out.println("up");
+        class bListener implements ActionListener {
+            JPanel pann;
+
+            public bListener(JPanel pan) {
+                pann = pan;
             }
-            if (get_Key == KeyEvent.VK_DOWN) {
-                selection -= 2;
-                dialog.dialogUpdating("Down");
-                System.out.println("Down");
+
+            public bListener() {
             }
-            if (get_Key == KeyEvent.VK_LEFT) {
-                selection++;
-                dialog.dialogUpdating("Left");
-                System.out.println("Left");
-            }
-            if (get_Key == KeyEvent.VK_RIGHT) {
-                selection--;
-                dialog.dialogUpdating("Right");
-                System.out.println("Right");
-            }
-            if (get_Key == KeyEvent.VK_ENTER) {
-                dialog.dialogUpdating("Enter");// select the function
-                System.out.println("Enter");
-            }
-            if (selection < 0)
-                selection = 0;
 
-            frameUpdating(playFrame, panJpanel, dialog);
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            // TODO Auto-generated method stub
-
-
-        }
-        class updateFrame implements Runnable
-        {
-            public void run()
-            {
-                while(true)
-                {
-                    playFrame.revalidate();
-                    playFrame.setVisible(true);    
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int w = hpBars[0].getWidth() - 10;
+                if (w < 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                    hpBars[0].remove(hpBars[0]);
+                    hpBars[0].setIcon(n);
                 }
+                if (w > 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
+                    hpBars[0].remove(hpBars[0]);
+                    hpBars[0].setIcon(n);
+                }
+                if (w < 20) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                    hpBars[0].remove(hpBars[0]);
+                    hpBars[0].setIcon(n);
+                }
+                if (w <= 0)
+                    w = 0;
+                hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO Auto-generate
+                // /
+                System.out.println("btnClick");
             }
+        }
+
+        class Dialog extends JPanel {
+            private ImageIcon dialogBack;
+            private JPanel selectionPanel;
+            int i = 0;
+            String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
+            int x = 150, y = 0;
+            int[][] dic = { { x, y }, { x + 143, y + 0 }, { x, y + 60 }, { x + 143, y + 60 } };
+
+            Dialog(String fileLocate) {
+                setLayout(null);
+                setName("name");
+                dialogBack = new ImageIcon(fileLocate);
+                JLabel bG = new JLabel();
+                bG.setOpaque(false);
+                bG.setIcon(dialogBack);
+                bG.setBounds(0, 0, 570, 120);
+
+                for (int i = 0; i < 4; i++) {
+                    JButton nButton = new JButton(n[i]);
+                    nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+                    nButton.addActionListener(new bListener());
+                    add(nButton);
+
+                }
+                this.add(bG);
+            }
+
+            public void dialogUpdating(String words) {
+
+                /*
+                 * this.remove(this.getComponent(0)); if (this.getComponentCount() > 1) {
+                 * this.remove(this.getComponent(1)); } JLabel bG = new JLabel();
+                 * bG.setOpaque(false); bG.setIcon(dialogBack); bG.setBounds(0, 0, 570, 120);
+                 * JLabel wD = new JLabel(words); wD.setBounds(50, 25, 570, 50);
+                 * System.out.println(this.getName() + wD.getText()); this.add(wD);
+                 * this.add(bG);
+                 */
+            }
+
         }
 
     }
 
+    /*
+     * class SelectionListener implements KeyListener { int get_Key; Dialog dialog;
+     * 
+     * SelectionListener(Dialog d) { dialog = d; }
+     * 
+     * @Override public void keyPressed(KeyEvent e) { get_Key = e.getKeyCode(); if
+     * (get_Key == KeyEvent.VK_UP) { selection += 2; dialog.dialogUpdating("up");
+     * System.out.println("up");
+     * 
+     * } if (get_Key == KeyEvent.VK_DOWN) { selection -= 2;
+     * dialog.dialogUpdating("Down"); System.out.println("Down"); } if (get_Key ==
+     * KeyEvent.VK_LEFT) { selection++; dialog.dialogUpdating("Left");
+     * System.out.println("Left"); } if (get_Key == KeyEvent.VK_RIGHT) {
+     * selection--; dialog.dialogUpdating("Right"); System.out.println("Right"); }
+     * if (get_Key == KeyEvent.VK_ENTER) { dialog.dialogUpdating("Enter");// select
+     * the function System.out.println("Enter"); } if (selection < 0) selection = 0;
+     * 
+     * updateFrame(playFrame, panJpanel, dialog); }
+     * 
+     * @Override public void keyReleased(KeyEvent e) { // TODO Auto-generated method
+     * stub
+     * 
+     * }
+     * 
+     * @Override public void keyTyped(KeyEvent e) { // TODO Auto-generated method
+     * stub
+     * 
+     * }
+     * 
+     * }
+     */
 }
