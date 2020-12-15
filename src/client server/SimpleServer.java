@@ -51,8 +51,6 @@ public class SimpleServer
 			System.out.println("Waiting for request ...");
 			try
 			{
-			    // Listens for a connection to be made to this socket and accepts it.
-				Thread	t = Thread.currentThread();
 				while(true)
 				{
 					sc1 = srverSocket.accept();
@@ -68,11 +66,11 @@ public class SimpleServer
 					in = new ObjectOutputStream(sc2.getInputStream()); 
 					Player obj2  = (Player)in.readObject();
 					outmsg = sc2.getOutputStream();
-					String data = "Connect success";
+					data = "Connect success";
 					outmsg.write(data.getBytes());
 
 					outmsg = sc1.getOutputStream();
-					String data = "Play2 is ready ";
+					data = "Play2 is ready ";
 					outmsg.write(data.getBytes());
 
 				}
