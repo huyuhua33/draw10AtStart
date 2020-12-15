@@ -6,6 +6,7 @@
 //*******************************************************************
 import java.net.*;
 import java.io.*;
+import draw10AtStart.*;
 
 
 public class SimpleServer
@@ -61,7 +62,7 @@ public class SimpleServer
 					String data = "Connect success\n waiting for Player2.............";
 					outmsg.write(data.getBytes());
 
-					sc2 = serverSocket.accept();
+					sc2 = srverSocket.accept();
 					System.out.println("Player2 come in server!!");
 					in = new ObjectOutputStream(sc2.getInputStream()); 
 					Player obj2  = (Player)in.readObject();
