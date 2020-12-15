@@ -24,39 +24,44 @@ public class SimpleClient {
 		}
 		return value;
 	}
+	public static void main(String args[])
+	{
+		Socket			    client = null;
+		InputStream 	in = null;
+		OutputStream 	out = null;
+		int				    port = 6666;
+		byte []			    buf = new byte[100];		
 
-	public static void main(String args[]) {
-		Socket client = null;
-		ObjectInputStream in = null;
-		ObjectOutputStream out = null;
-		int port = 6666;
-		byte[] buf = new byte[100];
+			try
+			{
+			    // Creates a stream socket and connects it to the specified port number 
+			    // at the specified IP address.
+				client = new Socket("127.0.0.1", port);
 
-		try {
-			// Creates a stream socket and connects it to the specified port number
-			// at the specified IP address.
-			client = new Socket("127.0.0.1", port);
+					// Send message to server
+					out =  client.getOutputStream();
+					in = client.getInputStream();
+					
 
-			// Send message to server
-			out = new ObjectOutputStream(client.getOutputStream());
-			in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+					// Read message from server
+					in.read(buf);
+					System.out.println("Receive message: " + new String(buf));
+				
+				
+				
+				
+				out.close();
+				in.close();
 
-			Player player = new Player(null, null);
-			out.writeObject(player);
-			out.flush();
-
-			// Read message from server
-			in.read(buf);
-			System.out.println("Receive message: " + new String(buf));
-
-			out.close();
-			in.close();
-
-			client.close();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+				client.close();
+			}
+			catch(UnknownHostException e)
+			{
+				e.printStackTrace();
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
 	}
 }

@@ -21,61 +21,56 @@ public class SimpleServer {
 		}
 		return value;
 	}
+	public static void main(String args[])
+	{
+		ServerSocket			srverSocket = null;
+		InputStream		in = null;
+		OutputStream		out = null;
+		byte []					buf = new byte[100];
+		Socket					sc1 = null;
+		Socket         			 sc2 = null;
+ 		int						port = 6666;
 
-	public static void main(String args[]) {
-		ServerSocket srverSocket = null;
-		ObjectInputStream in = null;
-		ObjectOutputStream out = null;
-		InputStream inmsg = null;
-		OutputStream outmsg = null;
-		byte[] buf = new byte[100];
-		Socket sc1 = null;
-		Socket sc2 = null;
-		int port = 6666;
+
 
 		try {
 			// Creates a server socket, bound to the specified port.
 			srverSocket = new ServerSocket(port);
 
 			System.out.println("Waiting for request ...");
-			try {
-				while (sc2 == null) {
-					try {
-						sc1 = srverSocket.accept();
-						System.out.println("!");
-						in = new ObjectInputStream(new BufferedInputStream(sc1.getInputStream()));
-						System.out.println("!");
-						Object obj = in.readObject();
-						System.out.println("!");
-						Player player1 = (Player) obj;
-						System.out.println("!");
-						out = new ObjectOutputStream(sc1.getOutputStream());
-						System.out.println("!");
-						String data = "Connect success\n waiting for Player2";
-						System.out.println("!");
-						out.writeBytes(data);
-						System.out.println("!");
-						System.out.println("Player1 come in server!!");
+			try
+			{
+				while(true)
+				{
+					
+					sc1 = srverSocket.accept();
+					System.out.println("Player1 come in server!!");
+					in = sc1.getInputStream(); 
+					in.read(buf);
+					out = sc1.getOutputStream();
+					String data = "Connect success\n waiting for Player2";
+					out.write(data.getBytes());
 
-						sc2 = srverSocket.accept();
-						System.out.println("Player2 come in server!!");
-						in = new ObjectInputStream(new BufferedInputStream(sc2.getInputStream()));
-						obj = in.readObject();
-						Player player2 = (Player) obj;
-						out = new ObjectOutputStream(sc2.getOutputStream());
-						data = "Connect success\n player1 is in the game";
-						out.writeBytes(data);
+					sc2 = srverSocket.accept();
+					System.out.println("Player2 come in server!!");
+					in = sc2.getInputStream();
+					in.read(buf); 
+					out = sc2.getOutputStream();
+					data = "Connect success\n player1 is in the game";
+					out.write(data.getBytes());
 
-						out = new ObjectOutputStream(sc1.getOutputStream());
-						data = "Play2 is in the game ";
-						out.writeBytes(data);
-					} catch (IOException e) {
-						System.err.println(e);
-					} catch (ClassNotFoundException e) {
-						System.err.println(e);
-					}
+					out = sc1.getOutputStream();
+					data = "Play2 is in the game ";
+					out.write(data.getBytes());
 				}
-			} finally {
+
+			}
+			catch(IOException e)
+			{
+				System.err.println(e);
+			}
+			finally
+			{
 				srverSocket.close();
 			}
 		} catch (Exception e) {
