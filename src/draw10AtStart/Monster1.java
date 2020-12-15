@@ -7,6 +7,7 @@ public class Monster1 extends pet {
 
     public Monster1(String name, int life_MAX, int attack, int defend, int speed, double miss) {
         super(name, life_MAX, attack, defend, speed, miss);
+
         askill();
     }
 

@@ -106,6 +106,7 @@ public class pet implements Serializable {
 		this.defend = defend;
 		this.speed = speed;
 		this.miss = miss;
+		this.skillList = new ArrayList<skill>();
 	}
 
 	public void askill() {

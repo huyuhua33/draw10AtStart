@@ -34,6 +34,7 @@ public class PlayGround {
     private Player player;
 
     private SimpleClient sc;
+    private pet[] battlePets = { null, null };
 
     public PlayGround() {
 
@@ -136,10 +137,10 @@ public class PlayGround {
         public void actionPerformed(ActionEvent event) {
             JTextField user = (JTextField) MainGUIComponent.get(3);
             JTextField pass = (JTextField) MainGUIComponent.get(4);
-            players = new Player(user.getText(), pass.getText());
+            player = new Player(user.getText(), pass.getText());
             user.setText("");
             pass.setText("");
-            System.out.println("Log Ac: " + players);
+            System.out.println("Log Ac: " + player);
             // playFrame.removeAll();
             playFrame.dispose();
             waitingFrame a = new waitingFrame(playFrame);
@@ -217,7 +218,7 @@ public class PlayGround {
                     sc = new SimpleClient();
                     System.out.println("Connect");
                     while (!connected) {
-                        System.out.print("getting connection");
+                        System.out.println("getting connection" + connected);
                         connected = sc.getConnected();
                     }
                 } catch (Exception e) {
@@ -298,6 +299,9 @@ public class PlayGround {
             ddialog = dialogPanel;
             panJpanel = pann;
             PlayGround.this.updateFrame(f, panJpanel, ddialog);
+
+            battlePets[0] = player.getPets().get(0);
+
             f.setVisible(true);
 
         }
@@ -463,7 +467,6 @@ public class PlayGround {
                 // bG.setOpaque(false);
                 // bG.setIcon(dialogBack);
                 // bG.setBounds(0, 0, 570, 120);
-
                 int i = 0;
                 JButton nButton = new JButton(n[i]);
                 nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
@@ -489,7 +492,7 @@ public class PlayGround {
                 add(nButton);
 
                 for (i = 0; i < 4; i++) {
-                    JLabel wordDialog = new JLabel("Test words");
+                    JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
                     wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
                     add(wordDialog);
                     lArrayList.add(wordDialog);
