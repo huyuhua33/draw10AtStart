@@ -1,15 +1,16 @@
 //package draw10AtStart;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable{
     private String name;
     private String password;
 
     // private ArrayList<Pet> pets;
-    public Player(String name, String cs) {
+    public Player(String name, String passwd) {
         this.name = name;
-        this.password = cs;
+        this.password = passwd;
     }
 
     public String getName() {

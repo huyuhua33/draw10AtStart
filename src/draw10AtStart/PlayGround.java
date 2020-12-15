@@ -32,6 +32,7 @@ public class PlayGround {
     private JLabel[] hpBars = { null, null };
 
     public PlayGround() {
+        
         if (debug)
             player = new Player("Name", "123");
         playFrame = new JFrame();
