@@ -139,7 +139,7 @@ public class PlayGround {
 
         GridBagLayout ly = new GridBagLayout();
         f.setLayout(ly);
-        String n[] = { player.getName(), "NowWaiting..." };
+        String n[] = { players[0].getName(), "NowWaiting..." };
         int a[][] = { { 0, 0, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST },
                 { 0, 1, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST } };
         for (int i = 0; i < 2; i++) {

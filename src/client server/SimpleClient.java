@@ -33,12 +33,7 @@ public class SimpleClient {
 		byte []			    buf = new byte[100];
 		String              data;		
 
-			try
-			{
-			    // Creates a stream socket and connects it to the specified port number 
-			    // at the specified IP address.
-				client = new Socket("127.0.0.1", port);
-
+	
 					// Send message to server
 					out =  client.getOutputStream();
 					in = client.getInputStream();
@@ -61,15 +56,11 @@ public class SimpleClient {
 				out.close();
 				in.close();
 
-				client.close();
-			}
-			catch(UnknownHostException e)
-			{
-				e.printStackTrace();
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-			}
+			client.close();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

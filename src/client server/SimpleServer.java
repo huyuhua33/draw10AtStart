@@ -35,16 +35,15 @@ public class SimpleServer {
 
 
 
+
 		try {
 			// Creates a server socket, bound to the specified port.
 			srverSocket = new ServerSocket(port);
 
 			System.out.println("Waiting for request ...");
-			try
-			{
-				while(true)
-				{
-					
+			try {
+				while (true) {
+
 					sc1 = srverSocket.accept();
 					System.out.println("Player1 come in server!!");
 					//in = sc1.getInputStream(); 
@@ -92,13 +91,9 @@ public class SimpleServer {
 					round++;
 				}
 
-			}
-			catch(IOException e)
-			{
+			} catch (IOException e) {
 				System.err.println(e);
-			}
-			finally
-			{
+			} finally {
 				srverSocket.close();
 			}
 		} catch (Exception e) {
