@@ -27,10 +27,11 @@ public class SimpleClient {
 	public static void main(String args[])
 	{
 		Socket			    client = null;
-		InputStream 	in = null;
-		OutputStream 	out = null;
+		InputStream 		in = null;
+		OutputStream 		out = null;
 		int				    port = 6666;
-		byte []			    buf = new byte[100];		
+		byte []			    buf = new byte[100];
+		String              data;		
 
 			try
 			{
@@ -42,14 +43,21 @@ public class SimpleClient {
 					out =  client.getOutputStream();
 					in = client.getInputStream();
 					
-
+					while(true)
+					{
+						in.read(buf);
+						System.out.println("Receive message: " + new String(buf));
+						in.read(buf);
+						if( new String(buf).compareTo("Y") == 0)
+							break;
+					}
+					
 					// Read message from server
-					in.read(buf);
-					System.out.println("Receive message: " + new String(buf));
-				
-				
-				
-				
+					data = "20"+"/"+"R"+"/"+"10"+"/"+"Name" + "/"+ "100";
+					out.write(data.getBytes());
+
+					
+
 				out.close();
 				in.close();
 
