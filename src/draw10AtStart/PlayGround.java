@@ -225,9 +225,10 @@ public class PlayGround {
         String[] petsName = { "Pet1", "Pet2" };
         int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
                 { dirction[3][1] + 55, dirction[3][1] + 27 } };
+        ArrayList<JLabel> lArrayList;
 
-        Object[] listenerList = {bListener1,bListener2,bListener3,bListener4}
         public battleFild(JFrame f) {
+            lArrayList = new ArrayList<JLabel>();
             f.setLayout(null);
             // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
             JPanel pann = new JPanel();
@@ -304,6 +305,7 @@ public class PlayGround {
                 hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO Auto-generate
                 // /
                 System.out.println("btnClick");
+                lArrayList.get(0).setText("btn1 clicked");
             }
         }
         class bListener2 implements ActionListener {
@@ -318,6 +320,27 @@ public class PlayGround {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                    int w = hpBars[1].getWidth() - 10;
+                    if (w < 50) {
+                        ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].setIcon(n);
+                    }
+                    if (w > 50) {
+                        ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].setIcon(n);
+                    }
+                    if (w < 20) {
+                        ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].setIcon(n);
+                    }
+                    if (w <= 0)
+                        w = 0;
+                    hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
+       
+                lArrayList.get(1).setText("btn2 clicked");
             }
         }
         class bListener3 implements ActionListener {
@@ -332,7 +355,7 @@ public class PlayGround {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                lArrayList.get(2).setText("btn3 clicked");
             }
         }
         class bListener4 implements ActionListener {
@@ -347,6 +370,7 @@ public class PlayGround {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                lArrayList.get(3).setText("btn4 clicked");
                 }
         }
 
@@ -367,15 +391,38 @@ public class PlayGround {
             //    bG.setIcon(dialogBack);
             //    bG.setBounds(0, 0, 570, 120);
 
-                for (int i = 0; i < 4; i++) {
-                    JButton nButton = new JButton(n[i]);
-                    nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
-                    nButton.addActionListener(new bListener());
-                    add(nButton);
+                int i = 0;
+                JButton nButton = new JButton(n[i]);
+                nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+                nButton.addActionListener(new bListener1());
+                add(nButton);
+
+                i = 1;
+                nButton = new JButton(n[i]);
+                nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+                nButton.addActionListener(new bListener2());
+                add(nButton);
+                
+                i = 2;
+                nButton = new JButton(n[i]);
+                nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+                nButton.addActionListener(new bListener3());
+                add(nButton);
+
+                i =3;
+                nButton = new JButton(n[i]);
+                nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+                nButton.addActionListener(new bListener4());
+                add(nButton);
+                
+                for(i = 0 ; i < 4 ; i++)
+                {
+                    JLabel wordDialog = new JLabel("Test words");
+                    wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280),dic[i][1],100,20);
+                    add(wordDialog);
+                    lArrayList.add(wordDialog);
                 }
-                JLabel wordDialog = new JLabel("Test words");
-                wordDialog.setBounds(300,60,100,100);
-                add(wordDialog);
+                
                 //this.add(bG);
 
             }
