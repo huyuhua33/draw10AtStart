@@ -226,6 +226,7 @@ public class PlayGround {
         int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
                 { dirction[3][1] + 55, dirction[3][1] + 27 } };
 
+        Object[] listenerList = {bListener1,bListener2,bListener3,bListener4}
         public battleFild(JFrame f) {
             f.setLayout(null);
             // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
@@ -270,14 +271,14 @@ public class PlayGround {
 
         }
 
-        class bListener implements ActionListener {
+        class bListener1 implements ActionListener {
             JPanel pann;
 
-            public bListener(JPanel pan) {
+            public bListener1(JPanel pan) {
                 pann = pan;
             }
 
-            public bListener() {
+            public bListener1() {
             }
 
             @Override
@@ -305,32 +306,78 @@ public class PlayGround {
                 System.out.println("btnClick");
             }
         }
+        class bListener2 implements ActionListener {
+            JPanel pann;
+
+            public bListener2(JPanel pan) {
+                pann = pan;
+            }
+
+            public bListener2() {
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        }
+        class bListener3 implements ActionListener {
+            JPanel pann;
+
+            public bListener3(JPanel pan) {
+                pann = pan;
+            }
+
+            public bListener3() {
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        }
+        class bListener4 implements ActionListener {
+            JPanel pann;
+
+            public bListener4(JPanel pan) {
+                pann = pan;
+            }
+
+            public bListener4() {
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                }
+        }
 
         class Dialog extends JPanel {
             private ImageIcon dialogBack;
             private JPanel selectionPanel;
             int i = 0;
             String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
-            int x = 150, y = 0;
+            int x = 50, y = 0;
             int[][] dic = { { x, y }, { x + 143, y + 0 }, { x, y + 60 }, { x + 143, y + 60 } };
 
             Dialog(String fileLocate) {
                 setLayout(null);
                 setName("name");
                 dialogBack = new ImageIcon(fileLocate);
-                JLabel bG = new JLabel();
-                bG.setOpaque(false);
-                bG.setIcon(dialogBack);
-                bG.setBounds(0, 0, 570, 120);
+            //   JLabel bG = new JLabel();
+            //    bG.setOpaque(false);
+            //    bG.setIcon(dialogBack);
+            //    bG.setBounds(0, 0, 570, 120);
 
                 for (int i = 0; i < 4; i++) {
                     JButton nButton = new JButton(n[i]);
                     nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
                     nButton.addActionListener(new bListener());
                     add(nButton);
-
                 }
-                this.add(bG);
+                JLabel wordDialog = new JLabel("Test words");
+                wordDialog.setBounds(300,60,100,100);
+                add(wordDialog);
+                //this.add(bG);
+
             }
 
             public void dialogUpdating(String words) {
