@@ -1,3 +1,4 @@
+
 //*******************************************************************
 //*  Network Programming - Unit 2 Simple Client and Server          *
 //*  Program Name: SimpleServer2                                    *
@@ -6,28 +7,17 @@
 //*******************************************************************
 import java.net.*;
 import java.io.*;
-import draw10AtStart.*;
+//import draw10AtStart.*;
 
-
-public class SimpleServer
-{
-	public static byte[] intToByteArray(int value)
-	{
-		return new byte[]
-		{
-			(byte)(value >> 24),
-			(byte)(value >> 16),
-			(byte)(value >> 8),
-			(byte)value
-		};
+public class SimpleServer {
+	public static byte[] intToByteArray(int value) {
+		return new byte[] { (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
 	}
 
-	public  static int ByteToInt(byte[] buf)
-	{
-		int i,value = 0;
-		for(i = 0;i < 4;i++)
-		{
-			value = value * 256 + (buf[i] &0x7F + ((buf[i]&0x80)>>7)*128) ; 
+	public static int ByteToInt(byte[] buf) {
+		int i, value = 0;
+		for (i = 0; i < 4; i++) {
+			value = value * 256 + (buf[i] & 0x7F + ((buf[i] & 0x80) >> 7) * 128);
 		}
 		return value;
 	}
@@ -41,12 +31,12 @@ public class SimpleServer
 		Socket         			 sc2 = null;
  		int						port = 6666;
 
-		
-		try
-		{
-		    // Creates a server socket, bound to the specified port.
+
+
+		try {
+			// Creates a server socket, bound to the specified port.
 			srverSocket = new ServerSocket(port);
-			
+
 			System.out.println("Waiting for request ...");
 			try
 			{
@@ -83,9 +73,7 @@ public class SimpleServer
 			{
 				srverSocket.close();
 			}
-		}
-		catch(IOException e)
-		{
+		} catch (Exception e) {
 			System.err.println(e);
 		}
 	}

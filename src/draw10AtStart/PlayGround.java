@@ -21,7 +21,6 @@ public class PlayGround {
     private int att[][];
     private ArrayList<JComponent> MainGUIComponent;
     private ArrayList<JComponent> WaitingGUIComponent;
-    
 
     private JFrame waitingFrame;
     private Boolean debug = true;
@@ -214,7 +213,6 @@ public class PlayGround {
     }
 
     class battleFild {
-        Player[] players;
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         String sourceWay = new String("..\\..\\sprit\\");
         String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",

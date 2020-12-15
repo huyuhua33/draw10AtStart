@@ -1,3 +1,4 @@
+
 //*******************************************************************
 //*  Network Programming - Unit 2 Simple Client and Server          *
 //*  Program Name: SimpleClient2                                     *
@@ -9,29 +10,17 @@ import java.net.*;
 import java.io.*;
 import java.nio.*;
 import java.util.Scanner;
-import draw10AtStart.*;
+//import draw10AtStart.*;
 
-
-
-public class SimpleClient
-{
-		public static byte[] intToByteArray(int value)
-	{
-		return new byte[]
-		{
-			(byte)(value >> 24),
-			(byte)(value >> 16),
-			(byte)(value >> 8),
-			(byte)value
-		};
+public class SimpleClient {
+	public static byte[] intToByteArray(int value) {
+		return new byte[] { (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
 	}
 
-	public static int ByteToInt(byte[] buf)
-	{
-		int i,value = 0;
-		for(i = 0;i < 4;i++)
-		{
-			value = value * 256 + (buf[i] &0x7F + ((buf[i]&0x80)>>7)*128) ; 
+	public static int ByteToInt(byte[] buf) {
+		int i, value = 0;
+		for (i = 0; i < 4; i++) {
+			value = value * 256 + (buf[i] & 0x7F + ((buf[i] & 0x80) >> 7) * 128);
 		}
 		return value;
 	}
