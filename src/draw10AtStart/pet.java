@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
+
 //packge
 import java.util.ArrayList;
-
-public class pet
+public class pet implements Serializable
 {
 	String name = "pet";            //名稱
 	int    life = 0;                //生命值

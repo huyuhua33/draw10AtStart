@@ -56,14 +56,18 @@ public class SimpleClient
 
 					// Send message to server
 					out = new ObjectOutputStream(client.getOutputStream());
-					out.writeObject(new Player());
+					in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+					
+					Player player  = new Player(null, null);
+					out.writeObject(player);
+					out.flush();
 					outmsg = client.getOutputStream();
 
 					// Read message from server
 					inmsg = client.getInputStream();
 					inmsg.read(buf);
 					System.out.println("Receive message: " + new String(buf));
-					in = new ObjectOutputStream(client.getInputStream());
+				
 				
 				
 				

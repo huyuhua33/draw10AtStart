@@ -34,6 +34,7 @@ public class PlayGround {
     private Player[] players;
 
     public PlayGround() {
+        
         if (debug)
             players[0] = new Player("Name", "123");
         playFrame = new JFrame();
