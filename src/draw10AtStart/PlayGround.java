@@ -1,5 +1,6 @@
 //package draw10AtStart;
 
+import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,7 +23,7 @@ public class PlayGround {
     private ArrayList<JComponent> MainGUIComponent;
     private ArrayList<JComponent> WaitingGUIComponent;
 
-    private JFrame waitingFrame;
+    private JFrame tmpFrame;
     private Boolean debug = true;
     private int selection = 0;
 
@@ -34,9 +35,10 @@ public class PlayGround {
 
     public PlayGround() {
 
-        if (debug)
-            players[0] = new Player("Name", "123");
-        playFrame = new JFrame();
+        /*
+         * if (debug) players[0] = new Player("Name", "123");
+         */
+        initFrame(playFrame);
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
         int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
@@ -55,14 +57,15 @@ public class PlayGround {
     }
 
     public void run() {
-        initFrame(playFrame);
-        // loginFramGenarate(playFrame);
+        loginFramGenarate(playFrame);
         // waitingFramGenerate(playFrame);
-        battleFild n = new battleFild(playFrame);
 
     }
 
     private void initFrame(JFrame f) {
+        if (f != null)
+            f.dispose();
+        f = new JFrame();
         f.setSize(580, 570);
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,81 +129,15 @@ public class PlayGround {
         public void actionPerformed(ActionEvent event) {
             JTextField user = (JTextField) MainGUIComponent.get(3);
             JTextField pass = (JTextField) MainGUIComponent.get(4);
-
-            players[0] = new Player(user.getText(), pass.getText());
+            // players[0] = new Player(user.getText(), pass.getText());
             user.setText("");
             pass.setText("");
-            System.out.println("Log Ac: " + players[0]);
+            // System.out.println("Log Ac: " + players[0]);
             // System.out.println("equ " + player == new Player());
+            playFrame.removeAll();
+            playFrame.dispose();
+            waitingFrame a = new waitingFrame(playFrame);
         }
-    }
-
-    private void waitingFramGenerate(JFrame f) {
-
-        GridBagLayout ly = new GridBagLayout();
-        f.setLayout(ly);
-        String n[] = { players[0].getName(), "NowWaiting..." };
-        int a[][] = { { 0, 0, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST },
-                { 0, 1, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST } };
-        for (int i = 0; i < 2; i++) {
-            JLabel nLabel = new JLabel(n[i]);
-            WaitingGUIComponent.add(nLabel);
-        }
-        for (int i = 0; i < WaitingGUIComponent.size(); i++) {
-            addComponent(i, WaitingGUIComponent, f);
-        }
-        f.setVisible(true);
-        ConnectionListener CL = new ConnectionListener("connect");
-        while (!CL.isConnected()) {
-            try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-                System.err.print(e);
-                // TODO: handle exception
-            }
-
-            // System.out.println("wait for connecting");
-
-        }
-        if (CL.isConnected()) {
-            JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
-            nLabel.setText("Connected");
-        }
-
-    }
-
-    /* connection listener */
-    class ConnectionListener implements Runnable {
-        boolean connected = false;
-        Thread n = null;
-
-        private ConnectionListener(String name) {
-            n = new Thread(this, name);
-            n.start();
-            // setting socket and connection
-        }
-
-        @Override
-        public void run() {
-            /* simulating connection */
-            try {
-                Thread.sleep(2000);
-                System.out.println("Connect");
-                connected = true;
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-            /* simulating connection */
-        }
-
-        public boolean isConnected() {
-            return connected;
-        }
-
-        public void setConnected(boolean connected) {
-            this.connected = connected;
-        }
-
     }
 
     public void updateFrame(JFrame f, JPanel p, battleFild.Dialog d) {
@@ -210,6 +147,87 @@ public class PlayGround {
         }
         f.add(p);
         f.add(d);
+    }
+
+    class waitingFrame {
+        private waitingFrame(JFrame f) {
+            initFrame(f);
+            // GridBagLayout ly = new GridBagLayout();
+            f.setBackground(Color.RED);
+            f.setLayout(null);
+            // String n[] = { /* players[0].getName() */"123", "NowWaiting..." };
+            // int a[][] = { { 0, 0, 1, 1, 0, 0, GridBagConstraints.NONE,
+            // GridBagConstraints.WEST },
+            /*
+             * { 0, 1, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST } }; for
+             * (int i = 0; i < 2; i++) { JLabel nLabel = new JLabel(n[i]);
+             * WaitingGUIComponent.add(nLabel); } for (int i = 0; i <
+             * WaitingGUIComponent.size(); i++) { addComponent(i, WaitingGUIComponent, f); }
+             */
+
+            f.setVisible(true);
+            ConnectionListener CL = new ConnectionListener("connect");
+            while (!CL.isConnected()) {
+                try {
+                    Thread.sleep(200);
+                } catch (Exception e) {
+                    System.err.print(e);
+                    // TODO: handle exception
+                }
+
+                // System.out.println("wait for connecting");
+
+            }
+            if (CL.isConnected()) {
+                // JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
+                f.setBackground(Color.RED);
+                // nLabel.setText("Connected");
+                try {
+                    Thread.sleep(2000);
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+                playFrame.removeAll();
+                playFrame.dispose();
+                battleFild nfFild = new battleFild(playFrame);
+            }
+
+        }
+
+        /* connection listener */
+        class ConnectionListener implements Runnable {
+            boolean connected = false;
+            Thread n = null;
+
+            private ConnectionListener(String name) {
+                n = new Thread(this, name);
+                n.start();
+                // setting socket and connection
+            }
+
+            @Override
+            public void run() {
+                /* simulating connection */
+                try {
+                    Thread.sleep(2000);
+                    System.out.println("Connect");
+                    connected = true;
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+                /* simulating connection */
+            }
+
+            public boolean isConnected() {
+                return connected;
+            }
+
+            public void setConnected(boolean connected) {
+                this.connected = connected;
+            }
+
+        }
+
     }
 
     class battleFild {
@@ -231,6 +249,8 @@ public class PlayGround {
         ArrayList<JLabel> lArrayList;
 
         public battleFild(JFrame f) {
+            f = new JFrame();
+            initFrame(f);
             lArrayList = new ArrayList<JLabel>();
             f.setLayout(null);
             // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
