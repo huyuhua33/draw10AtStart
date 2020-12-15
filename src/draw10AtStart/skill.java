@@ -2,7 +2,7 @@ package draw10AtStart;
 
 public class skill {
     private String skillName;
-    private int skillType;
+    private String skillType;
     private int skillPow;
 
     public String getSkillName() {
@@ -13,11 +13,11 @@ public class skill {
         this.skillName = skillName;
     }
 
-    public int getSkillType() {
+    public String getSkillType() {
         return skillType;
     }
 
-    public void setSkillType(int skillType) {
+    public void setSkillType(String skillType) {
         this.skillType = skillType;
     }
 
@@ -34,7 +34,7 @@ public class skill {
         return "skill [skillName=" + skillName + ", skillPow=" + skillPow + ", skillType=" + skillType + "]";
     }
 
-    public skill(String skillName, int skillType, int skillPow) {
+    public skill(String skillName, String skillType, int skillPow) {
         this.skillName = skillName;
         this.skillType = skillType;
         this.skillPow = skillPow;

@@ -21,40 +21,36 @@ public class SimpleServer {
 		}
 		return value;
 	}
-	public static void main(String args[])
-	{
-		ServerSocket			srverSocket = null;
-		InputStream		in = null;
-		OutputStream		out = null;
-		byte []					buf = new byte[100];
-		Socket					sc1 = null;
-		Socket         			 sc2 = null;
- 		int						port = 6666;
 
-
+	public static void main(String args[]) {
+		ServerSocket srverSocket = null;
+		InputStream in = null;
+		OutputStream out = null;
+		byte[] buf = new byte[100];
+		Socket sc1 = null;
+		Socket sc2 = null;
+		int port = 6666;
 
 		try {
 			// Creates a server socket, bound to the specified port.
 			srverSocket = new ServerSocket(port);
 
 			System.out.println("Waiting for request ...");
-			try
-			{
-				while(true)
-				{
-					
+			try {
+				while (true) {
+
 					sc1 = srverSocket.accept();
 					System.out.println("Player1 come in server!!");
-					in = sc1.getInputStream(); 
-					in.read(buf);
+					// in = sc1.getInputStream();
+					// in.read(buf);
 					out = sc1.getOutputStream();
 					String data = "Connect success\n waiting for Player2";
 					out.write(data.getBytes());
 
 					sc2 = srverSocket.accept();
 					System.out.println("Player2 come in server!!");
-					in = sc2.getInputStream();
-					in.read(buf); 
+					// in = sc2.getInputStream();
+					// in.read(buf);
 					out = sc2.getOutputStream();
 					data = "Connect success\n player1 is in the game";
 					out.write(data.getBytes());
@@ -64,13 +60,9 @@ public class SimpleServer {
 					out.write(data.getBytes());
 				}
 
-			}
-			catch(IOException e)
-			{
+			} catch (IOException e) {
 				System.err.println(e);
-			}
-			finally
-			{
+			} finally {
 				srverSocket.close();
 			}
 		} catch (Exception e) {
