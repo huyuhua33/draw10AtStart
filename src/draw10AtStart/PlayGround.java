@@ -328,7 +328,7 @@ public class PlayGround {
                     }
                     if (w > 50) {
                         ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].remove(hpBars[0]);
                         hpBars[1].setIcon(n);
                     }
                     if (w < 20) {
@@ -355,6 +355,26 @@ public class PlayGround {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                int w = hpBars[1].getWidth() + 10;
+                    if (w < 50) {
+                        ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].setIcon(n);
+                    }
+                    if (w > 50) {
+                        ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
+                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].setIcon(n);
+                    }
+                    if (w < 20) {
+                        ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                        hpBars[1].remove(hpBars[1]);
+                        hpBars[1].setIcon(n);
+                    }
+                    if (w <= 0)
+                        w = 0;
+                    hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
+       
                 lArrayList.get(2).setText("btn3 clicked");
             }
         }
@@ -370,6 +390,26 @@ public class PlayGround {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                int w = hpBars[0].getWidth() + 10;
+                if (w < 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                    hpBars[0].remove(hpBars[0]);
+                    hpBars[0].setIcon(n);
+                }
+                if (w > 50) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
+                    hpBars[0].remove(hpBars[0]);
+                    hpBars[0].setIcon(n);
+                }
+                if (w < 20) {
+                    ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                    hpBars[0].remove(hpBars[0]);
+                    hpBars[0].setIcon(n);
+                }
+                if (w <= 0)
+                    w = 0;
+                hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO Auto-generate
+                // /
                 lArrayList.get(3).setText("btn4 clicked");
                 }
         }
