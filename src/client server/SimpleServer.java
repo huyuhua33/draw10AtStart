@@ -8,20 +8,8 @@ import java.net.*;
 import java.io.*;
 
 
-class ThreadBySubclass extends Thread
+public class SimpleServer
 {
-	String	ThreadName;
-	Socket			sc = null;
-	ObjectInputStream		in = null;
-	ObjectOutputStream	out = null;
-	byte []			buf = new byte[100];
-	int count = 0;
-	
-	public ThreadBySubclass(String name,Socket sc)		// Constructor
-	{
-		ThreadName = name;
-		this.sc = sc;
-	}
 	public static byte[] intToByteArray(int value)
 	{
 		return new byte[]
@@ -42,61 +30,17 @@ class ThreadBySubclass extends Thread
 		}
 		return value;
 	}
-
-	public void run()	// execute after thread has been initialized
-	{
-		try
-		{
-			Thread	t = Thread.currentThread();
-			
-			t.setName(ThreadName);
-			System.out.println("Thread " + ThreadName + " is created!!");
-				// Read message from client
-				// Returns an input stream for socket sc.
-		
-			in = new ObjectOutputStream(sc.getInputStream());
-			Player obj  = (Player)in.readObject();  
-				// Send reply message to client
-				// Returns an output stream for socket sc.
-			out = new ObjectOutputStream(sc.getOutputStream());
-			String data = "Server reply!!";
-			out.write(data.getBytes());
-			while(true)
-			{	
-				in.read(buf);
-				count = ByteToInt(buf);
-				System.out.printf("T%s:%d\n",ThreadName,count);
-				if(count == 0)
-				{
-					out.write(buf);
-					break;
-				}
-				count = count - 1;
-				buf = intToByteArray(count);
-				out.write(buf);
-			} 
-					// Closes in/out stream and releases any system resources associated with this stream.	
-			in.close();
-			out.close();
-			//Closes this socket
-			sc.close();
-		}	
-		catch(IOException e)
-		{
-			System.err.println(e);
-		}
-		
-	}
-}
-
-public class SimpleServer
-{
 	public static void main(String args[])
 	{
-		ServerSocket	srverSocket = null;
-		Socket			sc = null;
-		int				port = 6666;
-		int name = 0;
+		ServerSocket			srverSocket = null;
+		ObjectInputStream		in = null;
+		ObjectOutputStream		out = null;
+		InputStream         	inmsg = null;
+		OutputStream        	outmsg = null;
+		byte []					buf = new byte[100];
+		Socket					sc1 = null;
+		Socket         			 sc2 = null;
+ 		int						port = 6666;
 
 		
 		try
@@ -111,10 +55,26 @@ public class SimpleServer
 				Thread	t = Thread.currentThread();
 				while(true)
 				{
-					sc = srverSocket.accept();
-					ThreadBySubclass thread = new ThreadBySubclass( Integer.toString(name++),sc);
-					thread.start(); 
-					sc = null;
+					sc1 = srverSocket.accept();
+					System.out.println("Player1 come in server!!");
+					in = new ObjectOutputStream(sc1.getInputStream()); 
+					Player obj1  = (Player)in.readObject();
+					outmsg = sc1.getOutputStream();
+					String data = "Connect success\n waiting for Player2.............";
+					outmsg.write(data.getBytes());
+
+					sc2 = serverSocket.accept();
+					System.out.println("Player2 come in server!!");
+					in = new ObjectOutputStream(sc2.getInputStream()); 
+					Player obj2  = (Player)in.readObject();
+					outmsg = sc2.getOutputStream();
+					String data = "Connect success";
+					outmsg.write(data.getBytes());
+
+					outmsg = sc1.getOutputStream();
+					String data = "Play2 is ready ";
+					outmsg.write(data.getBytes());
+
 				}
 			}
 			catch(IOException e)
