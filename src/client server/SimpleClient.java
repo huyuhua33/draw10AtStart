@@ -40,13 +40,8 @@ public class SimpleClient
 		Socket			    client = null;
 		ObjectInputStream 	in = null;
 		ObjectOutputStream 	out = null;
-		InputStream         inmsg = null;
-		OutputStream        outmsg = null;
 		int				    port = 6666;
-		byte []			    buf = new byte[100];
-		int                 count = 0;
-		
-		Scanner scanner = new Scanner(System.in);
+		byte []			    buf = new byte[100];		
 
 			try
 			{
@@ -61,11 +56,9 @@ public class SimpleClient
 					Player player  = new Player(null, null);
 					out.writeObject(player);
 					out.flush();
-					outmsg = client.getOutputStream();
 
 					// Read message from server
-					inmsg = client.getInputStream();
-					inmsg.read(buf);
+					in.read(buf);
 					System.out.println("Receive message: " + new String(buf));
 				
 				

@@ -36,8 +36,6 @@ public class SimpleServer
 		ServerSocket			srverSocket = null;
 		ObjectInputStream		in = null;
 		ObjectOutputStream		out = null;
-		InputStream         	inmsg = null;
-		OutputStream        	outmsg = null;
 		byte []					buf = new byte[100];
 		Socket					sc1 = null;
 		Socket         			 sc2 = null;
@@ -61,22 +59,22 @@ public class SimpleServer
 						in = new ObjectInputStream(new BufferedInputStream(sc1.getInputStream())); 
 						Object obj = in.readObject();
 						Player player1  = (Player)obj;
-						outmsg = sc1.getOutputStream();
-						String data = "Connect success\n waiting for Player2.............";
-						outmsg.write(data.getBytes());
+						out = new ObjectOutputStream(sc1.getOutputStream());
+						String data = "Connect success\n waiting for Player2";
+						out.writeBytes(data);
 
 						sc2 = srverSocket.accept();
 						System.out.println("Player2 come in server!!");
 						in = new ObjectInputStream(new BufferedInputStream(sc2.getInputStream()));
 						obj = in.readObject(); 
 						Player player2  = (Player)obj;
-						outmsg = sc2.getOutputStream();
-						data = "Connect success";
-						outmsg.write(data.getBytes());
+						out = new ObjectOutputStream(sc2.getOutputStream());
+						data = "Connect success\n player1 is in the game";
+						out.writeBytes(data);
 
-						outmsg = sc1.getOutputStream();
-						data = "Play2 is ready ";
-						outmsg.write(data.getBytes());
+						out = new ObjectOutputStream(sc1.getOutputStream());
+						data = "Play2 is in the game ";
+						out.writeBytes(data);
 					}
 					catch (IOException e) 
 					{
@@ -86,12 +84,7 @@ public class SimpleServer
 					{
 						System.err.println(e);
 					}
-
 				}
-			}
-			catch(IOException e)
-			{
-				System.err.println(e);
 			}
 			finally
 			{
