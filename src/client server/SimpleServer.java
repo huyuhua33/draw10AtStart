@@ -5,11 +5,26 @@
 //*  The program creates a socket and waits for request.            *
 //*  2017.08.04                                                     *
 //*******************************************************************
-import java.net.*;
-import java.io.*;
 //import draw10AtStart.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class SimpleServer {
+public class SimpleServer implements Runnable {
+	ServerSocket srverSocket = null;
+	InputStream in = null;
+	OutputStream out = null;
+	byte[] buf = new byte[100];
+	byte[] buf2 = new byte[100];
+	Socket sc1 = null;
+	Socket sc2 = null;
+	int port = 6666;
+	int round = 0;
+	Boolean connected = false;
+	String data;
+
 	public static byte[] intToByteArray(int value) {
 		return new byte[] { (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
 	}
@@ -21,77 +36,101 @@ public class SimpleServer {
 		}
 		return value;
 	}
-	public static void main(String args[])
-	{
-		ServerSocket			srverSocket = null;
-		InputStream				in = null;
-		OutputStream			out = null;
-		byte []					buf = new byte[100];
-		byte []    				buf2 = new byte[100];
-		Socket					sc1 = null;
-		Socket         			sc2 = null;
-		int						port = 6666;
-		int                  	round = 0; 
 
+	public SimpleServer() {
+		Thread t = new Thread(this, "SimpleServer");
+		try {
+			srverSocket = new ServerSocket(port);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		t.start();
+	}
 
+	public void checkDoubleConnection() {
+		while (sc2 == null || sc1 == null) {
+			try {
+				sc1 = srverSocket.accept();
+				System.out.println("Player1 come in server!!");
+				out = sc1.getOutputStream();
+				String data = "Connect success\n waiting for Player2";
+				out.write(data.getBytes());
+				data = "N";
+				out.write(data.getBytes());
+				sc2 = srverSocket.accept();
+				System.out.println("Player2 come in server!!");
+				// in = sc2.getInputStream();
+				// in.read(buf);
+				out = sc2.getOutputStream();
+				data = "Connect success\n player1 is in the game";
+				out.write(data.getBytes());
+				data = "Y";
+				out.write(data.getBytes());
 
+				out = sc1.getOutputStream();
+				data = "Play2 is in the game ";
+				out.write(data.getBytes());
+				data = "Y";
+				out.write(data.getBytes());
+				connected = sc2.isConnected() && sc1.isConnected();
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+	}
+
+	public void battleFildDataTransform(String d) {
+		data = d;
+		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
+			try {
+				in = sc1.getInputStream();
+				in.read(buf);
+
+				String sc1datas = new String(buf);
+				String[] sc1Data = sc1datas.split("/");
+				System.out.println("sc1>>." + sc1Data[4]);
+
+				in = sc2.getInputStream();
+				in.read(buf2);
+				String sc2datas = new String(buf);
+				String[] sc2Data = sc2datas.split("/");
+				System.out.println("sc2>>." + sc2Data[4]);
+
+				int[] speeds = { Integer.parseInt(sc1Data[4]), Integer.parseInt(sc2Data[4]) };
+				if (speeds[0] < speeds[1])// sc1 < sc2
+				{
+					out = sc2.getOutputStream();
+					out.write(buf);// 0,0 update state
+					out = sc1.getOutputStream();
+					out.write(buf2);
+				} else {
+					out = sc1.getOutputStream();
+					out.write(buf2);
+					out = sc2.getOutputStream();
+					out.write(buf);
+
+				}
+				round++;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+
+	}
+
+	@Override
+	public void run() {
 
 		try {
 			// Creates a server socket, bound to the specified port.
-			srverSocket = new ServerSocket(port);
 
 			System.out.println("Waiting for request ...");
 			try {
 				while (true) {
 
-					sc1 = srverSocket.accept();
-					System.out.println("Player1 come in server!!");
-					//in = sc1.getInputStream(); 
-					//in.read(buf);
-					out = sc1.getOutputStream();
-					String data = "Connect success\n waiting for Player2";
-					out.write(data.getBytes());
-					data = "N";
-					out.write(data.getBytes());
-
-					sc2 = srverSocket.accept();
-					System.out.println("Player2 come in server!!");
-					//in = sc2.getInputStream();
-					//in.read(buf); 
-					out = sc2.getOutputStream();
-					data = "Connect success\n player1 is in the game";
-					out.write(data.getBytes());
-					data = "Y";
-					out.write(data.getBytes());
-
-
-					out = sc1.getOutputStream();
-					data = "Play2 is in the game ";
-					out.write(data.getBytes());
-					data = "Y";
-					out.write(data.getBytes());
-
-
-					
-					in = sc1.getInputStream(); 
-					in.read(buf);
-					String datas = new String(buf);
-					String[] tokens = datas.split("/");
-					System.out.println(tokens[4]);
-					out = sc1.getOutputStream();
-					out.write(buf);
-
-					/in = sc2.getInputStream(); 
-					in.read(buf2);
-					datas = new String(buf);
-					tokens = datas.split("/");
-					System.out.println(tokens[4]);
-					out = sc2.getOutputStream();
-					out.write(buf2);
-					round++;
 				}
 
-			} catch (IOException e) {
+			} catch (Exception e) {
 				System.err.println(e);
 			} finally {
 				srverSocket.close();
@@ -99,5 +138,85 @@ public class SimpleServer {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+	}
+
+	public ServerSocket getSrverSocket() {
+		return srverSocket;
+	}
+
+	public void setSrverSocket(ServerSocket srverSocket) {
+		this.srverSocket = srverSocket;
+	}
+
+	public InputStream getIn() {
+		return in;
+	}
+
+	public void setIn(InputStream in) {
+		this.in = in;
+	}
+
+	public OutputStream getOut() {
+		return out;
+	}
+
+	public void setOut(OutputStream out) {
+		this.out = out;
+	}
+
+	public byte[] getBuf() {
+		return buf;
+	}
+
+	public void setBuf(byte[] buf) {
+		this.buf = buf;
+	}
+
+	public byte[] getBuf2() {
+		return buf2;
+	}
+
+	public void setBuf2(byte[] buf2) {
+		this.buf2 = buf2;
+	}
+
+	public Socket getSc1() {
+		return sc1;
+	}
+
+	public void setSc1(Socket sc1) {
+		this.sc1 = sc1;
+	}
+
+	public Socket getSc2() {
+		return sc2;
+	}
+
+	public void setSc2(Socket sc2) {
+		this.sc2 = sc2;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public int getRound() {
+		return round;
+	}
+
+	public void setRound(int round) {
+		this.round = round;
+	}
+
+	public Boolean getConnected() {
+		return connected;
+	}
+
+	public void setConnected(Boolean connected) {
+		this.connected = connected;
 	}
 }
