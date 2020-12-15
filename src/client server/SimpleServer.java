@@ -34,8 +34,8 @@ public class SimpleServer
 	public static void main(String args[])
 	{
 		ServerSocket			srverSocket = null;
-		ObjectInputStream		in = null;
-		ObjectOutputStream		out = null;
+		InputStream		in = null;
+		OutputStream		out = null;
 		byte []					buf = new byte[100];
 		Socket					sc1 = null;
 		Socket         			 sc2 = null;
@@ -52,39 +52,32 @@ public class SimpleServer
 			{
 				while(true)
 				{
-					try
-					{
-						sc1 = srverSocket.accept();
-						System.out.println("Player1 come in server!!");
-						in = new ObjectInputStream(new BufferedInputStream(sc1.getInputStream())); 
-						Object obj = in.readObject();
-						Player player1  = (Player)obj;
-						out = new ObjectOutputStream(sc1.getOutputStream());
-						String data = "Connect success\n waiting for Player2";
-						out.writeBytes(data);
+					
+					sc1 = srverSocket.accept();
+					System.out.println("Player1 come in server!!");
+					in = sc1.getInputStream(); 
+					in.read(buf);
+					out = sc1.getOutputStream();
+					String data = "Connect success\n waiting for Player2";
+					out.write(data.getBytes());
 
-						sc2 = srverSocket.accept();
-						System.out.println("Player2 come in server!!");
-						in = new ObjectInputStream(new BufferedInputStream(sc2.getInputStream()));
-						obj = in.readObject(); 
-						Player player2  = (Player)obj;
-						out = new ObjectOutputStream(sc2.getOutputStream());
-						data = "Connect success\n player1 is in the game";
-						out.writeBytes(data);
+					sc2 = srverSocket.accept();
+					System.out.println("Player2 come in server!!");
+					in = sc2.getInputStream();
+					in.read(buf); 
+					out = sc2.getOutputStream();
+					data = "Connect success\n player1 is in the game";
+					out.write(data.getBytes());
 
-						out = new ObjectOutputStream(sc1.getOutputStream());
-						data = "Play2 is in the game ";
-						out.writeBytes(data);
-					}
-					catch (IOException e) 
-					{
-						System.err.println(e);
-					} 
-					catch(ClassNotFoundException e)
-					{
-						System.err.println(e);
-					}
+					out = sc1.getOutputStream();
+					data = "Play2 is in the game ";
+					out.write(data.getBytes());
 				}
+
+			}
+			catch(IOException e)
+			{
+				System.err.println(e);
 			}
 			finally
 			{

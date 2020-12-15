@@ -38,8 +38,8 @@ public class SimpleClient
 	public static void main(String args[])
 	{
 		Socket			    client = null;
-		ObjectInputStream 	in = null;
-		ObjectOutputStream 	out = null;
+		InputStream 	in = null;
+		OutputStream 	out = null;
 		int				    port = 6666;
 		byte []			    buf = new byte[100];		
 
@@ -50,12 +50,9 @@ public class SimpleClient
 				client = new Socket("127.0.0.1", port);
 
 					// Send message to server
-					out = new ObjectOutputStream(client.getOutputStream());
-					in = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+					out =  client.getOutputStream();
+					in = client.getInputStream();
 					
-					Player player  = new Player(null, null);
-					out.writeObject(player);
-					out.flush();
 
 					// Read message from server
 					in.read(buf);
