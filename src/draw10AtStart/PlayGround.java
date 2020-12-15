@@ -211,6 +211,7 @@ public class PlayGround {
     }
 
     class battleFild {
+        Player[] players;
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         String sourceWay = new String("..\\..\\sprit\\");
         String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
@@ -225,6 +226,8 @@ public class PlayGround {
         String[] petsName = { "Pet1", "Pet2" };
         int[][] petsDirction = { { dirction[2][0] + 57, dirction[2][1] + 27 },
                 { dirction[3][1] + 55, dirction[3][1] + 27 } };
+
+        
         ArrayList<JLabel> lArrayList;
 
         public battleFild(JFrame f) {
