@@ -55,6 +55,7 @@ public class PlayGround {
         // waitingFramGenerate(playFrame);
         battleFild(playFrame);
 
+
     }
 
     private void initFrame(JFrame f) {
@@ -255,8 +256,7 @@ public class PlayGround {
         f.remove(dialogPanel);
         f.add(pann);
         f.add(dialogPanel);
-        f.revalidate();
-        f.setVisible(true);
+       
     }
 
     /* connection listener */
@@ -344,6 +344,18 @@ public class PlayGround {
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
 
+
+        }
+        class updateFrame implements Runnable
+        {
+            public void run()
+            {
+                while(true)
+                {
+                    playFrame.revalidate();
+                    playFrame.setVisible(true);    
+                }
+            }
         }
 
     }
