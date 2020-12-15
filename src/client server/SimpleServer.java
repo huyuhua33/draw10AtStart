@@ -48,12 +48,12 @@ public class SimpleServer implements Runnable {
 	}
 
 	public void checkDoubleConnection() {
-		while (sc2 == null || sc1 == null) {
+		while (!connected) {
 			try {
 				sc1 = srverSocket.accept();
 				System.out.println("Player1 come in server!!");
 				out = sc1.getOutputStream();
-				String data = "Connect success\n waiting for Player2";
+				String data = "Connect success waiting for Player2";
 				out.write(data.getBytes());
 				data = "N";
 				out.write(data.getBytes());
@@ -62,7 +62,7 @@ public class SimpleServer implements Runnable {
 				// in = sc2.getInputStream();
 				// in.read(buf);
 				out = sc2.getOutputStream();
-				data = "Connect success\n player1 is in the game";
+				data = "Connect success player1 is in the game";
 				out.write(data.getBytes());
 				data = "Y";
 				out.write(data.getBytes());
@@ -72,15 +72,17 @@ public class SimpleServer implements Runnable {
 				out.write(data.getBytes());
 				data = "Y";
 				out.write(data.getBytes());
+				System.out.println(sc2.isConnected());
+				System.out.println(sc1.isConnected());
 				connected = sc2.isConnected() && sc1.isConnected();
+
 			} catch (Exception e) {
 				System.err.println(e);
 			}
 		}
 	}
 
-	public void battleFildDataTransform(String d) {
-		data = d;
+	public void battleFildDataTransform() {
 		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
 			try {
 				in = sc1.getInputStream();
@@ -126,8 +128,11 @@ public class SimpleServer implements Runnable {
 
 			System.out.println("Waiting for request ...");
 			try {
-				while (true) {
-
+				while (!connected) {
+					checkDoubleConnection();
+				}
+				while (connected) {
+					battleFildDataTransform();
 				}
 
 			} catch (Exception e) {

@@ -31,7 +31,9 @@ public class PlayGround {
     private JPanel panJpanel;
     private JLabel[] hpBars = { null, null };
 
-    private Player[] players;
+    private Player player;
+
+    private SimpleClient sc;
 
     public PlayGround() {
 
@@ -134,11 +136,10 @@ public class PlayGround {
         public void actionPerformed(ActionEvent event) {
             JTextField user = (JTextField) MainGUIComponent.get(3);
             JTextField pass = (JTextField) MainGUIComponent.get(4);
-            // players[0] = new Player(user.getText(), pass.getText());
+            players = new Player(user.getText(), pass.getText());
             user.setText("");
             pass.setText("");
-            // System.out.println("Log Ac: " + players[0]);
-            // System.out.println("equ " + player == new Player());
+            System.out.println("Log Ac: " + players);
             // playFrame.removeAll();
             playFrame.dispose();
             waitingFrame a = new waitingFrame(playFrame);
@@ -189,7 +190,7 @@ public class PlayGround {
                 // f.setBackground(Color.RED);
                 nLabel.setText("Connected");
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(200);
                 } catch (Exception e) {
                     System.err.println(e);
                 }
@@ -213,9 +214,12 @@ public class PlayGround {
             public void run() {
                 /* simulating connection */
                 try {
-                    Thread.sleep(2000);
+                    sc = new SimpleClient();
                     System.out.println("Connect");
-                    connected = true;
+                    while (!connected) {
+                        System.out.print("getting connection");
+                        connected = sc.getConnected();
+                    }
                 } catch (Exception e) {
                     System.err.println(e);
                 }

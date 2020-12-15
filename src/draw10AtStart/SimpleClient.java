@@ -25,7 +25,8 @@ public class SimpleClient implements Runnable {
 		Thread t = new Thread(this, "SimpleClient");
 		try {
 			client = new Socket("127.0.0.1", port);
-			connected = client.isConnected();
+			checkDoubleConnection();
+			connected = false;
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -46,21 +47,27 @@ public class SimpleClient implements Runnable {
 
 	public void checkDoubleConnection() {
 		try {
-
-			// Send message to server
-
 			in = client.getInputStream();
-
-			while (true) {
-				in.read(buf);
-				System.out.println("Receive message: " + new String(buf));
-				in.read(buf);
-				if (new String(buf).compareTo("Y") == 0)
-					break;
-			}
+			in.read(buf);
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+		while (buf != null) {
+			try {
+				// Send message to server
+				in.read(buf);
+				System.out.println("Receive message: " + new String(buf));
+
+				if (new String(buf).indexOf("Y") != 0) {
+					System.out.println("Y");
+					connected = true;
+					break;
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
 	}
 
 	public String battleFildDataTransform(String d) {
