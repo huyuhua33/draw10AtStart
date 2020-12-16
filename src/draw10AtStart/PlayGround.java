@@ -30,7 +30,6 @@ public class PlayGround {
     private battleFild.Dialog ddialog;
     private JPanel panJpanel;
     private JLabel[] hpBars = { null, null };
-
     private Player player;
 
     private SimpleClient sc;
