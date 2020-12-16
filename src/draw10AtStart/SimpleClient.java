@@ -58,7 +58,7 @@ public class SimpleClient implements Runnable {
 				in.read(buf);
 				System.out.println("Receive message: " + new String(buf));
 
-				if (new String(buf).indexOf("Y") != 0) {
+				if (new String(buf).indexOf("Y") != -1) {
 					System.out.println("Y");
 					connected = true;
 					break;

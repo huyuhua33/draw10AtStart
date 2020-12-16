@@ -216,6 +216,7 @@ public class PlayGround {
                 try {
                     sc = new SimpleClient();
                     System.out.println("Connect");
+                    connected = true;
                     while (!connected) {
                         System.out.println("getting connection" + connected);
                         connected = sc.getConnected();
@@ -258,6 +259,7 @@ public class PlayGround {
 
         public battleFild(JFrame f) {
             f = initFrame(f, "Battlefild");
+            battlePets[0] = (pet) new Monster1("AA", 50, 10, 10, 10, 10);
             lArrayList = new ArrayList<JLabel>();
             f.setLayout(null);
             // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
@@ -287,6 +289,10 @@ public class PlayGround {
                 jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
                 pann.add(jb);
             }
+            JLabel dLabel = new JLabel("Dialog");
+            dLabel.setBounds(50, 320, 100, 20);
+            lArrayList.add(dLabel);
+            pann.add(dLabel);
 
             /* setting dialog words */
             Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
@@ -338,7 +344,10 @@ public class PlayGround {
                 hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO Auto-generate
                 // /
                 System.out.println("btnClick");
+
+                lArrayList.get(1).setText("btn1 clicked");
                 lArrayList.get(0).setText("btn1 clicked");
+                ;
             }
         }
 
@@ -374,7 +383,8 @@ public class PlayGround {
                     w = 0;
                 hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
 
-                lArrayList.get(1).setText("btn2 clicked");
+                lArrayList.get(2).setText("btn2 clicked");
+                lArrayList.get(0).setText("btn2 clicked");
             }
         }
 
@@ -410,7 +420,8 @@ public class PlayGround {
                     w = 0;
                 hpBars[1].setBounds(hpBars[1].getX(), hpBars[1].getY(), w, hpBars[1].getHeight());// TODO Auto-generate
 
-                lArrayList.get(2).setText("btn3 clicked");
+                lArrayList.get(3).setText("btn3 clicked");
+                lArrayList.get(0).setText("btn3 clicked");
             }
         }
 
@@ -446,7 +457,8 @@ public class PlayGround {
                     w = 0;
                 hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO Auto-generate
                 // /
-                lArrayList.get(3).setText("btn4 clicked");
+                lArrayList.get(4).setText("btn4 clicked");
+                lArrayList.get(0).setText("btn4 clicked");
             }
         }
 
