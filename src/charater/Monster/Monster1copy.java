@@ -1,4 +1,7 @@
-//package draw10AtStart;
+package charater.Monster;
+
+import charater.Player.pet;
+import charater.Player.skill;
 
 public class Monster1copy extends pet {
 
