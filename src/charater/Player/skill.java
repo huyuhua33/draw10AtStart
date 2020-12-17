@@ -1,4 +1,4 @@
-//package draw10AtStart;
+package charater.Player;
 
 public class skill {
     private String skillName;

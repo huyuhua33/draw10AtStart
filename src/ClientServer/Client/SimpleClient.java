@@ -1,3 +1,4 @@
+package ClientServer.Client;
 
 //*******************************************************************
 //*  Network Programming - Unit 2 Simple Client and Server          *

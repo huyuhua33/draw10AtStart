@@ -1,5 +1,4 @@
-
-//package draw10AtStart;
+package draw10AtStart;
 import javax.swing.SwingUtilities;
 
 public class Demo {

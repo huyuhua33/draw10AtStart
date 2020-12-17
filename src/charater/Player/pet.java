@@ -1,5 +1,5 @@
+package charater.Player;
 import java.io.Serializable;
-//packge
 import java.util.ArrayList;
 
 public class pet implements Serializable {

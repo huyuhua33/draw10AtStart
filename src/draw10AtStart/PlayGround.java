@@ -1,7 +1,6 @@
-//package draw10AtStart;
+package draw10AtStart;
 
 import java.awt.Color;
-import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import ClientServer.Client.SimpleClient;
+import charater.Monster.Monster1;
+import charater.Player.Player;
+import charater.Player.pet;
 
 public class PlayGround {
     private JFrame playFrame;

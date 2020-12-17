@@ -1,4 +1,4 @@
-//package draw10AtStart;
+package charater.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;

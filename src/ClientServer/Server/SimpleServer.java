@@ -1,3 +1,4 @@
+package ClientServer.Server;
 
 //*******************************************************************
 //*  Network Programming - Unit 2 Simple Client and Server          *
@@ -6,7 +7,7 @@
 //*  2017.08.04                                                     *
 //*******************************************************************
 //import draw10AtStart.*;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
