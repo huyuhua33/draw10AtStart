@@ -1,4 +1,4 @@
-package draw10AtStart;
+package draw10AtStart.PlayGround;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -24,12 +24,9 @@ public class PlayGround {
     private JFrame playFrame;
     private String name[];
     private int att[][];
-    private ArrayList<JComponent> MainGUIComponent;
     private ArrayList<JComponent> WaitingGUIComponent;
 
     private JFrame tmpFrame;
-    private Boolean debug = true;
-    private int selection = 0;
 
     private battleFild.Dialog ddialog;
     private JPanel panJpanel;
@@ -41,25 +38,6 @@ public class PlayGround {
 
     public PlayGround() {
 
-        /*
-         * if (debug) players[0] = new Player("Name", "123");
-         */
-        playFrame = initFrame(playFrame, "login");
-        int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
-                GridBagConstraints.NONE };
-        int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
-                GridBagConstraints.SOUTH, GridBagConstraints.SOUTHWEST, GridBagConstraints.WEST,
-                GridBagConstraints.NORTHWEST, GridBagConstraints.NORTH, GridBagConstraints.NORTHEAST };
-
-        String n[] = { "UserName:", "Password:", "" };
-        int a[][] = { { 0, 0, 1, 1, 0, 0, fill[3], anchor[5] }, { 0, 1, 1, 1, 0, 0, fill[3], anchor[5] },
-                { 0, 2, 1, 1, 0, 0, fill[3], anchor[5] }, { 1, 0, 6, 1, 0, 0, fill[2], anchor[5] },
-                { 1, 1, 6, 1, 0, 0, fill[2], anchor[5] }, { 0, 2, 1, 1, 0, 0, fill[0], anchor[0] } };
-
-        att = a;
-        name = n;
-        MainGUIComponent = new ArrayList<JComponent>();
-        WaitingGUIComponent = new ArrayList<JComponent>();
     }
 
     public void run() {
@@ -81,45 +59,6 @@ public class PlayGround {
         return f;
     }
 
-    private void loginFramGenarate(JFrame f) {
-        // f = initFrame(f, "login");
-        /* setting Connection fram */
-        f.setLayout(new GridBagLayout());
-        /* setting Connection fram */
-
-        /* add component to container */
-        int i;
-        for (i = 0; i < 3; i++) {
-            JLabel nLabel = new JLabel(name[i]);
-            MainGUIComponent.add(nLabel);
-        }
-        for (i = 0; i < 1; i++) {
-            JTextField nUser = new JTextField("", 1);
-            MainGUIComponent.add(nUser);
-        }
-        for (i = 0; i < 1; i++) {
-            JTextField nPass = new JTextField("", 1);
-            MainGUIComponent.add(nPass);
-        }
-        for (i = 0; i < 1; i++) {
-            JButton nButton = new JButton("Login");
-            MainGUIComponent.add(nButton);
-        }
-        for (i = 0; i < MainGUIComponent.size(); i++) {
-            addComponent(i, MainGUIComponent, f);
-        }
-        /* add component to container */
-
-        /* Add Listener */
-
-        JButton b = (JButton) MainGUIComponent.get(5);
-        b.addActionListener(new LoginListenner());
-
-        /* Add Listener */
-        /* show Jfram */
-        f.setVisible(true);
-        /* show Jfram */
-
     }
 
     private void addComponent(int i, ArrayList<JComponent> List, JFrame f) {
@@ -136,18 +75,6 @@ public class PlayGround {
         f.add(List.get(i), c);
     }
 
-    class LoginListenner implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            JTextField user = (JTextField) MainGUIComponent.get(3);
-            JTextField pass = (JTextField) MainGUIComponent.get(4);
-            player = new Player(user.getText(), pass.getText());
-            user.setText("");
-            pass.setText("");
-            System.out.println("Log Ac: " + player);
-            // playFrame.removeAll();
-            playFrame.dispose();
-            waitingFrame a = new waitingFrame(playFrame);
-        }
     }
 
     public void updateFrame(JFrame f, JPanel p, battleFild.Dialog d) {
