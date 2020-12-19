@@ -1,19 +1,29 @@
 package draw10AtStart.PlayGround;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
-public class LoginFram extends JFrame {
-    private ArrayList<JComponent> MainGUIComponent;
+import charater.Player.Player;
+import draw10AtStart.Frame;
+
+public class LoginFram extends Frame {
+    private ArrayList<JComponent> GUIComponent;
     private String name[];
     private int att[][];
-    private JFrame nextFrame;
 
-    public LoginFram() {
+    protected Player nUser;
+
+    public LoginFram(int w, int h,) {
+        super(w, h);
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
         int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
@@ -27,12 +37,8 @@ public class LoginFram extends JFrame {
 
         att = a;
         name = n;
-        MainGUIComponent = new ArrayList<JComponent>();
-    }
+        GUIComponent = new ArrayList<JComponent>();
 
-    private void loginFramGenarate() {
-        // f = initFrame(f, "login");
-        /* setting Connection fram */
         setLayout(new GridBagLayout());
         /* setting Connection fram */
 
@@ -40,43 +46,75 @@ public class LoginFram extends JFrame {
         int i;
         for (i = 0; i < 3; i++) {
             JLabel nLabel = new JLabel(name[i]);
-            MainGUIComponent.add(nLabel);
+            GUIComponent.add(nLabel);
         }
         for (i = 0; i < 1; i++) {
             JTextField nUser = new JTextField("", 1);
-            MainGUIComponent.add(nUser);
+            GUIComponent.add(nUser);
         }
         for (i = 0; i < 1; i++) {
             JTextField nPass = new JTextField("", 1);
-            MainGUIComponent.add(nPass);
+            GUIComponent.add(nPass);
         }
         for (i = 0; i < 1; i++) {
             JButton nButton = new JButton("Login");
-            MainGUIComponent.add(nButton);
+            GUIComponent.add(nButton);
         }
-        for (i = 0; i < MainGUIComponent.size(); i++) {
-            addComponent(i, MainGUIComponent, f);
+        for (i = 0; i < GUIComponent.size(); i++) {
+            addComponent(i, GUIComponent, this);
         }
         /* add component to container */
 
         /* Add Listener */
 
-        JButton b = (JButton) MainGUIComponent.get(5);
+        JButton b = (JButton) GUIComponent.get(5);
         b.addActionListener(new LoginListenner());
 
         /* Add Listener */
         /* show Jfram */
         setVisible(true);
-        /* show Jfram */
+    }
+
+    private void addComponent(int i, ArrayList<JComponent> List, JFrame f) {
+        GridBagConstraints c = new GridBagConstraints();
+        int a[] = att[i];
+        c.gridx = a[0];
+        c.gridy = a[1];
+        c.gridwidth = a[2];
+        c.gridheight = a[3];
+        c.weightx = a[4];
+        c.weighty = a[5];
+        c.fill = a[6];
+        c.anchor = a[7];
+        f.add(List.get(i), c);
     }
 
     class LoginListenner implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            JTextField user = (JTextField) MainGUIComponent.get(3);
-            JTextField pass = (JTextField) MainGUIComponent.get(4);
+            JTextField user = (JTextField) GUIComponent.get(3);
+            JTextField pass = (JTextField) GUIComponent.get(4);
+            nUser = new Player(user.getText(), pass.getText());
             user.setText("");
             pass.setText("");
             // playFrame.removeAll()
         }
+    }
+
+    @Override
+    public void frameUpdate() {
+        super.frameUpdate();// TODO Auto-generated method stub
+    }
+
+    @Override
+    public Frame frameChanging() {
+
+    }
+
+    public Player getnUser() {
+        return nUser;
+    }
+
+    public void setnUser(Player nUser) {
+        this.nUser = nUser;
     }
 }

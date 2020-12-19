@@ -41,7 +41,7 @@ public class PlayGround {
     }
 
     public void run() {
-        loginFramGenarate(playFrame);
+        loginFram(playFrame);
         // waitingFramGenerate(playFrame);
 
     }
