@@ -9,7 +9,7 @@ import draw10AtStart.Frame;
 public class LoginFrame extends Frame{
     
     @Override
-    public void frameUpdate(ArrayList<JComponent> frameComp) {
+    public void frameUpdate() {
         // TODO Auto-generated method stub
         for(JComponent n : getComponentCount())
         {
