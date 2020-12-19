@@ -22,8 +22,8 @@ public class LoginFram extends Frame {
 
     protected Player nUser;
 
-    public LoginFram(int w, int h,) {
-        super(w, h);
+    public LoginFram(int w, int h, Frame nFrame) {
+        super(w, h, nFrame);
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
         int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
