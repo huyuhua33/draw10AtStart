@@ -13,15 +13,15 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import ClientServer.Client.SimpleClient;
 import charater.Monster.Monster1;
 import charater.Player.Player;
 import charater.Player.pet;
+import draw10AtStart.PlayGround.LoginFrame.LoginFrame;
 
 public class PlayGround {
-    private JFrame playFrame;
+    private Frame playFrame;
     private String name[];
     private int att[][];
     private ArrayList<JComponent> WaitingGUIComponent;
@@ -35,13 +35,15 @@ public class PlayGround {
 
     private SimpleClient sc;
     private pet[] battlePets = { null, null };
+    private int w = 580;
+    private int h = 570;
 
     public PlayGround() {
 
     }
 
     public void run() {
-        loginFram(playFrame);
+        playFrame = new LoginFrame(w, h, null);
         // waitingFramGenerate(playFrame);
 
     }
@@ -59,7 +61,7 @@ public class PlayGround {
         return f;
     }
 
-    }
+    
 
     private void addComponent(int i, ArrayList<JComponent> List, JFrame f) {
         GridBagConstraints c = new GridBagConstraints();
@@ -75,7 +77,7 @@ public class PlayGround {
         f.add(List.get(i), c);
     }
 
-    }
+    
 
     public void updateFrame(JFrame f, JPanel p, battleFild.Dialog d) {
         if (f.getComponentCount() > 1) {

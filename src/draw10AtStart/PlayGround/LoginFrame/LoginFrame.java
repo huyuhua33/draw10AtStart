@@ -1,4 +1,4 @@
-package draw10AtStart.PlayGround;
+package draw10AtStart.PlayGround.LoginFrame;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,16 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import charater.Player.Player;
-import draw10AtStart.Frame;
+import draw10AtStart.PlayGround.Frame;
 
-public class LoginFram extends Frame {
+public class LoginFrame extends Frame {
     private ArrayList<JComponent> GUIComponent;
     private String name[];
     private int att[][];
 
     protected Player nUser;
 
-    public LoginFram(int w, int h, Frame nFrame) {
+    public LoginFrame(int w, int h, Frame nFrame) {
         super(w, h, nFrame);
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
@@ -103,11 +103,6 @@ public class LoginFram extends Frame {
     @Override
     public void frameUpdate() {
         super.frameUpdate();// TODO Auto-generated method stub
-    }
-
-    @Override
-    public Frame frameChanging() {
-
     }
 
     public Player getnUser() {
