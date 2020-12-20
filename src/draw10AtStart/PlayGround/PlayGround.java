@@ -24,7 +24,7 @@ public class PlayGround {
     private Frame playFrame;
     private String name[];
     private int att[][];
-    private ArrayList<JComponent> WaitingGUIComponent;
+  
 
     private JFrame tmpFrame;
 
@@ -88,90 +88,7 @@ public class PlayGround {
         f.add(d);
     }
 
-    class waitingFrame {
-        private waitingFrame(JFrame f) {
-            f = initFrame(f, "waiting");
-            GridBagLayout ly = new GridBagLayout();
-            f.setBackground(Color.RED);
-            f.setLayout(null);
-            String n[] = { /* players[0].getName() */"123", "NowWaiting..." };
-            int a[][] = { { 0, 0, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST },
-
-                    { 0, 1, 1, 1, 0, 0, GridBagConstraints.NONE, GridBagConstraints.WEST } };
-            for (int i = 0; i < 2; i++) {
-                JLabel nLabel = new JLabel(n[i]);
-                WaitingGUIComponent.add(nLabel);
-            }
-            for (int i = 0; i < WaitingGUIComponent.size(); i++) {
-                addComponent(i, WaitingGUIComponent, f);
-            }
-
-            ConnectionListener CL = new ConnectionListener("connect");
-            while (!CL.isConnected()) {
-                try {
-                    Thread.sleep(200);
-                } catch (Exception e) {
-                    System.err.print(e);
-                    // TODO: handle exception
-                }
-
-                // System.out.println("wait for connecting");
-
-            }
-            if (CL.isConnected()) {
-                JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
-                // f.setBackground(Color.RED);
-                nLabel.setText("Connected");
-                try {
-                    Thread.sleep(200);
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-                battleFild nfFild = new battleFild(playFrame);
-            }
-
-        }
-
-        /* connection listener */
-        class ConnectionListener implements Runnable {
-            boolean connected = false;
-            Thread n = null;
-
-            private ConnectionListener(String name) {
-                n = new Thread(this, name);
-                n.start();
-                // setting socket and connection
-            }
-
-            @Override
-            public void run() {
-                /* simulating connection */
-                try {
-                    sc = new SimpleClient();
-                    System.out.println("Connect");
-                    connected = true;
-                    while (!connected) {
-                        System.out.println("getting connection" + connected);
-                        connected = sc.getConnected();
-                    }
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-                /* simulating connection */
-            }
-
-            public boolean isConnected() {
-                return connected;
-            }
-
-            public void setConnected(boolean connected) {
-                this.connected = connected;
-            }
-
-        }
-
-    }
-
+    
     class battleFild {
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         String sourceWay = new String("..\\..\\sprit\\");

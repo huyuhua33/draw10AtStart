@@ -1,17 +1,8 @@
 package ClientServer.Client;
 
-//*******************************************************************
-//*  Network Programming - Unit 2 Simple Client and Server          *
-//*  Program Name: SimpleClient2                                     *
-//*  The program connects to server and send/receive message.       *
-//*  The program gets the server IP from args[0].                   *
-//*  2017.08.04                                                     *
-//*******************************************************************
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class SimpleClient implements Runnable {
 	Socket client = null;
@@ -75,7 +66,7 @@ public class SimpleClient implements Runnable {
 		data = d;
 		if (connected) {
 			try {
-				data = "A"+"/"+ Integer.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action type + num + name + hp + speed//
+				//data = "A"+"/"+ Integer.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action type + num + name + hp + speed//
 				out = client.getOutputStream();
 				out.write(data.getBytes());
 				in = client.getInputStream();
