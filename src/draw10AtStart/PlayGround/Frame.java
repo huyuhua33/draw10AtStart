@@ -18,6 +18,7 @@ public abstract class Frame extends JFrame {
             frameComponenList.remove(i);
         }
         frameComponenList.addAll(tmpComponenList);
+        
         revalidate();
     }
 
@@ -33,6 +34,8 @@ public abstract class Frame extends JFrame {
         this.frameSize_weith = w;
         this.frameSize_height = h;
         nextFrame = n;
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public ArrayList<JComponent> getFrameComponenList() {
