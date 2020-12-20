@@ -61,8 +61,6 @@ public class PlayGround {
         return f;
     }
 
-    
-
     private void addComponent(int i, ArrayList<JComponent> List, JFrame f) {
         GridBagConstraints c = new GridBagConstraints();
         int a[] = att[i];
@@ -76,8 +74,6 @@ public class PlayGround {
         c.anchor = a[7];
         f.add(List.get(i), c);
     }
-
-    
 
     public void updateFrame(JFrame f, JPanel p, battleFild.Dialog d) {
         if (f.getComponentCount() > 1) {
