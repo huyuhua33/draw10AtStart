@@ -2,7 +2,7 @@ package draw10AtStart;
 
 import javax.swing.SwingUtilities;
 
-import draw10AtStart.PlayGround.PlayGround;
+import draw10AtStart.PlayGround.*;
 
 public class Demo {
 

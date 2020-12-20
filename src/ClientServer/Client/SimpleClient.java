@@ -75,10 +75,12 @@ public class SimpleClient implements Runnable {
 		data = d;
 		if (connected) {
 			try {
+				data = "A"+"/"+ Integer.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action type + num + name + hp + speed//
 				out = client.getOutputStream();
 				out.write(data.getBytes());
 				in = client.getInputStream();
 				in.read(buf);
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
