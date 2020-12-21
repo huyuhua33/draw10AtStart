@@ -1,8 +1,6 @@
 package draw10AtStart.PlayGround;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,15 +16,15 @@ import ClientServer.Client.SimpleClient;
 import charater.Monster.Monster1;
 import charater.Player.Player;
 import charater.Player.pet;
+import draw10AtStart.PlayGround.Connection.WaitingFrame;
 import draw10AtStart.PlayGround.LoginFrame.LoginFrame;
 
 public class PlayGround {
     private Frame playFrame;
     private String name[];
     private int att[][];
-  
 
-    private JFrame tmpFrame;
+    private Frame tmpFrame;
 
     private battleFild.Dialog ddialog;
     private JPanel panJpanel;
@@ -43,22 +41,10 @@ public class PlayGround {
     }
 
     public void run() {
-        playFrame = new LoginFrame(w, h, null);
+        playFrame = new LoginFrame(w, h);
+
         // waitingFramGenerate(playFrame);
 
-    }
-
-    private JFrame initFrame(JFrame f, String n) {
-        tmpFrame = f;
-
-        f = new JFrame(n);
-        if (tmpFrame != null) {
-            tmpFrame.dispose();
-        }
-        f.setSize(580, 570);
-        f.setResizable(false);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        return f;
     }
 
     private void addComponent(int i, ArrayList<JComponent> List, JFrame f) {
@@ -84,7 +70,6 @@ public class PlayGround {
         f.add(d);
     }
 
-    
     class battleFild {
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
         String sourceWay = new String("..\\..\\sprit\\");
@@ -104,7 +89,6 @@ public class PlayGround {
         ArrayList<JLabel> lArrayList;
 
         public battleFild(JFrame f) {
-            f = initFrame(f, "Battlefild");
             battlePets[0] = (pet) new Monster1("AA", 50, 10, 10, 10, 10);
             lArrayList = new ArrayList<JLabel>();
             f.setLayout(null);

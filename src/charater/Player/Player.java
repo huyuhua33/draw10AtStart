@@ -1,7 +1,15 @@
 package charater.Player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
+
+import charater.Monster.Monster1;
+import charater.Monster.Monster1copy;
+import charater.Monster.Monster1copy2;
+import charater.Monster.Monster1copy3;
+import charater.Monster.Monster1copy4;
+import charater.Monster.Monster1copy5;
+import charater.Monster.Monster1copycat;
 
 public class Player {
     /**
@@ -10,6 +18,7 @@ public class Player {
     private static final long serialVersionUID = 1L;
     private String name;
     private String password;
+    private ArrayList<pet> randPets = new ArrayList<pet>();
     private ArrayList<pet> pets;
 
     // private ArrayList<Pet> pets;
@@ -17,19 +26,31 @@ public class Player {
         this.name = name;
         this.password = passwd;
         pets = new ArrayList<pet>();
-        getRdPets();
+        RdPets();
     }
 
-    public void getRdPets() {
-        pets.add(new Monster1("AA", 50, 10, 10, 10, 10));
-        pets.add(new Monster1copy("BB", 52, 10, 10, 10, 10));
-        pets.add(new Monster1copy3("CC", 53, 3, 10, 10, 10));
-        pets.add(new Monster1copy2("DD", 55, 20, 10, 10, 10));
-        pets.add(new Monster1copy4("EE", 59, 40, 10, 10, 10));
-        pets.add(new Monster1copy5("FF", 60, 51, 10, 10, 10));
-        pets.add(new Monster1copy("GG", 30, 30, 10, 10, 10));
-        pets.add(new Monster1("HH", 90, 82, 10, 10, 10));
-        pets.add(new Monster1copycat("II", 10, 65, 10, 10, 10));
+    private void RdPets() {
+        randPets.add(new Monster1("AA", 50, 10, 10, 10, 10));
+        randPets.add(new Monster1copy("BB", 52, 10, 10, 10, 10));
+        randPets.add(new Monster1copy3("CC", 53, 3, 10, 10, 10));
+        randPets.add(new Monster1copy2("DD", 55, 20, 10, 10, 10));
+        randPets.add(new Monster1copy4("EE", 59, 40, 10, 10, 10));
+        randPets.add(new Monster1copy5("FF", 60, 51, 10, 10, 10));
+        randPets.add(new Monster1copy("GG", 30, 30, 10, 10, 10));
+        randPets.add(new Monster1("HH", 90, 82, 10, 10, 10));
+        randPets.add(new Monster1copycat("II", 10, 65, 10, 10, 10));
+    }
+
+    public void get10RdPets() {
+
+        for (int i = 0; i < pets.size() - 1; i++) {
+            pets.remove(pets.get(0));
+        }
+        for (int i = 0; i < 10; i++) {
+            Random r = new Random();
+            int result = r.nextInt(randPets.size() - 1);
+            pets.add(randPets.get(result));
+        }
     }
 
     public String getName() {

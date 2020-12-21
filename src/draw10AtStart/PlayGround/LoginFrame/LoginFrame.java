@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import charater.Player.Player;
 import draw10AtStart.PlayGround.Frame;
+import draw10AtStart.PlayGround.Connection.WaitingFrame;
 
 public class LoginFrame extends Frame {
     private ArrayList<JComponent> GUIComponent;
@@ -22,8 +23,8 @@ public class LoginFrame extends Frame {
 
     protected Player nUser;
 
-    public LoginFrame(int w, int h, Frame nFrame) {
-        super(w, h, nFrame);
+    public LoginFrame(int w, int h) {
+        super(w, h);
         int fill[] = { GridBagConstraints.BOTH, GridBagConstraints.VERTICAL, GridBagConstraints.HORIZONTAL,
                 GridBagConstraints.NONE };
         int anchor[] = { GridBagConstraints.CENTER, GridBagConstraints.EAST, GridBagConstraints.SOUTHEAST,
@@ -38,7 +39,6 @@ public class LoginFrame extends Frame {
         att = a;
         name = n;
         GUIComponent = new ArrayList<JComponent>();
-
         setLayout(new GridBagLayout());
         /* setting Connection fram */
 
@@ -96,7 +96,9 @@ public class LoginFrame extends Frame {
             nUser = new Player(user.getText(), pass.getText());
             user.setText("");
             pass.setText("");
-            // playFrame.removeAll()
+            frameChanging(new WaitingFrame(LoginFrame.super.getFrameSize_weith(),
+                    LoginFrame.super.getFrameSize_height(), nUser));
+            // payFrame.removeAll()
         }
     }
 

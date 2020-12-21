@@ -1,4 +1,4 @@
-package charater.Player;
+package charater;
 
 public class skill {
     private String skillName;

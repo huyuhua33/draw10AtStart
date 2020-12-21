@@ -1,63 +1,82 @@
 package draw10AtStart.PlayGround.Connection;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import ClientServer.Client.SimpleClient;
 import charater.Player.Player;
 import draw10AtStart.PlayGround.Frame;
 
-public class WaitingFrame extends Frame implements Runnable {
-    private ArrayList<JComponent> WaitingGUIComponent;
+public class WaitingFrame extends Frame {
+    boolean connected = false;
+    Thread n = null;
+    private ArrayList<JComponent> WaitingGUIComponent = new ArrayList<JComponent>();
+    private JPanel[] nPanels = { null, null };
+    private SimpleClient sc;
+    int[] location = { 100, 100, 200, 100 };
+    private boolean start = false;
 
-    public WaitingFrame(int x, int y, Frame nextFrame, Player player) {
-        super(x, y, nextFrame);
-        GridBagLayout ly = new GridBagLayout();
+    public WaitingFrame(int x, int y, Player p) {
+        super(x, y);
         setBackground(Color.RED);
-        setLayout(null);
-        String n[] = { player.getName(), "NowWaiting..." };
+        setLayout(new GridLayout(3, 1));
+        String n[] = { "new", "NowWaiting..." };
         for (int i = 0; i < 2; i++) {
-            JLabel nLabel = new JLabel(n[i]);
-            WaitingGUIComponent.add(nLabel);
+            JPanel np = new JPanel();
+            GridLayout ly = new GridLayout(2, 1);
+            np.setLayout(ly);
+            // np.setBounds(location[0], location[1] * i, location[2], location[3]);
+            nPanels[i] = np;
+            for (int j = 0; j < 2; j++) {
+                JLabel nLabel = new JLabel(n[j]);
+                WaitingGUIComponent.add(nLabel);
+                // nLabel.setBounds(75, 10 * j, 100, 20);
+                np.add(nLabel);
+            }
+            add(np);
+        }
+        for (int i = 0; i < 1; i++) {
+            JButton nButton = new JButton();
+            nButton.addActionListener(new StartBtnListener());
+            // nButton.setBounds(250, 400, 100, 100);
+            WaitingGUIComponent.add(nButton);
         }
 
         ConnectionListener CL = new ConnectionListener("connect");
-        while (!CL.isConnected()) {
-            try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-                System.err.print(e);
-                // TODO: handle exception
-            }
-            // System.out.println("wait for connecting");
-        }
-        if (CL.isConnected()) {
-            JLabel nLabel = (JLabel) WaitingGUIComponent.get(1);
-            // f.setBackground(Color.RED);
-            nLabel.setText("Connected");
-            try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-                System.err.println(e);
-            }
+        JLabel[] user1 = { (JLabel) WaitingGUIComponent.get(0), (JLabel) WaitingGUIComponent.get(1) };
+        JLabel[] user2 = { (JLabel) WaitingGUIComponent.get(0 + 2), (JLabel) WaitingGUIComponent.get(1 + 2) };
+        user1[0].setText(p.getName());
+        user1[1].setText("Connected");
+        user2[0].setText("player 2");// from server
+        setVisible(true);
+    }
 
+    /* connection listener */
+    class StartBtnListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            n.start();// send game start packge to socket
         }
 
     }
 
-    /* connection listener */
     class ConnectionListener implements Runnable {
-        boolean connected = false;
-        Thread n = null;
 
         private ConnectionListener(String name) {
+            sc = new SimpleClient();
             n = new Thread(this, name);
             n.start();
+
             // setting socket and connection
         }
 
@@ -66,11 +85,19 @@ public class WaitingFrame extends Frame implements Runnable {
             /* simulating connection */
             try {
                 System.out.println("Connecting");
-                connected = true;
+                connected = sc.getConnected();
                 while (!connected) {
-                    System.out.println("getting connection" + connected);
+                    // System.out.println("getting connection" + connected);
                     connected = sc.getConnected();
                 }
+                if (connected) {
+                    System.out.println("Connected");
+                    start = sc.gameStart();
+                }
+                if (start) {
+
+                }
+
             } catch (Exception e) {
                 System.err.println(e);
             }
@@ -81,15 +108,9 @@ public class WaitingFrame extends Frame implements Runnable {
             return connected;
         }
 
-        public void setConnected(boolean connected) {
-            this.connected = connected;
+        public void setConnected(boolean c) {
+            connected = c;
         }
-
-    }
-
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
 
     }
 

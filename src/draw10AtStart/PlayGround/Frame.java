@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import draw10AtStart.PlayGround.Connection.WaitingFrame;
+
 public abstract class Frame extends JFrame {
     private ArrayList<JComponent> frameComponenList;
     private ArrayList<JComponent> tmpComponenList;
@@ -18,22 +20,23 @@ public abstract class Frame extends JFrame {
             frameComponenList.remove(i);
         }
         frameComponenList.addAll(tmpComponenList);
-        
+
         revalidate();
     }
 
-    public Frame frameChanging() {
+    public Frame frameChanging(Frame nextFrane) {
         this.setVisible(false);
         this.dispose();
-        return this.nextFrame;
+        return nextFrane;
     }
 
-    public Frame(int w, int h, Frame n) {
+    public Frame(int w, int h) {
+        super();
         this.frameComponenList = new ArrayList<JComponent>();
         this.tmpComponenList = new ArrayList<JComponent>();
         this.frameSize_weith = w;
         this.frameSize_height = h;
-        nextFrame = n;
+        super.setSize(w, h);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

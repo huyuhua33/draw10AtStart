@@ -1,6 +1,9 @@
 package charater.Player;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import charater.skill;
 
 public class pet implements Serializable {
 	String name = "pet"; // name
@@ -10,6 +13,7 @@ public class pet implements Serializable {
 	int defend = 0; // shild
 	int speed = 0; // speed
 	double miss = 0; // hit or miss
+	boolean alive = true;
 	public ArrayList<skill> skillList;
 
 	public int getLife() {
@@ -90,6 +94,7 @@ public class pet implements Serializable {
 			System.out.println(this.name + " die");
 			flag = false;
 		}
+		alive = false;
 		return flag; // got boolean
 	}
 

@@ -83,6 +83,10 @@ public class SimpleServer implements Runnable {
 		}
 	}
 
+	public void gameStart() {
+
+	}
+
 	public void battleFildDataTransform() {
 		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
 			try {

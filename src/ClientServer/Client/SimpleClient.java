@@ -8,17 +8,17 @@ public class SimpleClient implements Runnable {
 	Socket client = null;
 	InputStream in = null;
 	OutputStream out = null;
+	String ip = "127.0.0.1";
 	int port = 6666;
 	byte[] buf = new byte[100];
 	String data;
-	Boolean connected = true;
+	Boolean connected = false;
 
 	public SimpleClient() {
 		Thread t = new Thread(this, "SimpleClient");
 		try {
-			client = new Socket("127.0.0.1", port);
+			client = new Socket(ip, port);
 			checkDoubleConnection();
-			connected = false;
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -44,34 +44,49 @@ public class SimpleClient implements Runnable {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-		while (buf != null) {
-			try {
-				// Send message to server
+		try {
+			// Send message to server
+			do {
 				in.read(buf);
 				System.out.println("Receive message: " + new String(buf));
-
 				if (new String(buf).indexOf("Y") != -1) {
 					System.out.println("Y");
 					connected = true;
-					break;
+					System.out.println("get Connect");
 				}
-			} catch (Exception e) {
-				System.err.println(e);
-			}
+			} while (new String(buf).indexOf("Y") == -1);
+		} catch (
+
+		Exception e) {
+			System.err.println(e);
 		}
 
+	}
+
+	public boolean gameStart() {
+		try {
+			out = client.getOutputStream();
+			data = "send";
+			out.write(data.getBytes());
+			return true;
+		} catch (Exception e) {
+			System.err.println("GameStart err" + e);// TODO: handle exception
+			return false;
+		}
 	}
 
 	public String battleFildDataTransform(String d) {
 		data = d;
 		if (connected) {
 			try {
-				//data = "A"+"/"+ Integer.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action type + num + name + hp + speed//
+				// data = "A"+"/"+
+				// Integer.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action
+				// type + num + name + hp + speed//
 				out = client.getOutputStream();
 				out.write(data.getBytes());
 				in = client.getInputStream();
 				in.read(buf);
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
