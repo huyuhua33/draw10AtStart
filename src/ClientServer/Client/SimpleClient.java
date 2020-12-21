@@ -65,9 +65,16 @@ public class SimpleClient implements Runnable {
 
 	public boolean gameStart() {
 		try {
+			Thread.sleep(600);
 			out = client.getOutputStream();
-			data = "send";
+			data = "GameStart";
 			out.write(data.getBytes());
+
+			do {
+				in = client.getInputStream();
+				in.read(buf);
+			} while (new String(buf).compareTo("gameStart") == 0);
+			System.out.println("GameStart");
 			return true;
 		} catch (Exception e) {
 			System.err.println("GameStart err" + e);// TODO: handle exception

@@ -84,7 +84,25 @@ public class SimpleServer implements Runnable {
 	}
 
 	public void gameStart() {
-
+		try {
+			in = sc1.getInputStream();
+			do {
+				in.read(buf);
+			} while (!(new String(buf).compareTo("GameStart") == 0));
+			System.out.println("sc1 Connected");
+			in = sc2.getInputStream();
+			do {
+				in.read(buf);
+			} while (!(new String(buf).compareTo("GameStart") == 0));
+			System.out.println("sc2 Connected");
+			data = "gameStart";
+			out = sc2.getOutputStream();
+			out.write(data.getBytes());// 0,0 update state
+			out = sc1.getOutputStream();
+			out.write(data.getBytes());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	public void battleFildDataTransform() {
@@ -138,6 +156,7 @@ public class SimpleServer implements Runnable {
 				}
 				while (connected) {
 					battleFildDataTransform();
+					gameStart();
 				}
 
 			} catch (Exception e) {
