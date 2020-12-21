@@ -90,18 +90,19 @@ public class SimpleServer implements Runnable {
 			do {
 				in = sc1.getInputStream();
 				in.read(buf);
-			} while (!(new String(buf).compareTo("GameStart") == 0));
+			} while ( new String(buf).equals("GameStart") );
 			System.out.println("sc1 Connected");
 			in = sc2.getInputStream();
 			do {
 				in.read(buf);
-			} while (!(new String(buf).compareTo("GameStart") == 0));
+			} while (new String(buf).equals("GameStart"));
 			System.out.println("sc2 Connected");
 			data = "gameStart";
 			out = sc2.getOutputStream();
 			out.write(data.getBytes());// 0,0 update state
 			out = sc1.getOutputStream();
 			out.write(data.getBytes());
+			System.out.println("SC" + new String(buf));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
