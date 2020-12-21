@@ -69,7 +69,7 @@ public class SimpleClient implements Runnable {
 			out = client.getOutputStream();
 			data = "GameStart";
 			out.write(data.getBytes());
-
+			System.out.println(data);
 			do {
 				in = client.getInputStream();
 				in.read(buf);

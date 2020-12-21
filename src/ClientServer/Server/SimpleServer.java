@@ -24,6 +24,7 @@ public class SimpleServer implements Runnable {
 	int port = 6666;
 	int round = 0;
 	Boolean connected = false;
+	Boolean start = false;
 	String data;
 
 	public static byte[] intToByteArray(int value) {
@@ -85,8 +86,9 @@ public class SimpleServer implements Runnable {
 
 	public void gameStart() {
 		try {
-			in = sc1.getInputStream();
+			System.out.println("GameStartScanning");
 			do {
+				in = sc1.getInputStream();
 				in.read(buf);
 			} while (!(new String(buf).compareTo("GameStart") == 0));
 			System.out.println("sc1 Connected");
@@ -153,10 +155,14 @@ public class SimpleServer implements Runnable {
 			try {
 				while (!connected) {
 					checkDoubleConnection();
+
 				}
-				while (connected) {
-					battleFildDataTransform();
+				while (connected && !start) {
 					gameStart();
+
+				}
+				while (connected && start) {
+					battleFildDataTransform();
 				}
 
 			} catch (Exception e) {
