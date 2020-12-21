@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
+
 public class SimpleServer implements Runnable {
 	ServerSocket srverSocket = null;
 	InputStream in = null;
@@ -103,6 +105,7 @@ public class SimpleServer implements Runnable {
 			out = sc1.getOutputStream();
 			out.write(data.getBytes());
 			System.out.println("SC" + new String(buf));
+			start = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -151,7 +154,6 @@ public class SimpleServer implements Runnable {
 
 		try {
 			// Creates a server socket, bound to the specified port.
-
 			System.out.println("Waiting for request ...");
 			try {
 				while (!connected) {
