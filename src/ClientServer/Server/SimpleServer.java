@@ -112,28 +112,7 @@ public class SimpleServer implements Runnable {
 	}
 
 	public void battleFildDataTransform() {
-		/** exchange monster name */
-
-		/** get double frame */
-
-			/** compare two frame to decide which go first */
-
-			/** send frame to client */
-			/** update frame request */
-			/** get update */
-			/** exchange update */
-			/** alive or not */
-			/** if die: pop out, if not: go down */
-
-			/** send frame to client */
-			/** update frame request */
-			/** get update */
-			/** exchange update */
-			/** alive or not */
-			/** if die: pop out, if not: go down */
-			/** back to compare */
-			
-		
+	
 
 		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
 			try {
@@ -145,7 +124,7 @@ public class SimpleServer implements Runnable {
 
 				out = sc1.getOutputStream();
 				out.write(buf2);
-				
+
 				out = sc2.getOutputStream();
 				out.write(buf);
 

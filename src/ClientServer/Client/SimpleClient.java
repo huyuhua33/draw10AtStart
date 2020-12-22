@@ -90,8 +90,7 @@ public class SimpleClient implements Runnable {
 		data = d;
 		if (connected) {
 			try {
-				 //data = "A"+"/"+
-				 //nteger.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action
+				 //data = Integer.toString(200) + "/" + Integer.toString(20) + "/" + "AAA" + "/" + "A" + "/" + Integer.toString(100);//action
 				 //hp + speed + name + type + num   //
 				out = client.getOutputStream();
 				out.write(data.getBytes());
@@ -101,7 +100,7 @@ public class SimpleClient implements Runnable {
 				datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2], sc1Data[3], Integer.parseInt(sc1Data[4]));
 				
 				System.out.println("sc1>>." + sc1Data[4]);
-				/**state update **/
+
 				
 
 			} catch (Exception e) {
