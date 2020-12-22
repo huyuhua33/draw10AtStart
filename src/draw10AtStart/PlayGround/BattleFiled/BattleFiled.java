@@ -20,9 +20,9 @@ import draw10AtStart.PlayGround.Frame;
 
 public class BattleFiled extends Frame {
     private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
-    private String sourceWay = new String("..\\..\\..\\..\\sprit\\");
-    private String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
-            "dialog.jpg" };
+    private String sourceWay = new String("..\\..\\..\\..\\sprit");
+    private String[] filesPath = { "\\monster\\battle_background.jpg", "\\monster\\battle_background.jpg",
+            "\\hp\\hp0_right.jpg", "\\hp\\hp0_left.jpg", "\\dialog\\dialog.jpg" };
     private int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
             { 50, 30, 230, 100 } };
 
@@ -49,7 +49,7 @@ public class BattleFiled extends Frame {
         battlePets[1] = (pet) new Monster1copycat("cc", 10, 50, 30, 70, 70);
 
         lArrayList = new ArrayList<JLabel>();
-        this.setLayout(new GridLayout(1, 2));
+        this.setLayout(new GridLayout(2, 1));
         // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
 
         BattleIcon nIcon = new BattleIcon();
@@ -148,10 +148,10 @@ public class BattleFiled extends Frame {
             setLayout(null);
             setName("name");
             dialogBack = new ImageIcon(fileLocate);
-            // JLabel bG = new JLabel();
-            // bG.setOpaque(false);
-            // bG.setIcon(dialogBack);
-            // bG.setBounds(0, 0, 570, 120);
+            JLabel bG = new JLabel();
+            bG.setOpaque(false);
+            bG.setIcon(dialogBack);
+            bG.setBounds(0, 0, 570, 120);
             int i = 0;
             JButton nButton = new JButton(n[i]);
             nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
