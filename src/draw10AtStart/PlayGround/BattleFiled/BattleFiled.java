@@ -59,10 +59,8 @@ public class BattleFiled extends Frame {
         dialogPanel.setBounds(0, this.getHeight() - 200, this.getWidth(), 250);
         String testWords = new String("waiting for battle.");
         // f.add(btf);
-
         /* connection */
         BattleFiledConnector sc = new BattleFiledConnector(null);
-
         add(nIcon);
         add(dialogPanel);
         setVisible(true);
@@ -97,7 +95,6 @@ public class BattleFiled extends Frame {
                     }
                     if (!battlePets[0].isAlive()) {
                         stop = true;
-
                     }
                 } while (!stop);// way to stop
 
@@ -141,9 +138,12 @@ public class BattleFiled extends Frame {
 
     class Dialog extends JPanel {
         private ImageIcon dialogBack;
-        private JPanel selectionPanel;
-        int i = 0;
-        String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
+        private int i = 0;
+        private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
+        private int x = 10;
+        private int y = 10;
+        int[][] dic = { { x, y, 100, 100 }, { x + 145, y, 100, 100 }, { x, y + 65, 100, 100 },
+                { x + 145, y + 65, 100, 100 } };
 
         Dialog(String fileLocate) {
             setLayout(null);
@@ -155,37 +155,34 @@ public class BattleFiled extends Frame {
             bG.setBounds(0, 0, 570, 120);
             int i = 0;
             JButton nButton = new JButton(n[i]);
-            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener1());
             add(nButton);
 
             i = 1;
             nButton = new JButton(n[i]);
-            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener2());
             add(nButton);
 
             i = 2;
             nButton = new JButton(n[i]);
-            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener3());
             add(nButton);
 
             i = 3;
             nButton = new JButton(n[i]);
-            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener4());
             add(nButton);
 
             for (i = 0; i < 4; i++) {
                 JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
-                wordDialog.setBounds(dirction[i][0] + (i % 2 == 0 ? 300 : 280), dirction[i][1], 100, 20);
+                wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
                 add(wordDialog);
                 lArrayList.add(wordDialog);
             }
-
-            // this.add(bG);
-
         }
 
         class petAction {
@@ -218,7 +215,6 @@ public class BattleFiled extends Frame {
             petAction ptac = new petAction();
 
             public bListener1() {
-
             }
 
             @Override
@@ -237,7 +233,7 @@ public class BattleFiled extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                System.out.println("btnClick");
                 lArrayList.get(2).setText("btn2 clicked");
                 lArrayList.get(0).setText("btn2 clicked");
             }
@@ -250,7 +246,7 @@ public class BattleFiled extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                System.out.println("btnClick");
                 lArrayList.get(3).setText("btn3 clicked");
                 lArrayList.get(0).setText("btn3 clicked");
             }
@@ -263,7 +259,7 @@ public class BattleFiled extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                System.out.println("btnClick");
                 lArrayList.get(4).setText("btn4 clicked");
                 lArrayList.get(0).setText("btn4 clicked");
             }
