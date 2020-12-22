@@ -17,7 +17,7 @@ import charater.Player.Player;
 import charater.Player.pet;
 import draw10AtStart.PlayGround.Frame;
 
-public class Battfild extends Frame {
+public class BattleFiled extends Frame {
     private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
     private String sourceWay = new String("..\\..\\sprit\\");
     private String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
@@ -41,7 +41,7 @@ public class Battfild extends Frame {
     private Dialog ddialog;
     private Player player;
 
-    public Battfild(int w, int h) {
+    public BattleFiled(int w, int h) {
         super(w, h);
         // tmp
         battlePets[0] = (pet) new Monster1("AA", 50, 10, 10, 10, 10);
@@ -56,16 +56,16 @@ public class Battfild extends Frame {
         dialogPanel.setBounds(0, this.getHeight() - 200, this.getWidth(), 120);
         String testWords = new String("waiting for battle.");
         // f.add(btf);
-        BattleFildConnector sc = new BattleFildConnector(null);
+        BattleFiledConnector sc = new BattleFiledConnector(null);
         setVisible(true);
     }
 
-    class BattleFildConnector implements Runnable {
+    class BattleFiledConnector implements Runnable {
         SimpleClient nClient;
         String data;
         boolean stop = false;
 
-        public BattleFildConnector(SimpleClient nCli) {
+        public BattleFiledConnector(SimpleClient nCli) {
             Thread t = new Thread();
             nClient = nCli;
             t.start();
@@ -76,6 +76,7 @@ public class Battfild extends Frame {
         public void run() {
             while (true)// before connection is stop
             {
+
                 do {
                     data = nClient.getGuibuf().toString();
                     if (data.charAt(0) == 'A') {
@@ -87,8 +88,9 @@ public class Battfild extends Frame {
                     } else if (data.charAt(0) == 'F') {
 
                     }
-                    if (battlePets[0].isAlive()) {
+                    if (!battlePets[0].isAlive()) {
                         stop = true;
+
                     }
                 } while (!stop);// way to stop
 
@@ -204,6 +206,7 @@ public class Battfild extends Frame {
             }
         }
 
+        //when btn clicked, do change self state
         class bListener1 implements ActionListener {
             petAction ptac = new petAction();
 
