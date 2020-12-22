@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.GridLayout;
 
 import ClientServer.Client.SimpleClient;
 import charater.Monster.Monster1;
@@ -19,7 +20,7 @@ import draw10AtStart.PlayGround.Frame;
 
 public class BattleFiled extends Frame {
     private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
-    private String sourceWay = new String("..\\..\\sprit\\");
+    private String sourceWay = new String("..\\..\\..\\..\\sprit\\");
     private String[] filesPath = { "battle_background.jpg", "battle_background.jpg", "hp0_right.jpg", "hp0_left.jpg",
             "dialog.jpg" };
     private int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
@@ -48,15 +49,20 @@ public class BattleFiled extends Frame {
         battlePets[1] = (pet) new Monster1copycat("cc", 10, 50, 30, 70, 70);
 
         lArrayList = new ArrayList<JLabel>();
-        this.setLayout(null);
+        this.setLayout(new GridLayout(1, 2));
         // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
 
+        BattleIcon nIcon = new BattleIcon();
+        // nIcon.setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
         /* setting dialog words */
         Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
-        dialogPanel.setBounds(0, this.getHeight() - 200, this.getWidth(), 120);
+        // dialogPanel.setBounds(0, this.getHeight() - 200, this.getWidth(), 120);
         String testWords = new String("waiting for battle.");
         // f.add(btf);
         BattleFiledConnector sc = new BattleFiledConnector(null);
+
+        add(nIcon);
+        add(dialogPanel);
         setVisible(true);
     }
 
@@ -139,47 +145,47 @@ public class BattleFiled extends Frame {
         String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
 
         Dialog(String fileLocate) {
-                    setLayout(null);
-                    setName("name");
-                    dialogBack = new ImageIcon(fileLocate);
-                    // JLabel bG = new JLabel();
-                    // bG.setOpaque(false);
-                    // bG.setIcon(dialogBack);
-                    // bG.setBounds(0, 0, 570, 120);
-                    int i = 0;
-                    JButton nButton = new JButton(n[i]);
-                    nButton.setBounds(dic[i][0],  [i][1], 570 / 4, 120 / 2);
-                    nButton.addActionListener(new bListener1());
-                    add(nButton);
-    
-                    i = 1;
-                    nButton = new JButton(n[i]);
-                    nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
-                    nButton.addActionListener(new bListener2());
-                    add(nButton);
-    
-                    i = 2;
-                    nButton = new JButton(n[i]);
-                    nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
-                    nButton.addActionListener(new bListener3());
-                    add(nButton);
-    
-                    i = 3;
-                    nButton = new JButton(n[i]);
-                    nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
-                    nButton.addActionListener(new bListener4());
-                    add(nButton);
-    
-                    for (i = 0; i < 4; i++) {
-                        JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
-                        wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
-                        add(wordDialog);
-                        lArrayList.add(wordDialog);
-                    }
-    
-                    // this.add(bG);
-    
-                }
+            setLayout(null);
+            setName("name");
+            dialogBack = new ImageIcon(fileLocate);
+            // JLabel bG = new JLabel();
+            // bG.setOpaque(false);
+            // bG.setIcon(dialogBack);
+            // bG.setBounds(0, 0, 570, 120);
+            int i = 0;
+            JButton nButton = new JButton(n[i]);
+            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(new bListener1());
+            add(nButton);
+
+            i = 1;
+            nButton = new JButton(n[i]);
+            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(new bListener2());
+            add(nButton);
+
+            i = 2;
+            nButton = new JButton(n[i]);
+            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(new bListener3());
+            add(nButton);
+
+            i = 3;
+            nButton = new JButton(n[i]);
+            nButton.setBounds(dirction[i][0], dirction[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(new bListener4());
+            add(nButton);
+
+            for (i = 0; i < 4; i++) {
+                JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
+                wordDialog.setBounds(dirction[i][0] + (i % 2 == 0 ? 300 : 280), dirction[i][1], 100, 20);
+                add(wordDialog);
+                lArrayList.add(wordDialog);
+            }
+
+            // this.add(bG);
+
+        }
 
         class petAction {
 
@@ -206,7 +212,7 @@ public class BattleFiled extends Frame {
             }
         }
 
-        //when btn clicked, do change self state
+        // when btn clicked, do change self state
         class bListener1 implements ActionListener {
             petAction ptac = new petAction();
 
