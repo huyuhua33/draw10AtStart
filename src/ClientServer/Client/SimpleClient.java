@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import ClientServer.Data_frame;
+
 public class SimpleClient implements Runnable {
 	Socket client = null;
 	InputStream in = null;
@@ -13,6 +15,7 @@ public class SimpleClient implements Runnable {
 	byte[] buf = new byte[100];
 	String data;
 	Boolean connected = false;
+	Data_frame datf;
 
 	public SimpleClient() {
 		Thread t = new Thread(this, "SimpleClient");
@@ -88,11 +91,17 @@ public class SimpleClient implements Runnable {
 			try {
 				 //data = "A"+"/"+
 				 //nteger.toString(20)+"/"+"monster"+Integer.toString(200)+"/"+Integer.toString(10);//action
-				 //type + num + name + hp + speed//
+				 //hp + speed + name + type + num   //
 				out = client.getOutputStream();
 				out.write(data.getBytes());
 				in = client.getInputStream();
 				in.read(buf);
+				String[] sc1Data = new String(buf).split("/");
+				datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2], sc1Data[3], Integer.parseInt(sc1Data[4]));
+				
+				System.out.println("sc1>>." + sc1Data[4]);
+				/**state update **/
+				
 
 			} catch (Exception e) {
 				// TODO: handle exception

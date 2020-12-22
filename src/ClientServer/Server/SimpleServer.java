@@ -112,35 +112,43 @@ public class SimpleServer implements Runnable {
 	}
 
 	public void battleFildDataTransform() {
+		/** exchange monster name */
+
+		/** get double frame */
+
+			/** compare two frame to decide which go first */
+
+			/** send frame to client */
+			/** update frame request */
+			/** get update */
+			/** exchange update */
+			/** alive or not */
+			/** if die: pop out, if not: go down */
+
+			/** send frame to client */
+			/** update frame request */
+			/** get update */
+			/** exchange update */
+			/** alive or not */
+			/** if die: pop out, if not: go down */
+			/** back to compare */
+			
+		
+
 		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
 			try {
 				in = sc1.getInputStream();
 				in.read(buf);
 
-				String sc1datas = new String(buf);
-				String[] sc1Data = sc1datas.split("/");
-				System.out.println("sc1>>." + sc1Data[4]);
-
 				in = sc2.getInputStream();
 				in.read(buf2);
-				String sc2datas = new String(buf);
-				String[] sc2Data = sc2datas.split("/");
-				System.out.println("sc2>>." + sc2Data[4]);
 
-				int[] speeds = { Integer.parseInt(sc1Data[4]), Integer.parseInt(sc2Data[4]) };
-				if (speeds[0] < speeds[1])// sc1 < sc2
-				{
-					out = sc2.getOutputStream();
-					out.write(buf);// 0,0 update state
-					out = sc1.getOutputStream();
-					out.write(buf2);
-				} else {
-					out = sc1.getOutputStream();
-					out.write(buf2);
-					out = sc2.getOutputStream();
-					out.write(buf);
+				out = sc1.getOutputStream();
+				out.write(buf2);
+				
+				out = sc2.getOutputStream();
+				out.write(buf);
 
-				}
 				round++;
 			} catch (Exception e) {
 				// TODO: handle exception
