@@ -13,6 +13,7 @@ public class SimpleClient implements Runnable {
 	String ip = "127.0.0.1";
 	int port = 6666;
 	byte[] buf = new byte[100];
+	byte[] Guibuf = new byte[100];
 	String data;
 	Boolean connected = false;
 	Data_frame datf;
@@ -180,4 +181,21 @@ public class SimpleClient implements Runnable {
 	public void setConnected(Boolean connected) {
 		this.connected = connected;
 	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public byte[] getGuibuf() {
+		return Guibuf;
+	}
+
+	public void setGuibuf(byte[] guibuf) {
+		Guibuf = guibuf;
+	}
+
 }

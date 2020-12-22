@@ -115,5 +115,45 @@ public class pet implements Serializable {
 	}
 
 	public void askill() {
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getLife_MAX() {
+		return life_MAX;
+	}
+
+	public void setLife_MAX(int life_MAX) {
+		this.life_MAX = life_MAX;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+
+	public ArrayList<skill> getSkillList() {
+		return skillList;
+	}
+
+	public void setSkillList(ArrayList<skill> skillList) {
+		this.skillList = skillList;
 	};
 }
