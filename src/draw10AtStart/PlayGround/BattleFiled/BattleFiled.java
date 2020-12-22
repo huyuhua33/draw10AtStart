@@ -20,13 +20,13 @@ import draw10AtStart.PlayGround.Frame;
 
 public class BattleFiled extends Frame {
     private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
-    private String sourceWay = new String("..\\..\\..\\..\\sprit");
+    private String sourceWay = new String("sprit");
     private String[] filesPath = { "\\monster\\battle_background.jpg", "\\monster\\battle_background.jpg",
-            "\\hp\\hp0_right.jpg", "\\hp\\hp0_left.jpg", "\\dialog\\dialog.jpg" };
+            "\\healthBar\\hp0_right.jpg", "\\healthBar\\hp0_left.jpg", "\\dialog\\dialog.jpg" };
     private int[][] dirction = { { 400, 50, 100, 100 }, { 50, 200, 100, 100 }, { 300, 210, 230, 100 },
             { 50, 30, 230, 100 } };
 
-    private String[] hpBar = { "full-hp.jpg", "half-hp.jpg", "non-hp.jpg" };
+    private String[] hpBar = { "\\healthBar\\full-hp.jpg", "\\healthBar\\half-hp.jpg", "\\healthBar\\non-hp.jpg" };
     private int[][] hpBarDirction = { { dirction[2][0] + 65, dirction[2][1] + 47, 99, 4 },
             { dirction[3][1] + 65, dirction[3][1] + 47, 99, 4 } };
     private String[] petsName = { "Pet1", "Pet2" };
@@ -49,16 +49,18 @@ public class BattleFiled extends Frame {
         battlePets[1] = (pet) new Monster1copycat("cc", 10, 50, 30, 70, 70);
 
         lArrayList = new ArrayList<JLabel>();
-        this.setLayout(new GridLayout(2, 1));
+        this.setLayout(null);
         // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
 
         BattleIcon nIcon = new BattleIcon();
-        // nIcon.setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
+        nIcon.setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
         /* setting dialog words */
         Dialog dialogPanel = new Dialog(sourceWay + filesPath[4]);
-        // dialogPanel.setBounds(0, this.getHeight() - 200, this.getWidth(), 120);
+        dialogPanel.setBounds(0, this.getHeight() - 200, this.getWidth(), 250);
         String testWords = new String("waiting for battle.");
         // f.add(btf);
+
+        /* connection */
         BattleFiledConnector sc = new BattleFiledConnector(null);
 
         add(nIcon);
@@ -82,7 +84,6 @@ public class BattleFiled extends Frame {
         public void run() {
             while (true)// before connection is stop
             {
-
                 do {
                     data = nClient.getGuibuf().toString();
                     if (data.charAt(0) == 'A') {
