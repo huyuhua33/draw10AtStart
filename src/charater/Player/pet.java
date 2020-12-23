@@ -59,7 +59,10 @@ public class pet implements Serializable {
 				hurt = attack - defend;
 				if (hurt < 0)
 					hurt = 0;
-				defend = defend - attack;
+				if(defend - attack < 0)
+					defend = 0;
+				else 
+					defend = defend - attack;
 			}
 			residue_life = life - hurt; // count hp left
 			System.out.println("\n" + this.name + "got " + hurt + " damage");// print atk got
