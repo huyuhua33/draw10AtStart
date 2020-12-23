@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import ClientServer.Client.SimpleClient;
 import charater.Player.Player;
 import draw10AtStart.PlayGround.Frame;
+import draw10AtStart.PlayGround.BattleFiled.BattleFiled;
 
 public class WaitingFrame extends Frame {
     boolean connected = false;
@@ -95,7 +96,8 @@ public class WaitingFrame extends Frame {
                     start = sc.gameStart();
                 }
                 if (start) {
-
+                    frameChanging(new BattleFiled(WaitingFrame.super.getFrameSize_weith(),
+                            WaitingFrame.super.getFrameSize_height(), sc));
                 }
 
             } catch (Exception e) {

@@ -30,15 +30,15 @@ public class Player {
     }
 
     private void RdPets() {
-        randPets.add(new Monster1("AA", 50, 10, 10, 10, 10));
-        randPets.add(new Monster1copy("BB", 52, 10, 10, 10, 10));
-        randPets.add(new Monster1copy3("CC", 53, 3, 10, 10, 10));
-        randPets.add(new Monster1copy2("DD", 55, 20, 10, 10, 10));
-        randPets.add(new Monster1copy4("EE", 59, 40, 10, 10, 10));
-        randPets.add(new Monster1copy5("FF", 60, 51, 10, 10, 10));
-        randPets.add(new Monster1copy("GG", 30, 30, 10, 10, 10));
-        randPets.add(new Monster1("HH", 90, 82, 10, 10, 10));
-        randPets.add(new Monster1copycat("II", 10, 65, 10, 10, 10));
+        randPets.add(new Monster1("AA"));
+        randPets.add(new Monster1copy("BB"));
+        randPets.add(new Monster1copy3("CC"));
+        randPets.add(new Monster1copy2("DD"));
+        randPets.add(new Monster1copy4("EE"));
+        randPets.add(new Monster1copy5("FF"));
+        randPets.add(new Monster1copy("GG"));
+        randPets.add(new Monster1("HH"));
+        randPets.add(new Monster1copycat("II"));
     }
 
     public void get10RdPets() {

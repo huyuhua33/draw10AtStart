@@ -90,18 +90,19 @@ public class SimpleClient implements Runnable {
 		data = d;
 		if (connected) {
 			try {
-				 //data = Integer.toString(200) + "/" + Integer.toString(20) + "/" + "AAA" + "/" + "A" + "/" + Integer.toString(100);//action
-				 //hp + speed + name + type + num   //
+				// data = Integer.toString(200) + "/" + Integer.toString(20) + "/" + "AAA" + "/"
+				// + "A" + "/" + Integer.toString(100);//action
+				// hp + speed + name + type + num //
 				out = client.getOutputStream();
 				out.write(data.getBytes());
 				in = client.getInputStream();
 				in.read(buf);
 				String[] sc1Data = new String(buf).split("/");
-				datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2], sc1Data[3], Integer.parseInt(sc1Data[4]));
-				
+				if (!sc1Data[0].equals("C"))
+					datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2],
+							sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5],
+							Integer.parseInt(sc1Data[6]));
 				System.out.println("sc1>>." + sc1Data[4]);
-
-				
 
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -195,6 +196,14 @@ public class SimpleClient implements Runnable {
 
 	public void setGuibuf(byte[] guibuf) {
 		Guibuf = guibuf;
+	}
+
+	public Data_frame getDatf() {
+		return datf;
+	}
+
+	public void setDatf(Data_frame datf) {
+		this.datf = datf;
 	}
 
 }

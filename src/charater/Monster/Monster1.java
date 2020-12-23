@@ -8,8 +8,8 @@ public class Monster1 extends pet {
     skill[] skillInfo = { new skill("A", "A", 10), new skill("AB", "A", 50), new skill("C", "H", 10),
             new skill("D", "R", 10) };
 
-    public Monster1(String name, int life_MAX, int attack, int defend, int speed, double miss) {
-        super(name, life_MAX, attack, defend, speed, miss);
+    public Monster1(String name) {
+        super(name, 50, 50, 50, 50, 50);
 
         askill();
     }
@@ -19,6 +19,14 @@ public class Monster1 extends pet {
         for (skill i : skillInfo) {
             super.skillList.add(i);
         }
+    }
+
+    public skill[] getSkillInfo() {
+        return skillInfo;
+    }
+
+    public void setSkillInfo(skill[] skillInfo) {
+        this.skillInfo = skillInfo;
     }
 
 }

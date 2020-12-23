@@ -6,17 +6,18 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.GridLayout;
 
+import ClientServer.Data_frame;
 import ClientServer.Client.SimpleClient;
+import charater.skill;
 import charater.Monster.Monster1;
 import charater.Monster.Monster1copycat;
 import charater.Player.Player;
 import charater.Player.pet;
 import draw10AtStart.PlayGround.Frame;
+import charater.Monster.*;
 
 public class BattleFiled extends Frame {
     private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
@@ -35,21 +36,35 @@ public class BattleFiled extends Frame {
 
     /* 可變更變數 */
     private ArrayList<JLabel> lArrayList;
-    private JLabel[] hpBars = { null, null };
+    private ArrayList<JLabel> petUiList;
+    private JLabel[] hpBars = { null, null, null, null };
     private pet[] battlePets = { null, null };
 
     private int att[][];
     private Dialog ddialog;
     private Player player;
+    Double caculated;
+    private String sendData;
+    protected SimpleClient nClient;
+    protected skill[] skillList = new skill[4];
+    petAction pac;
 
-    public BattleFiled(int w, int h) {
+    public BattleFiled(int w, int h, SimpleClient c) {
         super(w, h);
         // tmp
-        battlePets[0] = (pet) new Monster1("AA", 50, 10, 10, 10, 10);
-        battlePets[1] = (pet) new Monster1copycat("cc", 10, 50, 30, 70, 70);
+        battlePets[0] = (pet) new Monster1("AA");
+
+        for (int i = 0; i < 4; i++) {
+            skillList[i] = battlePets[0].skillList.get(i);
+        }
+        player = new Player("A", "b");
+        player.get10RdPets();
+        battlePets[1] = (pet) new Monster1copycat("cc");
 
         lArrayList = new ArrayList<JLabel>();
+        petUiList = new ArrayList<JLabel>();
         this.setLayout(null);
+        pac = new petAction();
         // ArrayList<JComponent> battleFildGUIComponent = new ArrayList<JComponent>();
 
         BattleIcon nIcon = new BattleIcon();
@@ -60,15 +75,108 @@ public class BattleFiled extends Frame {
         String testWords = new String("waiting for battle.");
         // f.add(btf);
         /* connection */
-        BattleFiledConnector sc = new BattleFiledConnector(null);
+        BattleFiledConnector sc = new BattleFiledConnector(c);
+        sendData = 0 + "/" + 0 + "/" + player.getPets().get(0).getName() + "/" + "C" + "/" + 0 + "/" + "Monster1" + "/"
+                + 0;
+        nClient.battleFildDataTransform(sendData);
+
         add(nIcon);
         add(dialogPanel);
         setVisible(true);
     }
 
+    class petAction {
+
+        protected void hpBarSetting(JLabel h, Double w) {
+            if (w < 50.0) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                h.remove(h);
+                h.setIcon(n);
+            }
+            if (w > 50.0) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
+                h.remove(h);
+                h.setIcon(n);
+            }
+            if (w < 20.0) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                h.remove(h);
+                h.setIcon(n);
+            }
+            if (w <= 0)
+                w = 0.0;
+            int n = (int) Math.round(w * h.getWidth());
+            System.out.println(">>" + n);
+            h.setBounds(h.getX(), h.getY(), n, h.getHeight());// TODO //
+            // Auto-generate
+        }
+
+        void analyzingpack(String d, int who) {
+            String[] sc1Data = d.split("/");
+            Data_frame data = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2],
+                    sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5], Integer.parseInt(sc1Data[6]));
+            if (data.getAct_type() == 'A') {// Attack
+                battlePets[(who + 1) % 2].fight(data.getAct_num());
+            }
+            if (data.getAct_type() == 'H') {// region
+                battlePets[who].heal(data.getAct_num());
+            }
+            if (data.getAct_type() == 'R') {// armor up
+                battlePets[who].armerUp(data.getAct_num());
+            }
+            if (data.getAct_type() == 'C') {// change pet
+                battlePets[who] = generatePet(data.getAct_name(), data.getName());
+            }
+            petUiList.get(0).setText(battlePets[0].getName());
+            petUiList.get(1).setText(battlePets[1].getName());
+            caculated = (double) battlePets[0].getLife() / battlePets[0].getLife_MAX();
+            hpBarSetting(hpBars[0], caculated);
+            System.out.println("pet 1" + caculated);
+            hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));
+            caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
+            hpBarSetting(hpBars[1], caculated);
+            hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));
+            System.out.println("pet 2" + caculated);
+
+            System.out.println(data);
+        }
+
+        public pet generatePet(String select, String name) {
+            pet p = null;
+            switch (select) {
+                case "Monster1":
+                    p = new Monster1(name);
+                    break;
+                case "Monster1copy":
+                    p = new Monster1copy(name);
+                    break;
+                case "Monster1copy2":
+                    p = new Monster1copy2(name);
+                    break;
+                case "Monster1copy3":
+                    p = new Monster1copy3(name);
+                    break;
+                case "Monster1copy4":
+                    p = new Monster1copy4(name);
+                    break;
+                case "Monster1copy5":
+                    p = new Monster1copy5(name);
+                    break;
+                case "Monster1copycat":
+                    p = new Monster1copycat(name);
+                    break;
+                default:
+                    p = new Monster1(name);
+                    break;
+            }
+            return p;
+        }
+
+    }
+
     class BattleFiledConnector implements Runnable {
-        SimpleClient nClient;
-        String data;
+
+        Data_frame data;
         boolean stop = false;
 
         public BattleFiledConnector(SimpleClient nCli) {
@@ -78,26 +186,106 @@ public class BattleFiled extends Frame {
             stop = false;
         }
 
+        protected void hpBarSetting(JLabel h, Double w) {
+            if (w < 50.0) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
+                h.remove(h);
+                h.setIcon(n);
+            }
+            if (w > 50.0) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
+                h.remove(h);
+                h.setIcon(n);
+            }
+            if (w < 20.0) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
+                h.remove(h);
+                h.setIcon(n);
+            }
+            if (w <= 0)
+                w = 0.0;
+            int n = (int) Math.round(w * h.getWidth());
+            System.out.println(">>" + n);
+            h.setBounds(h.getX(), h.getY(), n, h.getHeight());// TODO //
+            // Auto-generate
+        }
+
+        public pet generatePet(String select, String name) {
+            pet p = null;
+            switch (select) {
+                case "Monster1":
+                    p = new Monster1(name);
+                    break;
+                case "Monster1copy":
+                    p = new Monster1copy(name);
+                    break;
+                case "Monster1copy2":
+                    p = new Monster1copy2(name);
+                    break;
+                case "Monster1copy3":
+                    p = new Monster1copy3(name);
+                    break;
+                case "Monster1copy4":
+                    p = new Monster1copy4(name);
+                    break;
+                case "Monster1copy5":
+                    p = new Monster1copy5(name);
+                    break;
+                case "Monster1copycat":
+                    p = new Monster1copycat(name);
+                    break;
+                default:
+                    p = new Monster1(name);
+                    break;
+            }
+            return p;
+        }
+
         @Override
         public void run() {
+            /*
+             * Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]),
+             * sc1Data[2], sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5])
+             */
+
             while (true)// before connection is stop
             {
-                do {
-                    data = nClient.getGuibuf().toString();
-                    if (data.charAt(0) == 'A') {
 
-                    } else if (data.charAt(0) == 'H') {
-
-                    } else if (data.charAt(0) == 'R') {
-
-                    } else if (data.charAt(0) == 'F') {
-
+                do {// what enemy do
+                    data = nClient.getDatf();
+                    System.out.println(data);
+                    if (data.getAct_type() == 'A') {// Attack
+                        battlePets[0].fight(data.getAct_num());
                     }
+                    if (data.getAct_type() == 'H') {// region
+                        battlePets[1].heal(data.getAct_num());
+                    }
+                    if (data.getAct_type() == 'R') {// armor up
+                        battlePets[1].armerUp(data.getAct_num());
+                    }
+                    if (data.getAct_type() == 'C') {// change pet
+                        battlePets[1] = generatePet(data.getAct_name(), data.getName());
+                        petUiList.get(1).setText(battlePets[1].getName());
+                    }
+                    petUiList.get(0).setText(battlePets[0].getName());
+                    petUiList.get(1).setText(battlePets[1].getName());
+                    caculated = (double) battlePets[0].getLife() / battlePets[0].getLife_MAX();
+                    hpBarSetting(hpBars[0], caculated);
+                    System.out.println("pet 1" + caculated);
+                    hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));
+                    caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
+                    hpBarSetting(hpBars[1], caculated);
+                    hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));
+                    System.out.println("pet 2" + caculated);
+
+                    System.out.println(data);
                     if (!battlePets[0].isAlive()) {
                         stop = true;
                     }
+                    if (!battlePets[1].isAlive()) {
+                        stop = true;
+                    }
                 } while (!stop);// way to stop
-
             }
         }
     }
@@ -110,6 +298,7 @@ public class BattleFiled extends Frame {
             for (int i = 0; i < 2; i++) {
                 JLabel nJLabel = new JLabel(petsName[i]);
                 nJLabel.setBounds(petsDirction[i][0], petsDirction[i][1], 100, 20);
+                petUiList.add(nJLabel);
                 add(nJLabel);
             }
             for (int i = 0; i < 2; i++) {
@@ -126,8 +315,18 @@ public class BattleFiled extends Frame {
                 jb.setIcon(im);
                 if (i > 1)
                     jb.setOpaque(false);
+                else
+                    petUiList.add(jb);
                 jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
+
                 add(jb);
+            }
+            for (int i = 0; i < 2; i++) {
+                JLabel nJLabel = new JLabel("20");
+                nJLabel.setBounds(petsDirction[i][0] + 20, petsDirction[i][1] + 20, 50, 50);
+                hpBars[i + 2] = nJLabel;
+                add(nJLabel);
+
             }
             JLabel dLabel = new JLabel("Dialog");
             dLabel.setBounds(50, 320, 100, 20);
@@ -139,7 +338,7 @@ public class BattleFiled extends Frame {
     class Dialog extends JPanel {
         private ImageIcon dialogBack;
         private int i = 0;
-        private String[] n = { "ATk[1]", "BAG[2]", "PET[3]", "RUN[4]" };
+        private String[] n = { "Select1", "Select2", "Select3", "Select4" };
         private int x = 10;
         private int y = 10;
         int[][] dic = { { x, y, 100, 100 }, { x + 145, y, 100, 100 }, { x, y + 65, 100, 100 },
@@ -176,43 +375,19 @@ public class BattleFiled extends Frame {
             nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener4());
             add(nButton);
-
+            skill[][] sklist = { { null, null, null, null } };
             for (i = 0; i < 4; i++) {
                 JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
+                sklist[0][i] = battlePets[0].skillList.get(i);
                 wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
                 add(wordDialog);
                 lArrayList.add(wordDialog);
             }
         }
 
-        class petAction {
-
-            protected void hpBarSetting(int w) {
-                if (w < 50) {
-                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                    hpBars[0].remove(hpBars[0]);
-                    hpBars[0].setIcon(n);
-                }
-                if (w > 50) {
-                    ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
-                    hpBars[0].remove(hpBars[0]);
-                    hpBars[0].setIcon(n);
-                }
-                if (w < 20) {
-                    ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
-                    hpBars[0].remove(hpBars[0]);
-                    hpBars[0].setIcon(n);
-                }
-                if (w <= 0)
-                    w = 0;
-                hpBars[0].setBounds(hpBars[0].getX(), hpBars[0].getY(), w, hpBars[0].getHeight());// TODO //
-                                                                                                  // Auto-generate
-            }
-        }
-
         // when btn clicked, do change self state
         class bListener1 implements ActionListener {
-            petAction ptac = new petAction();
+            private int i = 0;
 
             public bListener1() {
             }
@@ -220,46 +395,75 @@ public class BattleFiled extends Frame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // do the action and send to sever
-                System.out.println("btnClick");
+                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
+                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
+                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
+                        + battlePets[0].getDefend();
+                battlePets[1].setLife(battlePets[1].getLife() - 10);
+                // nClient.battleFildDataTransform(sendData);
+                pac.analyzingpack(sendData, 0);
+                System.out.println(sendData);
                 lArrayList.get(1).setText("btn1 clicked");
                 lArrayList.get(0).setText("btn1 clicked");
             }
         }
 
         class bListener2 implements ActionListener {
+            int i = 1;
 
             public bListener2() {
             }
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("btnClick");
+                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
+                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
+                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
+                        + battlePets[0].getDefend();
+                // nClient.battleFildDataTransform(sendData);
+                pac.analyzingpack(sendData, 0);
+                System.out.println(sendData);
                 lArrayList.get(2).setText("btn2 clicked");
                 lArrayList.get(0).setText("btn2 clicked");
             }
         }
 
         class bListener3 implements ActionListener {
+            int i = 2;
 
             public bListener3() {
             }
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("btnClick");
+                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
+                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
+                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
+                        + battlePets[0].getDefend();
+                // nClient.battleFildDataTransform(sendData);
+                pac.analyzingpack(sendData, 0);
+                System.out.println(sendData);
                 lArrayList.get(3).setText("btn3 clicked");
                 lArrayList.get(0).setText("btn3 clicked");
             }
         }
 
         class bListener4 implements ActionListener {
+            int i = 3;
 
             public bListener4() {
             }
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("btnClick");
+                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
+                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
+                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
+                        + battlePets[0].getDefend();
+                System.out.println(sendData);
+                // nClient.battleFildDataTransform(sendData);
+                pac.analyzingpack(sendData, 0);
+
                 lArrayList.get(4).setText("btn4 clicked");
                 lArrayList.get(0).setText("btn4 clicked");
             }

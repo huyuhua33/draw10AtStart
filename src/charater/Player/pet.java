@@ -62,7 +62,7 @@ public class pet implements Serializable {
 				defend = defend - attack;
 			}
 			residue_life = life - hurt; // count hp left
-			System.out.println(this.name + "got " + hurt + " damage");// print atk got
+			System.out.println("\n" + this.name + "got " + hurt + " damage");// print atk got
 			if (residue_life < 0)
 				residue_life = 0;
 			System.out.println("still have " + residue_life + " hp left"); // print hp left

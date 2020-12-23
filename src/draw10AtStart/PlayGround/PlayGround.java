@@ -35,8 +35,7 @@ public class PlayGround {
     }
 
     public void run() {
-        // playFrame = new LoginFrame(w, h);
-        playFrame = new BattleFiled(w, h);
+        playFrame = new LoginFrame(w, h);
         // waitingFramGenerate(playFrame);
 
     }

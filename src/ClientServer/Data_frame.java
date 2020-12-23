@@ -1,12 +1,13 @@
 package ClientServer;
 
-public class Data_frame
-{
-    private int    hp;
-    private int    speed;
-    private String  name;
-    private String   act_type;
-    private int    act_num;
+public class Data_frame {
+    private int hp;
+    private int speed;
+    private String name;
+    private char act_type;
+    private int act_num;
+    private String act_name;
+    private int armor;
 
     public int getHp() {
         return hp;
@@ -32,11 +33,11 @@ public class Data_frame
         this.name = name;
     }
 
-    public String getAct_type() {
+    public char getAct_type() {
         return act_type;
     }
 
-    public void setAct_type(String act_type) {
+    public void setAct_type(char act_type) {
         this.act_type = act_type;
     }
 
@@ -48,12 +49,36 @@ public class Data_frame
         this.act_num = act_num;
     }
 
-    public Data_frame(int hp, int speed, String name, String act_type, int act_num) {
+    public String getAct_name() {
+        return act_name;
+    }
+
+    public void setAct_name(String act_name) {
+        this.act_name = act_name;
+    }
+
+    public Data_frame(int hp, int speed, String name, char act_type, int act_num, String act_name, int r) {
         this.hp = hp;
         this.speed = speed;
         this.name = name;
         this.act_type = act_type;
         this.act_num = act_num;
+        this.act_name = act_name;
+        this.armor = r;
+    }
+
+    @Override
+    public String toString() {
+        return "Data_frame [act_name=" + act_name + ", act_num=" + act_num + ", act_type=" + act_type + ", armor="
+                + armor + ", hp=" + hp + ", name=" + name + ", speed=" + speed + "]";
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
     }
 
 }
