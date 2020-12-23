@@ -65,6 +65,7 @@ public class Data_frame {
         this.act_num = act_num;
         this.act_name = act_name;
         this.armor = r;
+        System.out.println(toString());
     }
 
     @Override

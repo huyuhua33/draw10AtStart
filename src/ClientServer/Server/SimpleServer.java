@@ -13,8 +13,6 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
-
 public class SimpleServer implements Runnable {
 	ServerSocket srverSocket = null;
 	InputStream in = null;
@@ -92,7 +90,7 @@ public class SimpleServer implements Runnable {
 			do {
 				in = sc1.getInputStream();
 				in.read(buf);
-			} while ( new String(buf).equals("GameStart") );
+			} while (new String(buf).equals("GameStart"));
 			System.out.println("sc1 Connected");
 			in = sc2.getInputStream();
 			do {
@@ -112,21 +110,24 @@ public class SimpleServer implements Runnable {
 	}
 
 	public void battleFildDataTransform() {
-	
 
 		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
 			try {
 				in = sc1.getInputStream();
 				in.read(buf);
+				System.out.println("sc1 " + new String(buf));
 
 				in = sc2.getInputStream();
 				in.read(buf2);
+				System.out.println("sc2 " + new String(buf2));
 
 				out = sc1.getOutputStream();
 				out.write(buf2);
+				System.out.println("sc1 send");
 
 				out = sc2.getOutputStream();
 				out.write(buf);
+				System.out.println("sc2 send");
 
 				round++;
 			} catch (Exception e) {

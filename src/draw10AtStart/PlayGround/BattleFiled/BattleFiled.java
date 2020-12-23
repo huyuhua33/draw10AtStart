@@ -180,7 +180,8 @@ public class BattleFiled extends Frame {
         boolean stop = false;
 
         public BattleFiledConnector(SimpleClient nCli) {
-            Thread t = new Thread();
+            Thread t = new Thread(this);
+            System.out.println("Listen start");
             nClient = nCli;
             t.start();
             stop = false;
@@ -247,45 +248,60 @@ public class BattleFiled extends Frame {
              * Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]),
              * sc1Data[2], sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5])
              */
-
             while (true)// before connection is stop
             {
-
+                System.out.println("Listen");
                 do {// what enemy do
                     data = nClient.getDatf();
-                    System.out.println(data);
-                    if (data.getAct_type() == 'A') {// Attack
-                        battlePets[0].fight(data.getAct_num());
-                    }
-                    if (data.getAct_type() == 'H') {// region
-                        battlePets[1].heal(data.getAct_num());
-                    }
-                    if (data.getAct_type() == 'R') {// armor up
-                        battlePets[1].armerUp(data.getAct_num());
-                    }
-                    if (data.getAct_type() == 'C') {// change pet
-                        battlePets[1] = generatePet(data.getAct_name(), data.getName());
+                    // System.out.println(">>" + data);
+                    if (data != null) {
+                        if (data.getAct_type() == 'A') {// Attack
+                            battlePets[0].fight(data.getAct_num());
+                        }
+                        if (data.getAct_type() == 'H') {// region
+                            battlePets[1].heal(data.getAct_num());
+                        }
+                        if (data.getAct_type() == 'R') {// armor up
+                            battlePets[1].armerUp(data.getAct_num());
+                        }
+                        if (data.getAct_type() == 'C') {// change pet
+                            battlePets[1] = generatePet(data.getAct_name(), data.getName());
+                            petUiList.get(1).setText(battlePets[1].getName());
+                        }
+                        petUiList.get(0).setText(battlePets[0].getName());
                         petUiList.get(1).setText(battlePets[1].getName());
-                    }
-                    petUiList.get(0).setText(battlePets[0].getName());
-                    petUiList.get(1).setText(battlePets[1].getName());
-                    caculated = (double) battlePets[0].getLife() / battlePets[0].getLife_MAX();
-                    hpBarSetting(hpBars[0], caculated);
-                    System.out.println("pet 1" + caculated);
-                    hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));
-                    caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
-                    hpBarSetting(hpBars[1], caculated);
-                    hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));
-                    System.out.println("pet 2" + caculated);
+                        caculated = (double) battlePets[0].getLife() / battlePets[0].getLife_MAX();
+                        hpBarSetting(hpBars[0], caculated);
+                        System.out.println("pet 1" + caculated);
+                        hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));
+                        caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
+                        hpBarSetting(hpBars[1], caculated);
+                        hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));
+                        System.out.println("pet 2" + caculated);
 
-                    System.out.println(data);
-                    if (!battlePets[0].isAlive()) {
-                        stop = true;
+                        System.out.println(data);
+                        if (!battlePets[0].isAlive()) {
+                            stop = true;
+                            System.out.print("self die");
+                        }
+                        if (!battlePets[1].isAlive()) {
+                            stop = true;
+                            System.out.print("e die");
+                        }
                     }
-                    if (!battlePets[1].isAlive()) {
-                        stop = true;
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
                     }
                 } while (!stop);// way to stop
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -399,7 +415,7 @@ public class BattleFiled extends Frame {
                         + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
                         + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
                         + battlePets[0].getDefend();
-                battlePets[1].setLife(battlePets[1].getLife() - 10);
+
                 // nClient.battleFildDataTransform(sendData);
                 pac.analyzingpack(sendData, 0);
                 System.out.println(sendData);

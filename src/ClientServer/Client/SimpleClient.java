@@ -69,16 +69,15 @@ public class SimpleClient implements Runnable {
 
 	public boolean gameStart() {
 		try {
-			Thread.sleep(600);
 			out = client.getOutputStream();
 			data = "GameStart";
 			out.write(data.getBytes());
-			System.out.println(data);
+
 			do {
 				in = client.getInputStream();
 				in.read(buf);
 			} while (new String(buf).compareTo("gameStart") == 0);
-			System.out.println("GameStart");
+			System.out.println(" n GameStart");
 			return true;
 		} catch (Exception e) {
 			System.err.println("GameStart err" + e);// TODO: handle exception
@@ -97,11 +96,16 @@ public class SimpleClient implements Runnable {
 				out.write(data.getBytes());
 				in = client.getInputStream();
 				in.read(buf);
-				String[] sc1Data = new String(buf).split("/");
-				if (!sc1Data[0].equals("C"))
+				data = new String(buf);
+				String[] sc1Data = data.split("/");
+				System.out.println(data);
+				if (sc1Data[3].equals("C")) {
+
 					datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2],
 							sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5],
 							Integer.parseInt(sc1Data[6]));
+					System.out.println(datf);
+				}
 				System.out.println("sc1>>." + sc1Data[4]);
 
 			} catch (Exception e) {
