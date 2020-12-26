@@ -41,7 +41,6 @@ public class BattleFiled extends Frame {
     private pet[] battlePets = { null, null };
 
     private int att[][];
-    private Dialog ddialog;
     private Player player;
     Double caculated;
     private String sendData;
@@ -250,8 +249,15 @@ public class BattleFiled extends Frame {
              */
             while (true)// before connection is stop
             {
-                System.out.println("Listen");
+
                 do {// what enemy do
+                    try {
+                        wait();
+                        System.out.println("Notifyed");
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     data = nClient.getDatf();
                     // System.out.println(">>" + data);
                     if (data != null) {
@@ -288,6 +294,7 @@ public class BattleFiled extends Frame {
                             stop = true;
                             System.out.print("e die");
                         }
+                        System.
                     }
                     try {
                         Thread.sleep(200);
@@ -297,7 +304,7 @@ public class BattleFiled extends Frame {
                     }
                 } while (!stop);// way to stop
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -361,6 +368,7 @@ public class BattleFiled extends Frame {
                 { x + 145, y + 65, 100, 100 } };
 
         Dialog(String fileLocate) {
+
             setLayout(null);
             setName("name");
             dialogBack = new ImageIcon(fileLocate);
@@ -368,6 +376,7 @@ public class BattleFiled extends Frame {
             bG.setOpaque(false);
             bG.setIcon(dialogBack);
             bG.setBounds(0, 0, 570, 120);
+
             int i = 0;
             JButton nButton = new JButton(n[i]);
             nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
@@ -391,6 +400,7 @@ public class BattleFiled extends Frame {
             nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener4());
             add(nButton);
+
             skill[][] sklist = { { null, null, null, null } };
             for (i = 0; i < 4; i++) {
                 JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());

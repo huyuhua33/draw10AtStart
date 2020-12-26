@@ -98,14 +98,12 @@ public class SimpleClient implements Runnable {
 				in.read(buf);
 				data = new String(buf);
 				String[] sc1Data = data.split("/");
-				System.out.println(data);
-				if (sc1Data[3].equals("C")) {
+				datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2],
+						sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5], Integer.parseInt(sc1Data[6]));
 
-					datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2],
-							sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5],
-							Integer.parseInt(sc1Data[6]));
-					System.out.println(datf);
-				}
+				System.out.println(data);
+				notify();
+
 				System.out.println("sc1>>." + sc1Data[4]);
 
 			} catch (Exception e) {
