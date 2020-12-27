@@ -85,6 +85,7 @@ public class BattleFiled extends Frame {
     }
 
     class petAction {
+        String txt;
 
         protected void hpBarSetting(JLabel h, Double w) {
             if (w < 50.0) {
@@ -116,25 +117,42 @@ public class BattleFiled extends Frame {
                     sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5], Integer.parseInt(sc1Data[6]));
             if (data.getAct_type() == 'A') {// Attack
                 battlePets[(who + 1) % 2].fight(data.getAct_num());
+                txt = String.format("%s use %s, deal %d damages", data.getName(), data.getAct_name(),
+                        data.getAct_num());
+
             }
             if (data.getAct_type() == 'H') {// region
                 battlePets[who].heal(data.getAct_num());
+                txt = String.format("%s use %s, Heal %d ", data.getName(), data.getAct_name(), data.getAct_num());
             }
             if (data.getAct_type() == 'R') {// armor up
                 battlePets[who].armerUp(data.getAct_num());
+                txt = String.format("%s use %s, armed %d armour ", data.getName(), data.getAct_name(),
+                        data.getAct_num());
             }
             if (data.getAct_type() == 'C') {// change pet
                 battlePets[who] = generatePet(data.getAct_name(), data.getName());
+                txt = String.format("%s cahnge to  %s", data.getName(), data.getAct_name());
             }
+
+            /* update frame ragularly */
+            lArrayList.get(0).setText(txt);
+
             petUiList.get(0).setText(battlePets[0].getName());
             petUiList.get(1).setText(battlePets[1].getName());
+
             caculated = (double) battlePets[0].getLife() / battlePets[0].getLife_MAX();
             hpBarSetting(hpBars[0], caculated);
             System.out.println("pet 1" + caculated);
-            hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));
-            caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
+
+            caculated = (double) battlePets[1].getLife() / battlePets[0].getLife_MAX();
             hpBarSetting(hpBars[1], caculated);
-            hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));
+            System.out.println("pet 2" + caculated);
+
+            hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));// set player 0 armor
+            caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
+
+            hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));// set player 1 armor
             System.out.println("pet 2" + caculated);
 
             System.out.println(data);
@@ -274,16 +292,17 @@ public class BattleFiled extends Frame {
                             battlePets[1] = generatePet(data.getAct_name(), data.getName());
                             petUiList.get(1).setText(battlePets[1].getName());
                         }
+
                         petUiList.get(0).setText(battlePets[0].getName());
                         petUiList.get(1).setText(battlePets[1].getName());
                         caculated = (double) battlePets[0].getLife() / battlePets[0].getLife_MAX();
                         hpBarSetting(hpBars[0], caculated);
-                        System.out.println("pet 1" + caculated);
+                        System.out.println("pet 1 " + caculated);
                         hpBars[2].setText(String.valueOf(battlePets[0].getDefend()));
                         caculated = (double) battlePets[1].getLife() / battlePets[1].getLife_MAX();
                         hpBarSetting(hpBars[1], caculated);
                         hpBars[3].setText(String.valueOf(battlePets[1].getDefend()));
-                        System.out.println("pet 2" + caculated);
+                        System.out.println("pet 2 " + caculated);
 
                         System.out.println(data);
                         if (!battlePets[0].isAlive()) {
@@ -294,7 +313,7 @@ public class BattleFiled extends Frame {
                             stop = true;
                             System.out.print("e die");
                         }
-                        System.
+
                     }
                     try {
                         Thread.sleep(200);
@@ -324,6 +343,7 @@ public class BattleFiled extends Frame {
                 petUiList.add(nJLabel);
                 add(nJLabel);
             }
+            //
             for (int i = 0; i < 2; i++) {
                 ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
                 JLabel jb = new JLabel();
@@ -344,7 +364,7 @@ public class BattleFiled extends Frame {
 
                 add(jb);
             }
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 2; i++) {// armor
                 JLabel nJLabel = new JLabel("20");
                 nJLabel.setBounds(petsDirction[i][0] + 20, petsDirction[i][1] + 20, 50, 50);
                 hpBars[i + 2] = nJLabel;
@@ -352,7 +372,7 @@ public class BattleFiled extends Frame {
 
             }
             JLabel dLabel = new JLabel("Dialog");
-            dLabel.setBounds(50, 320, 100, 20);
+            dLabel.setBounds(50, 320, 400, 20);
             lArrayList.add(dLabel);
             add(dLabel);
         }
@@ -429,8 +449,8 @@ public class BattleFiled extends Frame {
                 // nClient.battleFildDataTransform(sendData);
                 pac.analyzingpack(sendData, 0);
                 System.out.println(sendData);
-                lArrayList.get(1).setText("btn1 clicked");
-                lArrayList.get(0).setText("btn1 clicked");
+                // lArrayList.get(1).setText("btn1 clicked");
+                // lArrayList.get(0).setText("btn1 clicked");
             }
         }
 
@@ -449,8 +469,8 @@ public class BattleFiled extends Frame {
                 // nClient.battleFildDataTransform(sendData);
                 pac.analyzingpack(sendData, 0);
                 System.out.println(sendData);
-                lArrayList.get(2).setText("btn2 clicked");
-                lArrayList.get(0).setText("btn2 clicked");
+                // lArrayList.get(2).setText("btn2 clicked");
+                // lArrayList.get(0).setText("btn2 clicked");
             }
         }
 
@@ -467,10 +487,10 @@ public class BattleFiled extends Frame {
                         + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
                         + battlePets[0].getDefend();
                 // nClient.battleFildDataTransform(sendData);
-                pac.analyzingpack(sendData, 0);
+                pac.analyzingpack(sendData, 0);// send data to local and
                 System.out.println(sendData);
-                lArrayList.get(3).setText("btn3 clicked");
-                lArrayList.get(0).setText("btn3 clicked");
+                // lArrayList.get(3).setText("btn3 clicked");
+                // lArrayList.get(0).setText("btn3 clicked");
             }
         }
 
@@ -490,8 +510,8 @@ public class BattleFiled extends Frame {
                 // nClient.battleFildDataTransform(sendData);
                 pac.analyzingpack(sendData, 0);
 
-                lArrayList.get(4).setText("btn4 clicked");
-                lArrayList.get(0).setText("btn4 clicked");
+                // lArrayList.get(4).setText("btn4 clicked");
+                // lArrayList.get(0).setText("btn4 clicked");
             }
         }
     }
