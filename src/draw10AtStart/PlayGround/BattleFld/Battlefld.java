@@ -16,14 +16,14 @@ import draw10AtStart.PlayGround.Frame;
 public class Battlefld extends Frame {
     /* controling var */
     /* frame control */
-    private ArrayList<JLabel> dialogList;
-    private ArrayList<JLabel> petUIList;
-    private String sendData;
+    private static ArrayList<JLabel> dialogList;
+    private static ArrayList<JLabel> petUIList;
+    private static String sendData;
 
     /* frame control */
     /* action control */
-    private Data_frame[] action = { null, null };
-    private pet[] battlePets = { null, null };
+    private static Data_frame[] action = { null, null };
+    private static pet[] battlePets = { null, null };
 
     // private SimpleClient sClient;
     /* action control */
@@ -56,13 +56,13 @@ public class Battlefld extends Frame {
             JLabel nLabel = new JLabel();
         }
     }
-    class BattleIcon()
+    class BattleIcon
     {
-
+        public BattleIcon(){};
     }
-    class Dialog()
+    class Dialog
     {
-        
+        public Dialog(){};
     }
     class connectionListener implements Runnable {
         SimpleClient sClient;
@@ -109,7 +109,7 @@ public class Battlefld extends Frame {
     }
 
     class UIListener {
-        
+
         skill[] skillList;
 
         UIListener() {
@@ -206,32 +206,6 @@ public class Battlefld extends Frame {
                 // lArrayList.get(0).setText("btn4 clicked");
             }
         }
-
-            }
-
-        }
-        class btnListener3 implements ActionListener
-        {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-        }
-        class btnListener4 implements ActionListener
-        {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-
-            }
-
-        }
-    }
-
     class UIupdate implements Runnable {
         public UIupdate() {
             Thread t = new Thread(this);
