@@ -1,5 +1,7 @@
 package ClientServer;
 
+import jdk.internal.net.http.frame.DataFrame;
+
 public class Data_frame {
     private int hp;
     private int speed;
@@ -68,6 +70,17 @@ public class Data_frame {
         System.out.println("DataFrame");
     }
 
+    public Data_frame(String data) {
+        String[] sc1Data = data.split("/");
+        this.hp = Integer.parseInt(sc1Data[0]);
+        this.speed = Integer.parseInt(sc1Data[1]);
+        this.name = sc1Data[2];
+        this.act_type = sc1Data[3].charAt(0);
+        this.act_num = Integer.parseInt(sc1Data[4]);
+        this.act_name = sc1Data[5];
+        this.armor = Integer.parseInt(sc1Data[6]);
+    }
+
     @Override
     public String toString() {
         return "Data_frame [act_name=" + act_name + ", act_num=" + act_num + ", act_type=" + act_type + ", armor="
@@ -80,6 +93,9 @@ public class Data_frame {
 
     public void setArmor(int armor) {
         this.armor = armor;
+    }
+
+    public Data_frame() {
     }
 
 }
