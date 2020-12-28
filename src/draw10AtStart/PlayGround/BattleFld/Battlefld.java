@@ -1,15 +1,22 @@
 package draw10AtStart.PlayGround.BattleFld;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.event.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.event.*;
 
 import ClientServer.Data_frame;
 import ClientServer.Client.SimpleClient;
 import charater.skill;
+import charater.Monster.Monster1;
+import charater.Monster.Monster1copy;
+import charater.Monster.Monster1copy2;
+import charater.Monster.Monster1copy3;
+import charater.Monster.Monster1copy4;
+import charater.Monster.Monster1copy5;
+import charater.Monster.Monster1copycat;
 import charater.Player.pet;
 import draw10AtStart.PlayGround.Frame;
 
@@ -51,19 +58,21 @@ public class Battlefld extends Frame {
     /* UI setting source */
     public Battlefld(int w, int h, SimpleClient c) {
         super(w, h);
-        for(int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             JLabel nLabel = new JLabel();
         }
     }
-    class BattleIcon
-    {
-        public BattleIcon(){};
+
+    class BattleIcon {
+        public BattleIcon() {
+        };
     }
-    class Dialog
-    {
-        public Dialog(){};
+
+    class Dialog {
+        public Dialog() {
+        };
     }
+
     class connectionListener implements Runnable {
         SimpleClient sClient;
 
@@ -88,19 +97,84 @@ public class Battlefld extends Frame {
     }
 
     class gameRule implements Runnable {
-        Data_frame nowAct;
+        Data_frame[] nowAct = { null, null };
+        int player;
 
         public gameRule() {
             Thread t = new Thread(this);
             t.start();
         }
 
+        public pet generatePet(String select, String name) {
+            pet p = null;
+            switch (select) {
+                case "Monster1":
+                    p = new Monster1(name);
+                    break;
+                case "Monster1copy":
+                    p = new Monster1copy(name);
+                    break;
+                case "Monster1copy2":
+                    p = new Monster1copy2(name);
+                    break;
+                case "Monster1copy3":
+                    p = new Monster1copy3(name);
+                    break;
+                case "Monster1copy4":
+                    p = new Monster1copy4(name);
+                    break;
+                case "Monster1copy5":
+                    p = new Monster1copy5(name);
+                    break;
+                case "Monster1copycat":
+                    p = new Monster1copycat(name);
+                    break;
+                default:
+                    p = new Monster1(name);
+                    break;
+            }
+            return p;
+        }
+
         @Override
         public void run() {
             while (true) {
                 if (action[0] != null && action[1] != null) {
-                    nowAct = action[0].getSpeed() > action[1].getSpeed() ? action[0] : action[1];
+                    /* compare speed */
+                    if (action[0].getSpeed() > action[1].getSpeed()) {
+                        Data_frame[] n = { action[0], action[1] };
+                        nowAct = n;
+                    } else {
+                        Data_frame[] n = { action[1], action[0] };
+                        nowAct = n;
+                    }
+                    /* compare speed */
+                    for (int i = 0; i < 2; i++) {// first do and second do
+                        Data_frame ingFrame = action[i];
+                        switch (ingFrame.getAct_type()) {
+                            case 'C':// changing name and typename (actname)
+                                battlePets[i] = generatePet(ingFrame.getName(), ingFrame.getAct_name());
+                                break;
+                            case 'A':// do attack to another
+                                battlePets[(i + 1) % 2].fight(ingFrame.getAct_num());
 
+                                break;
+                            case 'H':// heal self
+                                battlePets[i].heal(ingFrame.getAct_num());
+                                break;
+                            case 'R':// armour self
+                                battlePets[i].armerUp(ingFrame.getAct_num());
+                                break;
+                        }
+                        try {
+                            Thread.sleep(2000);
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                        }
+                    }
+                    Data_frame[] n = { null, null };
+                    nowAct = n;
+                    action = n;
                 }
             }
 
@@ -206,6 +280,8 @@ public class Battlefld extends Frame {
                 // lArrayList.get(0).setText("btn4 clicked");
             }
         }
+    }
+
     class UIupdate implements Runnable {
         public UIupdate() {
             Thread t = new Thread(this);
@@ -258,6 +334,5 @@ public class Battlefld extends Frame {
             // TODO Auto-generated method stub
 
         }
-        
     }
 }
