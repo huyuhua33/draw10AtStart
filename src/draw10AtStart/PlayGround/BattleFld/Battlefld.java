@@ -1,8 +1,8 @@
 package draw10AtStart.PlayGround.BattleFld;
 
 import java.util.ArrayList;
-
 import javax.swing.JLabel;
+import java.awt.event.*;
 
 import ClientServer.Data_frame;
 import ClientServer.Client.SimpleClient;
@@ -41,9 +41,19 @@ public class Battlefld extends Frame {
     /* UI setting source */
     public Battlefld(int w, int h, SimpleClient c) {
         super(w, h);
+        for(int i = 0; i < 4; i++)
+        {
+            JLabel nLabel = new JLabel();
+        }
+    }
+    class BattleIcon()
+    {
 
     }
-
+    class Dialog()
+    {
+        
+    }
     class connectionListener implements Runnable {
         SimpleClient sClient;
 
@@ -60,12 +70,53 @@ public class Battlefld extends Frame {
     }
 
     class UIListener {
+        class btnListener1 implements ActionListener
+        {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+        }
+        class btnListener2 implements ActionListener
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+        }
+        class btnListener3 implements ActionListener
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+        }
+        class btnListener4 implements ActionListener
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+        }
     }
 
     class UIupdate {
         void hpUpdate() {
+            
 
         }
+        
     }
 }
