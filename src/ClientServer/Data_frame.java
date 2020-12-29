@@ -65,7 +65,7 @@ public class Data_frame {
         this.act_num = act_num;
         this.act_name = act_name;
         this.armor = r;
-        System.out.println("DataFrame");
+        System.out.println(this);
     }
 
     public Data_frame(String data) {
@@ -76,13 +76,15 @@ public class Data_frame {
         this.act_type = sc1Data[3].charAt(0);
         this.act_num = Integer.parseInt(sc1Data[4]);
         this.act_name = sc1Data[5];
-        this.armor = Integer.parseInt(sc1Data[6]);
+        this.armor = Integer.parseInt(sc1Data[6].trim());
+        System.out.println(this);
     }
 
     @Override
     public String toString() {
-        return "Data_frame [act_name=" + act_name + ", act_num=" + act_num + ", act_type=" + act_type + ", armor="
-                + armor + ", hp=" + hp + ", name=" + name + ", speed=" + speed + "]";
+        return "Data_frame [act_name=" + act_name + ", act_num=" + String.valueOf(act_num) + ", act_type=" + act_type
+                + ", armor=" + String.valueOf(armor) + ", hp=" + String.valueOf(hp) + ", name=" + name + ", speed="
+                + String.valueOf(speed) + "]";
     }
 
     public int getArmor() {

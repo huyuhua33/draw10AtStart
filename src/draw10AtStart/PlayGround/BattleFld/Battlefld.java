@@ -19,6 +19,7 @@ import charater.Monster.Monster1copy3;
 import charater.Monster.Monster1copy4;
 import charater.Monster.Monster1copy5;
 import charater.Monster.Monster1copycat;
+import charater.Player.Player;
 import charater.Player.pet;
 import draw10AtStart.PlayGround.Frame;
 
@@ -31,6 +32,7 @@ public class Battlefld extends Frame {
 
     /* frame control */
     /* action control */
+    private static Player player;
     private static Data_frame[] action = { null, null };
     private static pet[] battlePets = { null, null };
 
@@ -39,6 +41,8 @@ public class Battlefld extends Frame {
     /* controling var */
 
     /* UI setting source */
+    /* data of frame */
+
     /* monster and hpbar */
     private String sourceWay = new String("sprit");
     private String[] filesPath = { "\\monster\\battle_background.jpg", "\\monster\\battle_background.jpg",
@@ -58,27 +62,44 @@ public class Battlefld extends Frame {
 
     /* pet label */
     /* UI setting source */
+
     /* Connection control */
-    SimpleClient n;
+    static SimpleClient sc;
     /* Connection control */
 
     public Battlefld(int w, int h, SimpleClient c) {
         super(w, h);
-        n = c;
-        pet[] np = { gameRule.generaPet(), gameRule.generaPet() };
-        battlePets = np;
-        add(new BattleIcon());
-        add(new Dialog(sourceWay + filesPath[4]));
+        player = new Player("tmper", "sourceWay");
+        player.get10RdPets();
+        sc = c;
 
-        new connectionListener();
-        new gameRule();
-        new UIupdate();
+        /* for init pet */
+        pet[] np = { player.getPets().get(0), gameRule.generatePet() };
+        try {
+            sendData = new String(
+                    String.valueOf(np[0].getLife()) + "/" + String.valueOf(np[0].getSpeed()) + "/" + np[0].getName()
+                            + "/" + "C" + "/" + "0" + "/" + np[0].getClass().getSimpleName() + "/" + np[0].getDefend());
+            sc.battleFildDataTransform(sendData);
+            action[0] = new Data_frame(sendData);
+        } catch (Exception e) {
+            e.printStackTrace();// TODO: handle exception
+        }
+        battlePets = np;
+        /* for init pet */
+
+        BattleIcon icon = new BattleIcon();
+        icon.setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
+        add(icon);
+        Dialog d = new Dialog(sourceWay + filesPath[4]);
+        d.setBounds(0, 680, 570, 200);
+        add(d);
+        setVisible(true);
     }
 
     class BattleIcon extends JPanel {
         protected BattleIcon() {
             setLayout(null);
-            setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
+
             for (int i = 0; i < 2; i++) {
                 ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
                 JLabel jb = new JLabel();
@@ -95,7 +116,7 @@ public class Battlefld extends Frame {
             }
             for (int i = 0; i < 2; i++) {// armor
                 JLabel nJLabel = new JLabel("0");
-                nJLabel.setBounds(petsDirction[i][0] + 20, petsDirction[i][1] + 20, 50, 50);
+                nJLabel.setBounds(petsDirction[i][0] + 50, petsDirction[i][1], 50, 20);
                 petUIList.add(nJLabel);// 4 5
                 add(nJLabel);
 
@@ -127,7 +148,7 @@ public class Battlefld extends Frame {
         private int i = 0;
         private String[] n = { "Select1", "Select2", "Select3", "Select4" };
         private int x = 10;
-        private int y = 10;
+        private int y = 400;
         int[][] dic = { { x, y, 100, 100 }, { x + 145, y, 100, 100 }, { x, y + 65, 100, 100 },
                 { x + 145, y + 65, 100, 100 } };
         private UIListener lisner = new UIListener();
@@ -166,12 +187,18 @@ public class Battlefld extends Frame {
             nButton.addActionListener(lisner.new bListener4());
             add(nButton);
             /* setting button */
+            /* set dialog */
             for (i = 0; i < 4; i++) {
                 JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
                 wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
                 add(wordDialog);
                 dialogList.add(wordDialog);
+                System.out.println(dialogList.get(i + 1).getText());
             }
+            new connectionListener();
+            new gameRule();
+            new UIupdate();
+            lisner.update_skill();
         }
     }
 
@@ -181,16 +208,16 @@ public class Battlefld extends Frame {
         /* only try to get data */
         connectionListener() {
             Thread t = new Thread(this);
-            sClient = n;
+            sClient = sc;
             t.start();
         }
 
-        public void run() {
+        synchronized public void run() {
             while (true) {
-
                 try {
                     action[1] = sClient.getDatf();
-                    Thread.sleep(200);
+                    System.out.println("action: " + action[1]);
+                    Thread.sleep(500);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -208,11 +235,11 @@ public class Battlefld extends Frame {
             t.start();
         }
 
-        public static pet generaPet() {
+        public static pet generatePet() {
             return new Monster1("pet");
         }
 
-        public pet generatePet(String select, String name) {
+        public static pet generatePet(String select, String name) {
             pet p = null;
             switch (select) {
                 case "Monster1":
@@ -244,66 +271,99 @@ public class Battlefld extends Frame {
         }
 
         @Override
-        public void run() {
+        public synchronized void run() {
             while (true) {
+
                 try {
+                    Thread.sleep(2000);
                     if (action[0] != null && action[1] != null) {
                         /* compare speed */
-                        if (action[0].getSpeed() > action[1].getSpeed()) {
-                            Data_frame[] n = { action[0], action[1] };
-                            nowAct = n;
+                        System.out.println("comped");
+                        if (action[0].getSpeed() >= action[1].getSpeed()) {
+                            if (action[0].getSpeed() == 0) {
+                                Data_frame[] n = { action[1], action[0] };
+                                nowAct = n;
+                            } else {
+                                Data_frame[] n = { action[0], action[1] };
+                                nowAct = n;
+                            }
+                            ;
+
                         } else {
                             Data_frame[] n = { action[1], action[0] };
                             nowAct = n;
                         }
                         /* compare speed */
                         for (int i = 0; i < 2; i++) {// first do and second do
-                            Data_frame ingFrame = action[i];
+                            Data_frame ingFrame = nowAct[i];
                             switch (ingFrame.getAct_type()) {
                                 case 'C':// changing name and typename (actname)
-                                    battlePets[i] = generatePet(ingFrame.getName(), ingFrame.getAct_name());
+                                    battlePets[i] = generatePet(ingFrame.getAct_name(), ingFrame.getName());
+                                    dialogList.get(0)
+                                            .setText(new String().format("changed, come on %s", ingFrame.getName()));
+                                    System.out.println(battlePets[0].getName());
+                                    System.out.println(battlePets[1].getName());
                                     break;
                                 case 'A':// do attack to another
                                     battlePets[(i + 1) % 2].fight(ingFrame.getAct_num());
-
+                                    dialogList.get(0)
+                                            .setText(new String().format("%s use %s, %d hp left", ingFrame.getName(),
+                                                    ingFrame.getAct_name(), ingFrame.getHp() - ingFrame.getAct_num()));
                                     break;
                                 case 'H':// heal self
                                     battlePets[i].heal(ingFrame.getAct_num());
+                                    dialogList.get(0).setText(new String().format("%s use %s, Attack %d hp",
+                                            ingFrame.getName(), ingFrame.getAct_name(), ingFrame.getAct_num()));
                                     break;
                                 case 'R':// armour self
                                     battlePets[i].armerUp(ingFrame.getAct_num());
+                                    dialogList.get(0).setText(new String().format("%s use %s, armorUp %d ",
+                                            ingFrame.getName(), ingFrame.getAct_name(), ingFrame.getAct_num()));
                                     break;
                             }
                         }
-                        Thread.sleep(2000);
+
+                        Data_frame[] n = { null, null };
+                        nowAct = n;
+                        action = n;
+                        sc.setDatf(null);
                     }
+                    if (!(battlePets[0].isAlive() && battlePets[1].isAlive())) {
+                        dialogList.get(0).setText(new String().format("Draw"));
+                    } else if (!battlePets[0].isAlive()) {
+                        dialogList.get(0).setText(new String().format("You Lose"));
+                    } else if (!battlePets[1].isAlive()) {
+                        dialogList.get(0).setText(new String().format("You Win"));
+                    } else {
+
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     // TODO: handle exception
                 }
-                Data_frame[] n = { null, null };
-                nowAct = n;
-                action = n;
+
             }
         }
     }
 
     static class UIListener {
-
         skill[] skillList;
+        SimpleClient sClient;
 
         UIListener() {
             skillList = new skill[4];
-            update_skill();
+            sClient = sc;
         }
 
         void update_skill() {
             try {
                 for (int i = 0; i < 4; i++) {
-                    skillList[i] = battlePets[0].getSkillList().get(i);
-                    dialogList.get(
 
-                    ).setText(skillList[i].getSkillName());
+                    if (battlePets[0] != null) {
+                        skillList[i] = battlePets[0].getSkillList().get(i);
+                        dialogList.get(i + 1).setText(skillList[i].getSkillName());
+                    }
                 }
             } catch (Exception e) {
                 // System.err.println(e);
@@ -322,13 +382,15 @@ public class Battlefld extends Frame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // do the action and send to sever
-                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
-                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
-                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
-                        + battlePets[0].getDefend();
+                sendData = new String(String.valueOf(battlePets[0].getLife()) + "/"
+                        + String.valueOf(battlePets[0].getSpeed()) + "/" + battlePets[0].getName() + "/"
+                        + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
+                        + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
 
                 // nClient.battleFildDataTransform(sendData);
                 action[0] = new Data_frame(sendData);
+                sc.battleFildDataTransform(sendData);
+                System.out.println(sendData);
                 // lArrayList.get(1).setText("btn1 clicked");
                 // lArrayList.get(0).setText("btn1 clicked");
             }
@@ -342,11 +404,12 @@ public class Battlefld extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
-                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
-                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
-                        + battlePets[0].getDefend();
+                sendData = new String(String.valueOf(battlePets[0].getLife()) + "/"
+                        + String.valueOf(battlePets[0].getSpeed()) + "/" + battlePets[0].getName() + "/"
+                        + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
+                        + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
                 action[0] = new Data_frame(sendData);
+                sc.battleFildDataTransform(sendData);
                 // nClient.battleFildDataTransform(sendData);
                 System.out.println(sendData);
                 // lArrayList.get(2).setText("btn2 clicked");
@@ -362,12 +425,13 @@ public class Battlefld extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
-                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
-                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
-                        + battlePets[0].getDefend();
-                // nClient.battleFildDataTransform(sendData);
+                sendData = new String(String.valueOf(battlePets[0].getLife()) + "/"
+                        + String.valueOf(battlePets[0].getSpeed()) + "/" + battlePets[0].getName() + "/"
+                        + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
+                        + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
+                // nClient.battl eFildDataTransform(sendData);
                 action[0] = new Data_frame(sendData);
+                sc.battleFildDataTransform(sendData);
                 System.out.println(sendData);
                 // lArrayList.get(3).setText("btn3 clicked");
                 // lArrayList.get(0).setText("btn3 clicked");
@@ -382,11 +446,12 @@ public class Battlefld extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendData = String.valueOf(battlePets[0].getLife()) + "/" + String.valueOf(battlePets[0].getSpeed())
-                        + "/" + battlePets[0].getName() + "/" + skillList[i].getSkillType() + "/"
-                        + String.valueOf(skillList[i].getSkillPow()) + "/" + skillList[i].getSkillName() + "/"
-                        + battlePets[0].getDefend();
+                sendData = new String(String.valueOf(battlePets[0].getLife()) + "/"
+                        + String.valueOf(battlePets[0].getSpeed()) + "/" + battlePets[0].getName() + "/"
+                        + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
+                        + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
                 action[0] = new Data_frame(sendData);
+                sc.battleFildDataTransform(sendData);
                 System.out.println(sendData);
                 // nClient.battleFildDataTransform(sendData);
 
@@ -419,7 +484,7 @@ public class Battlefld extends Frame {
                 }
                 int n = (int) Math
                         .round((battlePets[i].getLife() / battlePets[i].getLife_MAX()) * petUIList.get(i).getWidth());
-                System.out.println(">>" + n);
+                // System.out.println(">>" + n);
                 petUIList.get(i).setBounds(petUIList.get(i).getX(), petUIList.get(i).getY(), n,
                         petUIList.get(i).getHeight());// TODO //
 
@@ -435,7 +500,7 @@ public class Battlefld extends Frame {
         }
 
         @Override
-        public void run() {
+        public synchronized void run() {
             while (true) {
                 try {
                     hpUpdate();

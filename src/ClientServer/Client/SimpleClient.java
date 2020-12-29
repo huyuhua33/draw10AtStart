@@ -93,21 +93,28 @@ public class SimpleClient implements Runnable {
 				// + "A" + "/" + Integer.toString(100);//action
 				// hp + speed + name + type + num //
 				out = client.getOutputStream();
+				System.out.println("write: " + data);
 				out.write(data.getBytes());
 				in = client.getInputStream();
+				for (int i = 0; i < buf.length; i++) {
+					buf[i] = ' ';
+				}
 				in.read(buf);
 				data = new String(buf);
-				String[] sc1Data = data.split("/");
-				datf = new Data_frame(Integer.parseInt(sc1Data[0]), Integer.parseInt(sc1Data[1]), sc1Data[2],
-						sc1Data[3].charAt(0), Integer.parseInt(sc1Data[4]), sc1Data[5], Integer.parseInt(sc1Data[6]));
+				System.out.println("read: " + data);
+				// String[] sc1Data = data.split("/");
+				/*
+				 * for (String s : sc1Data) { System.out.println(s); }
+				 */
+				datf = new Data_frame(data);
 
 				System.out.println(data);
-				notify();
+				System.out.println(datf);
 
-				System.out.println("sc1>>." + sc1Data[4]);
+				// System.out.println("sc1>>." + sc1Data[4]);
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();// TODO: handle exception
 			}
 		}
 		return new String(buf);

@@ -59,9 +59,9 @@ public class pet implements Serializable {
 				hurt = attack - defend;
 				if (hurt < 0)
 					hurt = 0;
-				if(defend - attack < 0)
+				if (defend - attack < 0)
 					defend = 0;
-				else 
+				else
 					defend = defend - attack;
 			}
 			residue_life = life - hurt; // count hp left
@@ -75,9 +75,11 @@ public class pet implements Serializable {
 
 	public void heal(int h) // Healing
 	{
-		life += h;
-		if (life > life_MAX)
-			life = life_MAX;
+		if (die()) {
+			life += h;
+			if (life > life_MAX)
+				life = life_MAX;
+		}
 		System.out.println("Heal: " + h);
 		System.out.println(name + " " + life + " hp left");
 
@@ -85,7 +87,10 @@ public class pet implements Serializable {
 
 	public void armerUp(int r) // Healing
 	{
-		defend += r;
+		if (die()) {
+			defend += r;
+		}
+
 		System.out.println("armerUp: " + r);
 		System.out.println(name + " " + defend + " arm left");
 	}

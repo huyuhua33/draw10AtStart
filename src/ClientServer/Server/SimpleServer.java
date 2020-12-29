@@ -113,6 +113,10 @@ public class SimpleServer implements Runnable {
 
 		if (connected) {// limit connection sc1 then sc2 or change to non-blocking mode
 			try {
+				for (int i = 0; i < buf.length; i++) {
+					buf[i] = ' ';
+					buf2[i] = ' ';
+				}
 				in = sc1.getInputStream();
 				in.read(buf);
 				System.out.println("sc1 " + new String(buf));
@@ -131,7 +135,7 @@ public class SimpleServer implements Runnable {
 
 				round++;
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();// TODO: handle exception
 			}
 		}
 
