@@ -1,7 +1,5 @@
 package ClientServer;
 
-import jdk.internal.net.http.frame.DataFrame;
-
 public class Data_frame {
     private int hp;
     private int speed;

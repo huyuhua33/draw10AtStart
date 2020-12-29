@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import ClientServer.Data_frame;
 import ClientServer.Client.SimpleClient;
@@ -23,9 +25,9 @@ import draw10AtStart.PlayGround.Frame;
 public class Battlefld extends Frame {
     /* controling var */
     /* frame control */
-    private static ArrayList<JLabel> dialogList;
-    private static ArrayList<JLabel> petUIList;
-    private static String sendData;
+    private static ArrayList<JLabel> dialogList = new ArrayList<JLabel>();
+    private static ArrayList<JLabel> petUIList = new ArrayList<JLabel>();
+    private static String sendData = new String();
 
     /* frame control */
     /* action control */
@@ -56,28 +58,128 @@ public class Battlefld extends Frame {
 
     /* pet label */
     /* UI setting source */
+    /* Connection control */
+    SimpleClient n;
+    /* Connection control */
+
     public Battlefld(int w, int h, SimpleClient c) {
         super(w, h);
-        for (int i = 0; i < 4; i++) {
-            JLabel nLabel = new JLabel();
+        n = c;
+        pet[] np = { gameRule.generaPet(), gameRule.generaPet() };
+        battlePets = np;
+        add(new BattleIcon());
+        add(new Dialog(sourceWay + filesPath[4]));
+
+        new connectionListener();
+        new gameRule();
+        new UIupdate();
+    }
+
+    class BattleIcon extends JPanel {
+        protected BattleIcon() {
+            setLayout(null);
+            setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
+            for (int i = 0; i < 2; i++) {
+                ImageIcon im = new ImageIcon(sourceWay + hpBar[0]);
+                JLabel jb = new JLabel();
+                jb.setIcon(im);
+                jb.setBounds(hpBarDirction[i][0], hpBarDirction[i][1], hpBarDirction[i][2], hpBarDirction[i][3]);
+                petUIList.add(jb);// 0 1
+                add(jb);
+            }
+            for (int i = 0; i < 2; i++) {
+                JLabel nJLabel = new JLabel(petsName[i]);
+                nJLabel.setBounds(petsDirction[i][0], petsDirction[i][1], 100, 20);
+                petUIList.add(nJLabel);// 2 3
+                add(nJLabel);
+            }
+            for (int i = 0; i < 2; i++) {// armor
+                JLabel nJLabel = new JLabel("0");
+                nJLabel.setBounds(petsDirction[i][0] + 20, petsDirction[i][1] + 20, 50, 50);
+                petUIList.add(nJLabel);// 4 5
+                add(nJLabel);
+
+            }
+            for (int i = 0; i < 4; i++) {
+                ImageIcon im = new ImageIcon(sourceWay + filesPath[i]);
+                JLabel jb = new JLabel();
+                jb.setIcon(im);
+                if (i > 1)
+                    jb.setOpaque(false);
+                else
+                    petUIList.add(jb);
+                jb.setBounds(dirction[i][0], dirction[i][1], dirction[i][2], dirction[i][3]);
+
+                add(jb);
+            }
+
+            //
+
+            JLabel dLabel = new JLabel("Dialog");
+            dLabel.setBounds(50, 320, 400, 20);
+            dialogList.add(dLabel);
+            add(dLabel);
         }
     }
 
-    class BattleIcon {
-        public BattleIcon() {
-        };
-    }
+    class Dialog extends JPanel {
+        private ImageIcon dialogBack;
+        private int i = 0;
+        private String[] n = { "Select1", "Select2", "Select3", "Select4" };
+        private int x = 10;
+        private int y = 10;
+        int[][] dic = { { x, y, 100, 100 }, { x + 145, y, 100, 100 }, { x, y + 65, 100, 100 },
+                { x + 145, y + 65, 100, 100 } };
+        private UIListener lisner = new UIListener();
 
-    class Dialog {
-        public Dialog() {
-        };
+        Dialog(String fileLocate) {
+
+            setLayout(null);
+            setName("name");
+            dialogBack = new ImageIcon(fileLocate);
+            JLabel bG = new JLabel();
+            bG.setOpaque(false);
+            bG.setIcon(dialogBack);
+            bG.setBounds(0, 0, 570, 120);
+            /* setting button */
+            int i = 0;
+            JButton nButton = new JButton(n[i]);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(lisner.new bListener1());
+            add(nButton);
+
+            i = 1;
+            nButton = new JButton(n[i]);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(lisner.new bListener2());
+            add(nButton);
+
+            i = 2;
+            nButton = new JButton(n[i]);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(lisner.new bListener3());
+            add(nButton);
+
+            i = 3;
+            nButton = new JButton(n[i]);
+            nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
+            nButton.addActionListener(lisner.new bListener4());
+            add(nButton);
+            /* setting button */
+            for (i = 0; i < 4; i++) {
+                JLabel wordDialog = new JLabel(battlePets[0].skillList.get(i).getSkillName());
+                wordDialog.setBounds(dic[i][0] + (i % 2 == 0 ? 300 : 280), dic[i][1], 100, 20);
+                add(wordDialog);
+                dialogList.add(wordDialog);
+            }
+        }
     }
 
     class connectionListener implements Runnable {
         SimpleClient sClient;
 
         /* only try to get data */
-        connectionListener(SimpleClient n) {
+        connectionListener() {
             Thread t = new Thread(this);
             sClient = n;
             t.start();
@@ -88,21 +190,26 @@ public class Battlefld extends Frame {
 
                 try {
                     action[1] = sClient.getDatf();
+                    Thread.sleep(200);
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         }
     }
 
-    class gameRule implements Runnable {
+    static class gameRule implements Runnable {
         Data_frame[] nowAct = { null, null };
         int player;
 
         public gameRule() {
             Thread t = new Thread(this);
             t.start();
+        }
+
+        public static pet generaPet() {
+            return new Monster1("pet");
         }
 
         public pet generatePet(String select, String name) {
@@ -139,50 +246,49 @@ public class Battlefld extends Frame {
         @Override
         public void run() {
             while (true) {
-                if (action[0] != null && action[1] != null) {
-                    /* compare speed */
-                    if (action[0].getSpeed() > action[1].getSpeed()) {
-                        Data_frame[] n = { action[0], action[1] };
-                        nowAct = n;
-                    } else {
-                        Data_frame[] n = { action[1], action[0] };
-                        nowAct = n;
-                    }
-                    /* compare speed */
-                    for (int i = 0; i < 2; i++) {// first do and second do
-                        Data_frame ingFrame = action[i];
-                        switch (ingFrame.getAct_type()) {
-                            case 'C':// changing name and typename (actname)
-                                battlePets[i] = generatePet(ingFrame.getName(), ingFrame.getAct_name());
-                                break;
-                            case 'A':// do attack to another
-                                battlePets[(i + 1) % 2].fight(ingFrame.getAct_num());
+                try {
+                    if (action[0] != null && action[1] != null) {
+                        /* compare speed */
+                        if (action[0].getSpeed() > action[1].getSpeed()) {
+                            Data_frame[] n = { action[0], action[1] };
+                            nowAct = n;
+                        } else {
+                            Data_frame[] n = { action[1], action[0] };
+                            nowAct = n;
+                        }
+                        /* compare speed */
+                        for (int i = 0; i < 2; i++) {// first do and second do
+                            Data_frame ingFrame = action[i];
+                            switch (ingFrame.getAct_type()) {
+                                case 'C':// changing name and typename (actname)
+                                    battlePets[i] = generatePet(ingFrame.getName(), ingFrame.getAct_name());
+                                    break;
+                                case 'A':// do attack to another
+                                    battlePets[(i + 1) % 2].fight(ingFrame.getAct_num());
 
-                                break;
-                            case 'H':// heal self
-                                battlePets[i].heal(ingFrame.getAct_num());
-                                break;
-                            case 'R':// armour self
-                                battlePets[i].armerUp(ingFrame.getAct_num());
-                                break;
+                                    break;
+                                case 'H':// heal self
+                                    battlePets[i].heal(ingFrame.getAct_num());
+                                    break;
+                                case 'R':// armour self
+                                    battlePets[i].armerUp(ingFrame.getAct_num());
+                                    break;
+                            }
                         }
-                        try {
-                            Thread.sleep(2000);
-                        } catch (Exception e) {
-                            // TODO: handle exception
-                        }
+                        Thread.sleep(2000);
                     }
-                    Data_frame[] n = { null, null };
-                    nowAct = n;
-                    action = n;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // TODO: handle exception
                 }
+                Data_frame[] n = { null, null };
+                nowAct = n;
+                action = n;
             }
-
         }
-
     }
 
-    class UIListener {
+    static class UIListener {
 
         skill[] skillList;
 
@@ -192,14 +298,22 @@ public class Battlefld extends Frame {
         }
 
         void update_skill() {
-            for (int i = 0; i < 4; i++) {
-                skillList[i] = battlePets[0].getSkillList().get(i);
-                dialogList.get(i + 1).setText(skillList[i].getSkillName());
+            try {
+                for (int i = 0; i < 4; i++) {
+                    skillList[i] = battlePets[0].getSkillList().get(i);
+                    dialogList.get(
+
+                    ).setText(skillList[i].getSkillName());
+                }
+            } catch (Exception e) {
+                // System.err.println(e);
+                e.printStackTrace();
             }
+
         }
 
         // only send data
-        private class bListener1 implements ActionListener {
+        class bListener1 implements ActionListener {
             private int i = 0;
 
             public bListener1() {

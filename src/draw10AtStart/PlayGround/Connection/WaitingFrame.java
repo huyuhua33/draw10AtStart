@@ -16,6 +16,7 @@ import ClientServer.Client.SimpleClient;
 import charater.Player.Player;
 import draw10AtStart.PlayGround.Frame;
 import draw10AtStart.PlayGround.BattleFiled.BattleFiled;
+import draw10AtStart.PlayGround.BattleFld.Battlefld;
 
 public class WaitingFrame extends Frame {
     boolean connected = false;
@@ -96,12 +97,13 @@ public class WaitingFrame extends Frame {
                     start = sc.gameStart();
                 }
                 if (start) {
-                    frameChanging(new BattleFiled(WaitingFrame.super.getFrameSize_weith(),
+                    frameChanging(new Battlefld(WaitingFrame.super.getFrameSize_weith(),
                             WaitingFrame.super.getFrameSize_height(), sc));
                 }
 
             } catch (Exception e) {
-                System.err.println(e);
+                System.out.println(e);
+                e.printStackTrace();
             }
             /* simulating connection */
         }

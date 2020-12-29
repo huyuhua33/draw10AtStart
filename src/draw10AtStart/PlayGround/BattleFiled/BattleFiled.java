@@ -398,6 +398,7 @@ public class BattleFiled extends Frame {
             bG.setBounds(0, 0, 570, 120);
 
             int i = 0;
+
             JButton nButton = new JButton(n[i]);
             nButton.setBounds(dic[i][0], dic[i][1], 570 / 4, 120 / 2);
             nButton.addActionListener(new bListener1());
