@@ -10,7 +10,7 @@ public class Monster1copycat extends pet {
 
     public Monster1copycat(String name) {
         super(name, 50, 50, 50, 50, 50);
-        super.sourceFIle = new String("sprit\\monster\\Monster1copycat");
+        super.sourceFIle = new String("\\monster\\Monster1copycat.jpg");
         askill();
     }
 

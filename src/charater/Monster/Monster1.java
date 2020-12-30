@@ -8,8 +8,8 @@ public class Monster1 extends pet {
             new skill("D", "R", 10) };
 
     public Monster1(String name) {
-        super(name, 10, 20, 30, 40, 50);
-        super.sourceFIle = new String("sprit\\monster\\Monster1");
+        super(name, 300, 20, 30, 40, 50);
+        super.sourceFIle = new String("\\monster\\Monster1.jpg");
         askill();
     }
 
