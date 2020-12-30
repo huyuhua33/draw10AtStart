@@ -86,6 +86,8 @@ public class Battlefld extends Frame {
         }
         battlePets = np;
         /* for init pet */
+        filesPath[0] = battlePets[0].sourceFIle;
+        filesPath[1] = battlePets[1].sourceFIle;
 
         BattleIcon icon = new BattleIcon();
         icon.setBounds(0, 0, this.getWidth(), this.getHeight() - 200);
@@ -477,23 +479,29 @@ public class Battlefld extends Frame {
 
         void hpUpdate() {
             for (int i = 0; i < 2; i++) {
+                ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
                 if ((battlePets[i].getLife_MAX() * 0.3) < battlePets[i].getLife()
                         && battlePets[i].getLife() < (battlePets[i].getLife_MAX() * 0.5)) {
-                    ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                    petUIList.get(i).setIcon(n);
+                    n = new ImageIcon(sourceWay + hpBar[1]);
                 }
                 if ((battlePets[i].getLife_MAX() * 0.5) < battlePets[i].getLife()) {
-                    ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
-                    petUIList.get(i).setIcon(n);
+                    n = new ImageIcon(sourceWay + hpBar[0]);
                 }
                 if (battlePets[i].getLife() < (battlePets[i].getLife_MAX() * 0.3)) {
-                    ImageIcon n = new ImageIcon(sourceWay + hpBar[2]);
-                    petUIList.get(i).setIcon(n);
+                    n = new ImageIcon(sourceWay + hpBar[2]);
+
                 }
-                int n = (int) Math
-                        .round((battlePets[i].getLife() / battlePets[i].getLife_MAX()) * petUIList.get(i).getWidth());
+                try {
+                    petUIList.get(i).setIcon(n);
+                } catch (Exception e) {
+                    e.printStackTrace();// TODO: handle exception
+                }
+                // System.out.println(b);
+                int b = (int) Math.round((battlePets[i].getLife() / battlePets[i].getLife_MAX()) * 100);
+                System.out.println(b);
+                b *= petUIList.get(i).getWidth();
                 // System.out.println(">>" + n);
-                petUIList.get(i).setBounds(petUIList.get(i).getX(), petUIList.get(i).getY(), n,
+                petUIList.get(i).setBounds(petUIList.get(i).getX(), petUIList.get(i).getY(), b,
                         petUIList.get(i).getHeight());// TODO //
 
             }
