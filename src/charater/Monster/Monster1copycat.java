@@ -9,7 +9,7 @@ public class Monster1copycat extends pet {
             new skill("DDDD", "R", 999) };
 
     public Monster1copycat(String name) {
-        super(name, 50, 50, 50, 50, 50);
+        super(name, 100, 50, 50, 50, 50);
         super.sourceFIle = new String("\\monster\\Monster1copycat.jpg");
         askill();
     }

@@ -480,14 +480,13 @@ public class Battlefld extends Frame {
         void hpUpdate() {
             for (int i = 0; i < 2; i++) {
                 ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
-                if ((battlePets[i].getLife_MAX() * 0.3) < battlePets[i].getLife()
-                        && battlePets[i].getLife() < (battlePets[i].getLife_MAX() * 0.5)) {
+                if (30 < battlePets[i].getLife() && battlePets[i].getLife() < 50) {
                     n = new ImageIcon(sourceWay + hpBar[1]);
                 }
-                if ((battlePets[i].getLife_MAX() * 0.5) < battlePets[i].getLife()) {
+                if (50 < battlePets[i].getLife()) {
                     n = new ImageIcon(sourceWay + hpBar[0]);
                 }
-                if (battlePets[i].getLife() < (battlePets[i].getLife_MAX() * 0.3)) {
+                if (battlePets[i].getLife() < 30) {
                     n = new ImageIcon(sourceWay + hpBar[2]);
 
                 }
@@ -496,12 +495,13 @@ public class Battlefld extends Frame {
                 } catch (Exception e) {
                     e.printStackTrace();// TODO: handle exception
                 }
-                // System.out.println(b);
-                int b = (int) Math.round((battlePets[i].getLife() / battlePets[i].getLife_MAX()) * 100);
-                System.out.println(b);
-                b *= petUIList.get(i).getWidth();
+
+                /*
+                 * int b = (int) Math .round((battlePets[i].getLife() /
+                 * battlePets[i].getLife_MAX()) * petUIList.get(i).getWidth());
+                 */
                 // System.out.println(">>" + n);
-                petUIList.get(i).setBounds(petUIList.get(i).getX(), petUIList.get(i).getY(), b,
+                petUIList.get(i).setBounds(petUIList.get(i).getX(), petUIList.get(i).getY(), battlePets[i].getLife(),
                         petUIList.get(i).getHeight());// TODO //
 
             }
