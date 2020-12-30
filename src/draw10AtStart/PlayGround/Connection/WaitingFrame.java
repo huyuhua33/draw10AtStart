@@ -99,6 +99,7 @@ public class WaitingFrame extends Frame {
                     start = sc.gameStart();
                 }
                 if (start) {
+                    Thread.sleep(200);
                     frameChanging(new Battlefld(WaitingFrame.super.getFrameSize_weith(),
                             WaitingFrame.super.getFrameSize_height(), sc, pplayer));
                 }

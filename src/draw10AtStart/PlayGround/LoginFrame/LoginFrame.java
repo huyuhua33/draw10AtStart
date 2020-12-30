@@ -33,8 +33,8 @@ public class LoginFrame extends Frame {
 
         String n[] = { "UserName:", "Password:", "" };
         int a[][] = { { 0, 0, 1, 1, 0, 0, fill[3], anchor[5] }, { 0, 1, 1, 1, 0, 0, fill[3], anchor[5] },
-                { 0, 2, 1, 1, 0, 0, fill[3], anchor[5] }, { 1, 0, 6, 1, 4, 0, fill[2], anchor[5] },
-                { 1, 1, 6, 1, 4, 0, fill[2], anchor[5] }, { 0, 2, 1, 1, 0, 0, fill[0], anchor[0] } };
+                { 0, 2, 1, 1, 0, 0, fill[3], anchor[5] }, { 1, 0, 6, 1, 6, 0, fill[2], anchor[5] },
+                { 1, 1, 6, 1, 6, 0, fill[2], anchor[5] }, { 0, 2, 1, 1, 0, 0, fill[0], anchor[0] } };
 
         att = a;
         name = n;

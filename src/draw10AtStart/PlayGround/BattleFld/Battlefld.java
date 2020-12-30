@@ -310,18 +310,17 @@ public class Battlefld extends Frame {
                                     battlePets[(i + 1) % 2].fight(ingFrame.getAct_num());
                                     dialogList.get(0)
                                             .setText(new String().format("%s use %s, %d hp left", ingFrame.getName(),
-                                                    ingFrame.getAct_name(), ingFrame.getHp() - ingFrame.getAct_num()));
+                                                    ingFrame.getAct_name(), battlePets[(i + 1) % 2].getLife()));
                                     break;
                                 case 'H':// heal self
                                     battlePets[i].heal(ingFrame.getAct_num());
-                                    dialogList.get(0)
-                                            .setText(new String().format("%s use %s, %d hp left", ingFrame.getName(),
-                                                    ingFrame.getAct_name(), ingFrame.getHp() - ingFrame.getAct_num()));
+                                    dialogList.get(0).setText(new String().format("%s use %s, %d hp left",
+                                            ingFrame.getName(), ingFrame.getAct_name(), battlePets[i].getLife()));
                                     break;
                                 case 'R':// armour self
                                     battlePets[i].armerUp(ingFrame.getAct_num());
                                     dialogList.get(0).setText(new String().format("%s use %s, armorUp %d ",
-                                            ingFrame.getName(), ingFrame.getAct_name(), ingFrame.getAct_num()));
+                                            ingFrame.getName(), ingFrame.getAct_name(), battlePets[i].getDefend()));
                                     break;
                             }
                         }
