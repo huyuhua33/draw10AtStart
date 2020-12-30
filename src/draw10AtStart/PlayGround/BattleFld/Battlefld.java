@@ -67,9 +67,9 @@ public class Battlefld extends Frame {
     static SimpleClient sc;
     /* Connection control */
 
-    public Battlefld(int w, int h, SimpleClient c) {
+    public Battlefld(int w, int h, SimpleClient c, Player p) {
         super(w, h);
-        player = new Player("tmper", "sourceWay");
+        player = p;
         player.get10RdPets();
         sc = c;
 
@@ -312,8 +312,9 @@ public class Battlefld extends Frame {
                                     break;
                                 case 'H':// heal self
                                     battlePets[i].heal(ingFrame.getAct_num());
-                                    dialogList.get(0).setText(new String().format("%s use %s, Attack %d hp",
-                                            ingFrame.getName(), ingFrame.getAct_name(), ingFrame.getAct_num()));
+                                    dialogList.get(0)
+                                            .setText(new String().format("%s use %s, %d hp left", ingFrame.getName(),
+                                                    ingFrame.getAct_name(), ingFrame.getHp() - ingFrame.getAct_num()));
                                     break;
                                 case 'R':// armour self
                                     battlePets[i].armerUp(ingFrame.getAct_num());
@@ -328,12 +329,12 @@ public class Battlefld extends Frame {
                         action = n;
                         sc.setDatf(null);
                     }
-                    if (!(battlePets[0].isAlive() && battlePets[1].isAlive())) {
-                        dialogList.get(0).setText(new String().format("Draw"));
-                    } else if (!battlePets[0].isAlive()) {
+                    if (!battlePets[0].isAlive()) {
                         dialogList.get(0).setText(new String().format("You Lose"));
                     } else if (!battlePets[1].isAlive()) {
                         dialogList.get(0).setText(new String().format("You Win"));
+                    } else if (!(battlePets[0].isAlive() && battlePets[1].isAlive())) {
+                        dialogList.get(0).setText(new String().format("Draw"));
                     } else {
 
                     }
@@ -388,9 +389,11 @@ public class Battlefld extends Frame {
                         + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
 
                 // nClient.battleFildDataTransform(sendData);
-                action[0] = new Data_frame(sendData);
-                sc.battleFildDataTransform(sendData);
-                System.out.println(sendData);
+                if (battlePets[0].isAlive()) {
+                    action[0] = new Data_frame(sendData);
+                    sc.battleFildDataTransform(sendData);
+                    System.out.println(sendData);
+                }
                 // lArrayList.get(1).setText("btn1 clicked");
                 // lArrayList.get(0).setText("btn1 clicked");
             }
@@ -408,10 +411,11 @@ public class Battlefld extends Frame {
                         + String.valueOf(battlePets[0].getSpeed()) + "/" + battlePets[0].getName() + "/"
                         + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
                         + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
-                action[0] = new Data_frame(sendData);
-                sc.battleFildDataTransform(sendData);
-                // nClient.battleFildDataTransform(sendData);
-                System.out.println(sendData);
+                if (battlePets[0].isAlive()) {
+                    action[0] = new Data_frame(sendData);
+                    sc.battleFildDataTransform(sendData);
+                    System.out.println(sendData);
+                }
                 // lArrayList.get(2).setText("btn2 clicked");
                 // lArrayList.get(0).setText("btn2 clicked");
             }
@@ -430,9 +434,11 @@ public class Battlefld extends Frame {
                         + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
                         + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
                 // nClient.battl eFildDataTransform(sendData);
-                action[0] = new Data_frame(sendData);
-                sc.battleFildDataTransform(sendData);
-                System.out.println(sendData);
+                if (battlePets[0].isAlive()) {
+                    action[0] = new Data_frame(sendData);
+                    sc.battleFildDataTransform(sendData);
+                    System.out.println(sendData);
+                }
                 // lArrayList.get(3).setText("btn3 clicked");
                 // lArrayList.get(0).setText("btn3 clicked");
             }
@@ -450,9 +456,11 @@ public class Battlefld extends Frame {
                         + String.valueOf(battlePets[0].getSpeed()) + "/" + battlePets[0].getName() + "/"
                         + skillList[i].getSkillType() + "/" + String.valueOf(skillList[i].getSkillPow()) + "/"
                         + skillList[i].getSkillName() + "/" + battlePets[0].getDefend());
-                action[0] = new Data_frame(sendData);
-                sc.battleFildDataTransform(sendData);
-                System.out.println(sendData);
+                if (battlePets[0].isAlive()) {
+                    action[0] = new Data_frame(sendData);
+                    sc.battleFildDataTransform(sendData);
+                    System.out.println(sendData);
+                }
                 // nClient.battleFildDataTransform(sendData);
 
                 // lArrayList.get(4).setText("btn4 clicked");
@@ -474,7 +482,7 @@ public class Battlefld extends Frame {
                     ImageIcon n = new ImageIcon(sourceWay + hpBar[1]);
                     petUIList.get(i).setIcon(n);
                 }
-                if (battlePets[i].getLife() > (battlePets[i].getLife_MAX() * 0.5)) {
+                if ((battlePets[i].getLife_MAX() * 0.5) < battlePets[i].getLife()) {
                     ImageIcon n = new ImageIcon(sourceWay + hpBar[0]);
                     petUIList.get(i).setIcon(n);
                 }

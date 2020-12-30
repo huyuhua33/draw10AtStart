@@ -26,12 +26,14 @@ public class WaitingFrame extends Frame {
     private SimpleClient sc;
     int[] location = { 100, 100, 200, 100 };
     private boolean start = false;
+    Player pplayer;
 
     public WaitingFrame(int x, int y, Player p) {
         super(x, y);
         setBackground(Color.RED);
         setLayout(new GridLayout(3, 1));
         String n[] = { "new", "NowWaiting..." };
+        pplayer = p;
         for (int i = 0; i < 2; i++) {
             JPanel np = new JPanel();
             GridLayout ly = new GridLayout(2, 1);
@@ -98,7 +100,7 @@ public class WaitingFrame extends Frame {
                 }
                 if (start) {
                     frameChanging(new Battlefld(WaitingFrame.super.getFrameSize_weith(),
-                            WaitingFrame.super.getFrameSize_height(), sc));
+                            WaitingFrame.super.getFrameSize_height(), sc, pplayer));
                 }
 
             } catch (Exception e) {

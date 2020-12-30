@@ -10,6 +10,7 @@ public class Monster1copy4 extends pet {
 
     public Monster1copy4(String name) {
         super(name, 50, 50, 50, 50, 50);
+        super.sourceFIle = new String("sprit\\monster\\Monster1copy4");
         askill();
     }
 

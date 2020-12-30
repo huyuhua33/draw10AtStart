@@ -14,6 +14,7 @@ public class pet implements Serializable {
 	int speed = 0; // speed
 	double miss = 0; // hit or miss
 	boolean alive = true;
+	public String sourceFIle;
 	public ArrayList<skill> skillList;
 
 	public int getLife() {
@@ -101,8 +102,8 @@ public class pet implements Serializable {
 		if (life <= 0) { // if hp < 0 : dead
 			System.out.println(this.name + " die");
 			flag = false;
+			alive = false;
 		}
-		alive = false;
 		return flag; // got boolean
 	}
 

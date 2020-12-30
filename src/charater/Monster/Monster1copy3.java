@@ -11,6 +11,7 @@ public class Monster1copy3 extends pet {
     public Monster1copy3(String name) {
         super(name, 50, 50, 50, 50, 50);
         askill();
+        super.sourceFIle = new String("sprit\\monster\\Monster1copy3");
     }
 
     @Override

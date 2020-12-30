@@ -17,6 +17,7 @@ public class SimpleClient implements Runnable {
 	String data;
 	Boolean connected = false;
 	Data_frame datf;
+	int timeoutCounter;
 
 	public SimpleClient() {
 		Thread t = new Thread(this, "SimpleClient");
