@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import charater.skill;
 
 public class pet implements Serializable {
-	String name = "pet"; // name
+	private String name = "pet"; // name
 	int life_MAX = 0; // max hp
 	int life = 0; // hp
 	int attack = 0; // atk
